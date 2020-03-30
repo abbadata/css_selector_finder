@@ -8,3 +8,51 @@ div {
   background-color: #99cc00;
   padding: 10px;
 }
+
+.move-left-arrow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-size: 12px 12px;
+  width: 12px;
+  height: 12px;
+  background-image: url("chrome-extension://__MSG_@@extension_id__/images/arrow_left.jpg");
+  margin: 0;
+  padding: 0;
+}
+
+.move-right-arrow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-size: 12px 12px;
+  width: 12px;
+  height: 12px;
+  background-image: url("chrome-extension://__MSG_@@extension_id__/images/arrow_right.jpg");
+  margin: 0;
+  padding: 0;
+}
+
+.move-up-arrow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-size: 12px 12px;
+  width: 12px;
+  height: 12px;
+  background-image: url("chrome-extension://__MSG_@@extension_id__/images/arrow_up.jpg");
+  margin: 0;
+  padding: 0;
+}
+
+.move-down-arrow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-size: 12px 12px;
+  width: 12px;
+  height: 12px;
+  background-image: url("chrome-extension://__MSG_@@extension_id__/images/arrow_down.jpg");
+  margin: 0;
+  padding: 0;
+}

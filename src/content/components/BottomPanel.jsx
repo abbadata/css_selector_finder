@@ -29,9 +29,34 @@ const BottomPanel = () => {
   const dispatch = useDispatch();
   const panelRef = useRef();
 
+  function getMovePanel() {
+    if (horizPanelPosition === "bottom") {
+      return <div onClick={moveToTop} className="move-up-arrow"></div>;
+    } else if (horizPanelPosition === "top") {
+      return <div onClick={moveToBottom} className="move-down-arrow"></div>;
+    } else {
+      console.log("Unknown value for horizPanelPosition");
+    }
+  }
+  function moveToTop(e) {
+    dispatch({
+      type: "SET_HORIZ_PANEL_POSITION",
+      payload: { element: panelRef.current, position: "top" }
+    });
+  }
+  function moveToBottom(e) {
+    dispatch({
+      type: "SET_HORIZ_PANEL_POSITION",
+      payload: { element: panelRef.current, position: "bottom" }
+    });
+  }
+
   return (
     <FieldInfo ref={panelRef}>
+      {getMovePanel()}
       <div className="sidepanel">Test 321</div>
+      <div onClick={moveToTop}>Top</div>
+      <div onClick={moveToBottom}>Bottom</div>
     </FieldInfo>
   );
 };
