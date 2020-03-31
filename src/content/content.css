@@ -9,6 +9,14 @@ div {
   padding: 10px;
 }
 
+.abba-selected-element {
+  outline: 3px dashed #ff7f00;
+  background-color: #faffb0;
+}
+.abba-mouseover-element {
+  outline: 3px solid red;
+}
+
 .move-left-arrow {
   position: absolute;
   top: 0;

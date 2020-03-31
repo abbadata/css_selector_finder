@@ -67,10 +67,20 @@ const SidePanel = () => {
       payload: { element: panelRef.current, position: "left" }
     });
   }
+  function getFieldOptionsHtml() {
+    if (selectedElements.length === 0) {
+      return <div>Select an Element</div>;
+    } else if (selectedElements.length === 1) {
+      return <div>Selected One Element</div>;
+    } else {
+      return <div>Selected More Than One Element</div>;
+    }
+  }
 
   return (
     <FieldOptions ref={panelRef}>
       {getMovePanel()}
+      {getFieldOptionsHtml()}
       <div className="bottompanel">Test 321</div>
       <div onClick={moveToLeft}>Left</div>
       <div onClick={moveToRight}>Right</div>
