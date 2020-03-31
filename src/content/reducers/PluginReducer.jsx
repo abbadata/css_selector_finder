@@ -102,14 +102,16 @@ export default function(state = initialState, action) {
       } else {
         // Compute these
         let link = "";
-        let text = "";
-        let html = "";
+        let elemtype = element.nodeName;
+        let text = element.innerText;
+        let html = element.innerHTML;
         let shortSelector = "";
         let newSE = state.selectedElements.map((se, i) => {
           return { ...se };
         });
         newSE.push({
           element: element,
+          elemtype: elemtype,
           link: link,
           text: text,
           html: html,
@@ -146,8 +148,9 @@ export default function(state = initialState, action) {
           element.classList.remove("abba-mouseover-element");
           // Compute these
           let link = "";
-          let text = "";
-          let html = "";
+          let elemtype = element.nodeName;
+          let text = element.innerText;
+          let html = element.innerHTML;
           let shortSelector = "";
 
           return {
@@ -155,6 +158,7 @@ export default function(state = initialState, action) {
             selectedElements: [
               {
                 element: element,
+                elemtype: elemtype,
                 link: link,
                 text: text,
                 html: html,

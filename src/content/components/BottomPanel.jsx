@@ -54,6 +54,18 @@ const BottomPanel = () => {
   return (
     <FieldInfo ref={panelRef}>
       {getMovePanel()}
+      <Tabs>
+        <TabList>
+          <Tab>Info</Tab>
+          <Tab>Selector</Tab>
+        </TabList>
+        <TabPanel>
+          <div>Placeholder for info view</div>
+        </TabPanel>
+        <TabPanel>
+          <div>Placeholder for selector view</div>
+        </TabPanel>
+      </Tabs>
       <div className="sidepanel">Test 321</div>
       <div onClick={moveToTop}>Top</div>
       <div onClick={moveToBottom}>Bottom</div>

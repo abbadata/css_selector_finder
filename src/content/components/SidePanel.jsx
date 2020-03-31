@@ -2,6 +2,7 @@
 import React, { useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+import FieldSummary from "./FieldSummary";
 
 const FieldOptions = styled.div`
   display: flex;
@@ -71,7 +72,8 @@ const SidePanel = () => {
     if (selectedElements.length === 0) {
       return <div>Select an Element</div>;
     } else if (selectedElements.length === 1) {
-      return <div>Selected One Element</div>;
+      console.log("SelectedElements: ", selectedElements);
+      return <FieldSummary selectedElements={selectedElements}></FieldSummary>;
     } else {
       return <div>Selected More Than One Element</div>;
     }
