@@ -13,9 +13,9 @@ const Header = styled.div`
 const FieldSummary = ({ selectedElements }) => {
   return (
     <div>
-      <Header>Field Summary</Header>
+      <Header>Element Summary</Header>
       <TextChooser
-        text="Field Type"
+        text="Tag Type"
         value={selectedElements[0].elemtype}
         selectfunc={() => {}}
       ></TextChooser>
@@ -27,6 +27,16 @@ const FieldSummary = ({ selectedElements }) => {
       <TextChooser
         text="Text value"
         value={selectedElements[0].text}
+        selectfunc={() => {}}
+      ></TextChooser>
+      <TextChooser
+        text="Short Selector"
+        value={selectedElements[0].shortselector}
+        selectfunc={() => {}}
+      ></TextChooser>
+      <TextChooser
+        text="Long Selector"
+        value={selectedElements[0].longselector}
         selectfunc={() => {}}
       ></TextChooser>
     </div>

@@ -3,6 +3,7 @@ import React, { useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import FieldSummary from "./FieldSummary";
+import FieldSelectionPicker from "./FieldSelectionPicker";
 
 const FieldOptions = styled.div`
   display: flex;
@@ -73,7 +74,12 @@ const SidePanel = () => {
       return <div>Select an Element</div>;
     } else if (selectedElements.length === 1) {
       console.log("SelectedElements: ", selectedElements);
-      return <FieldSummary selectedElements={selectedElements}></FieldSummary>;
+      return (
+        <div>
+          <FieldSummary selectedElements={selectedElements}></FieldSummary>
+          <FieldSelectionPicker></FieldSelectionPicker>
+        </div>
+      );
     } else {
       return <div>Selected More Than One Element</div>;
     }

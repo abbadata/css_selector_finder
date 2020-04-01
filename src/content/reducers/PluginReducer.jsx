@@ -1,4 +1,5 @@
 /*global chrome*/
+import { getShortSelector, getLongSelector } from "../lib/SelectorUtils";
 
 const initialState = {
   selectorFinderEnabled: false,
@@ -105,7 +106,8 @@ export default function(state = initialState, action) {
         let elemtype = element.nodeName;
         let text = element.innerText;
         let html = element.innerHTML;
-        let shortSelector = "";
+        let shortSelector = getShortSelector(element);
+        let longSelector = getLongSelector(element);
         let newSE = state.selectedElements.map((se, i) => {
           return { ...se };
         });
@@ -115,7 +117,8 @@ export default function(state = initialState, action) {
           link: link,
           text: text,
           html: html,
-          shortselector: shortSelector
+          shortselector: shortSelector,
+          longselector: longSelector
         });
         element.classList.add("abba-selected-element");
         element.classList.remove("abba-mouseover-element");
@@ -151,7 +154,8 @@ export default function(state = initialState, action) {
           let elemtype = element.nodeName;
           let text = element.innerText;
           let html = element.innerHTML;
-          let shortSelector = "";
+          let shortSelector = getShortSelector(element);
+          let longSelector = getLongSelector(element);
 
           return {
             ...state,
@@ -162,7 +166,8 @@ export default function(state = initialState, action) {
                 link: link,
                 text: text,
                 html: html,
-                shortselector: shortSelector
+                shortselector: shortSelector,
+                longselector: longSelector
               }
             ]
           };
