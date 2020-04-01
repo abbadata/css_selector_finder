@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 const Header = styled.div`
@@ -20,13 +21,29 @@ const Entry = styled.div`
 `;
 
 const FieldSelectionPicker = () => {
+  const dispatch = useDispatch();
+
   return (
     <div>
       <Header>Modify Selector</Header>
-      <Entry>Select Parent Element</Entry>
-      <Entry>Select First Child Element</Entry>
-      <Entry>Select Next Sibling Element</Entry>
-      <Entry>Select Previous Sibling Element</Entry>
+      <Entry onClick={() => dispatch({ type: "CHANGE_SELECTION_TO_PARENT" })}>
+        Select Parent Element
+      </Entry>
+      <Entry
+        onClick={() => dispatch({ type: "CHANGE_SELECTION_TO_FIRST_CHILD" })}
+      >
+        Select First Child Element
+      </Entry>
+      <Entry
+        onClick={() => dispatch({ type: "CHANGE_SELECTION_TO_NEXT_SIBLING" })}
+      >
+        Select Next Sibling Element
+      </Entry>
+      <Entry
+        onClick={() => dispatch({ type: "CHANGE_SELECTION_TO_PREV_SIBLING" })}
+      >
+        Select Previous Sibling Element
+      </Entry>
     </div>
   );
 };

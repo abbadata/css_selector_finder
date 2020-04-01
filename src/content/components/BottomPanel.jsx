@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 import styled from "styled-components";
 
 const FieldInfo = styled.div`
@@ -12,8 +13,16 @@ const FieldInfo = styled.div`
   width: 100%;
   /*border: 1px solid gray;*/
   background-color: white;
-  overflow: auto;
+  /*overflow: auto;*/
   box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.6);
+`;
+
+const HtmlPanel = styled.div`
+  position: absolute;
+  overflow: auto;
+  top: 40px;
+  bottom: 0;
+  font-size: 80%;
 `;
 
 const BottomPanel = () => {
@@ -51,6 +60,13 @@ const BottomPanel = () => {
     });
   }
 
+  function getHtmlPanel() {
+    if (selectedElements.length > 0) {
+      return selectedElements[0].html;
+    } else {
+      return <div></div>;
+    }
+  }
   return (
     <FieldInfo ref={panelRef}>
       {getMovePanel()}
@@ -58,6 +74,7 @@ const BottomPanel = () => {
         <TabList>
           <Tab>Info</Tab>
           <Tab>Selector</Tab>
+          <Tab>HTML</Tab>
         </TabList>
         <TabPanel>
           <div>Placeholder for info view</div>
@@ -65,10 +82,10 @@ const BottomPanel = () => {
         <TabPanel>
           <div>Placeholder for selector view</div>
         </TabPanel>
+        <TabPanel>
+          <HtmlPanel>{getHtmlPanel()}</HtmlPanel>
+        </TabPanel>
       </Tabs>
-      <div className="sidepanel">Test 321</div>
-      <div onClick={moveToTop}>Top</div>
-      <div onClick={moveToBottom}>Bottom</div>
     </FieldInfo>
   );
 };

@@ -19,6 +19,14 @@ const FieldOptions = styled.div`
   box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.6);
 `;
 
+const Header = styled.div`
+  width: 100%;
+  background-color: gray;
+  color: white;
+  font-weight: bold;
+  font-size: 150%;
+`;
+
 const SidePanel = () => {
   const vertPanelPosition = useSelector(
     state => state.PluginReducer.finderUi.vertPanelPosition
@@ -88,6 +96,7 @@ const SidePanel = () => {
   return (
     <FieldOptions ref={panelRef}>
       {getMovePanel()}
+      <Header>ABBA Data Selector Finder</Header>
       {getFieldOptionsHtml()}
       <div className="bottompanel">Test 321</div>
       <div onClick={moveToLeft}>Left</div>

@@ -1,5 +1,6 @@
 /*global chrome*/
 import { getShortSelector, getLongSelector } from "../lib/SelectorUtils";
+import { addElement, removeElement } from "../lib/ReducerUtils";
 
 const initialState = {
   selectorFinderEnabled: false,
@@ -7,6 +8,7 @@ const initialState = {
     enabled: false
   },
   selectionState: {
+    lastClickedElement: null,
     lastMouseoverElement: null
   },
   finderUi: {
@@ -31,104 +33,74 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    // Save the outline and backgroundColor for all elements in the DOM
-    case "SAVE_INITIAL_DOM_SETTINGS": {
-      let domInitialState = {};
-      let treeWalker = document.createTreeWalker(
-        document,
-        NodeFilter.SHOW_ELEMENT
-      );
-      do {
-        let n = treeWalker.currentNode;
-        if (n.style) {
-          domInitialState[n] = {
-            outline: n.style.outline,
-            bgcolor: n.style.backgroundColor
+    case "SET_MOUSEOVER_ELEMENT":
+      {
+        let element = action.payload.element;
+        if (element && element !== state.selectionState.lastMouseoverElement) {
+          element.classList.add("abba-mouseover-element");
+          return {
+            ...state,
+            selectionState: {
+              ...state.selectionState,
+              lastMouseoverElement: element
+            }
+          };
+        } else {
+          return state;
+        }
+      }
+      break;
+    case "SET_MOUSEOUT_ELEMENT":
+      {
+        let element = action.payload.element;
+        if (element) {
+          element.classList.remove("abba-mouseover-element");
+          return {
+            ...state,
+            selectionState: {
+              ...state.selectionState,
+              lastMouseoverElement: null
+            }
           };
         }
-      } while (treeWalker.nextNode());
-      return {
-        ...state,
-        initialDOMState: domInitialState
-      };
-    }
-    case "SET_MOUSEOVER_ELEMENT": {
-      let element = action.payload.element;
-      if (element && element !== state.selectionState.lastMouseoverElement) {
-        element.classList.add("abba-mouseover-element");
-        return {
-          ...state,
-          selectionState: {
-            ...state.selectionState,
-            lastMouseoverElement: element
-          }
-        };
-      } else {
-        return state;
       }
-    }
-    case "SET_MOUSEOUT_ELEMENT": {
-      let element = action.payload.element;
-      if (element) {
-        element.classList.remove("abba-mouseover-element");
-        return {
-          ...state,
-          selectionState: {
-            ...state.selectionState,
-            lastMouseoverElement: null
-          }
-        };
+      break;
+    case "ADD_OR_REMOVE_SELECTED_ELEMENT":
+      {
+        // If the element is currently in the selection, remove it. If it's not, add
+        // it to the current selection
+        let element = action.payload.element;
+        console.log("stateSE: ", state.selectedElements);
+        let { selectedElements, alreadyExists } = removeElement(
+          element,
+          state.selectedElements
+        );
+        console.log("Already: ", alreadyExists);
+        if (alreadyExists) {
+          element.classList.remove("abba-selected-element");
+          return {
+            ...state,
+            selectionState: {
+              ...state.selectionState,
+              lastClickedElement: null
+            },
+            selectedElements: selectedElements
+          };
+        } else {
+          let newSE = addElement(element, state.selectedElements);
+          element.classList.add("abba-selected-element");
+          element.classList.remove("abba-mouseover-element");
+          return {
+            ...state,
+            selectionState: {
+              ...state.selectionState,
+              lastClickedElement: element
+            },
+            selectedElements: newSE
+          };
+        }
       }
-    }
-    case "ADD_OR_REMOVE_SELECTED_ELEMENT": {
-      // If the element is currently in the selection, remove it. If it's not, add
-      // it to the current selection
-      let element = action.payload.element;
-      let alreadyExists = state.selectedElements.some((elem, i) => {
-        return elem.element === element;
-      });
-      if (alreadyExists) {
-        let newSE = state.selectedElements.filter((elem, i) => {
-          if (elem.element !== element) {
-            return true;
-          } else {
-            return false;
-          }
-        });
-        element.classList.remove("abba-selected-element");
-        return {
-          ...state,
-          selectedElements: newSE
-        };
-      } else {
-        // Compute these
-        let link = "";
-        let elemtype = element.nodeName;
-        let text = element.innerText;
-        let html = element.innerHTML;
-        let shortSelector = getShortSelector(element);
-        let longSelector = getLongSelector(element);
-        let newSE = state.selectedElements.map((se, i) => {
-          return { ...se };
-        });
-        newSE.push({
-          element: element,
-          elemtype: elemtype,
-          link: link,
-          text: text,
-          html: html,
-          shortselector: shortSelector,
-          longselector: longSelector
-        });
-        element.classList.add("abba-selected-element");
-        element.classList.remove("abba-mouseover-element");
-        return {
-          ...state,
-          selectedElements: newSE
-        };
-      }
-    }
-
+      break;
     case "ONLY_SELECT_SELECTED_ELEMENT":
       {
         // Only select the current element. Remove any other element from the selection.
@@ -140,7 +112,7 @@ export default function(state = initialState, action) {
         // We only toggle if a single element is selected and we click on it
         if (
           state.selectedElements.length === 1 &&
-          state.selectedElements[0].element === action.payload.element
+          state.selectedElements[0].element === element
         ) {
           return {
             ...state,
@@ -150,26 +122,14 @@ export default function(state = initialState, action) {
           element.classList.add("abba-selected-element");
           element.classList.remove("abba-mouseover-element");
           // Compute these
-          let link = "";
-          let elemtype = element.nodeName;
-          let text = element.innerText;
-          let html = element.innerHTML;
-          let shortSelector = getShortSelector(element);
-          let longSelector = getLongSelector(element);
-
+          let newSE = addElement(element, []);
           return {
             ...state,
-            selectedElements: [
-              {
-                element: element,
-                elemtype: elemtype,
-                link: link,
-                text: text,
-                html: html,
-                shortselector: shortSelector,
-                longselector: longSelector
-              }
-            ]
+            selectionState: {
+              ...state.selectionState,
+              lastClickedElement: element
+            },
+            selectedElements: newSE
           };
         }
       }
@@ -225,6 +185,114 @@ export default function(state = initialState, action) {
           vertPanelPosition: action.payload.position
         }
       };
+    case "CHANGE_SELECTION_TO_PARENT":
+      {
+        if (state.selectionState.lastClickedElement) {
+          let element = state.selectionState.lastClickedElement;
+          let newelement = element.parentElement;
+          if (newelement) {
+            element.classList.remove("abba-selected-element");
+            newelement.classList.add("abba-selected-element");
+            let { selectedElements, alreadyExists } = removeElement(
+              element,
+              state.selectedElements
+            );
+            let newSE = addElement(newelement, selectedElements);
+
+            return {
+              ...state,
+              selectionState: {
+                ...state.selectionState,
+                lastClickedElement: newelement
+              },
+              selectedElements: newSE
+            };
+          }
+        }
+      }
+      return state;
+      break;
+    case "CHANGE_SELECTION_TO_FIRST_CHILD":
+      {
+        if (state.selectionState.lastClickedElement) {
+          let element = state.selectionState.lastClickedElement;
+          let newelement = element.firstElementChild;
+          if (newelement) {
+            element.classList.remove("abba-selected-element");
+            newelement.classList.add("abba-selected-element");
+            let { selectedElements, alreadyExists } = removeElement(
+              element,
+              state.selectedElements
+            );
+            let newSE = addElement(newelement, selectedElements);
+
+            return {
+              ...state,
+              selectionState: {
+                ...state.selectionState,
+                lastClickedElement: newelement
+              },
+              selectedElements: newSE
+            };
+          }
+        }
+      }
+      return state;
+      break;
+    case "CHANGE_SELECTION_TO_NEXT_SIBLING":
+      {
+        if (state.selectionState.lastClickedElement) {
+          let element = state.selectionState.lastClickedElement;
+          let newelement = element.nextElementSibling;
+          if (newelement) {
+            element.classList.remove("abba-selected-element");
+            newelement.classList.add("abba-selected-element");
+            let { selectedElements, alreadyExists } = removeElement(
+              element,
+              state.selectedElements
+            );
+            let newSE = addElement(newelement, selectedElements);
+
+            return {
+              ...state,
+              selectionState: {
+                ...state.selectionState,
+                lastClickedElement: newelement
+              },
+              selectedElements: newSE
+            };
+          }
+        }
+      }
+      return state;
+      break;
+    case "CHANGE_SELECTION_TO_PREV_SIBLING":
+      {
+        if (state.selectionState.lastClickedElement) {
+          let element = state.selectionState.lastClickedElement;
+          let newelement = element.previousElementSibling;
+          if (newelement) {
+            element.classList.remove("abba-selected-element");
+            newelement.classList.add("abba-selected-element");
+            let { selectedElements, alreadyExists } = removeElement(
+              element,
+              state.selectedElements
+            );
+            let newSE = addElement(newelement, selectedElements);
+
+            return {
+              ...state,
+              selectionState: {
+                ...state.selectionState,
+                lastClickedElement: newelement
+              },
+              selectedElements: newSE
+            };
+          }
+        }
+      }
+      return state;
+      break;
     default:
       return state;
   }
