@@ -1,6 +1,6 @@
 /*global chrome*/
 import { getShortSelector, getLongSelector } from "../lib/SelectorUtils";
-import { addElement, removeElement } from "../lib/ReducerUtils";
+import { addElement, removeElement, formatXml } from "../lib/ReducerUtils";
 
 const initialState = {
   selectorFinderEnabled: false,
@@ -14,7 +14,8 @@ const initialState = {
   finderUi: {
     vertPanelPosition: "right",
     horizPanelPosition: "bottom",
-    vertPanelDiv: null
+    vertPanelDiv: null,
+    bottomTabIndex: 0
   },
   selectedElements: [
     /*
@@ -92,6 +93,10 @@ export default function(state = initialState, action) {
           element.classList.remove("abba-mouseover-element");
           return {
             ...state,
+            finderUi: {
+              ...state.finderUi,
+              bottomTabIndex: 2
+            },
             selectionState: {
               ...state.selectionState,
               lastClickedElement: element
@@ -125,6 +130,10 @@ export default function(state = initialState, action) {
           let newSE = addElement(element, []);
           return {
             ...state,
+            finderUi: {
+              ...state.finderUi,
+              bottomTabIndex: 2
+            },
             selectionState: {
               ...state.selectionState,
               lastClickedElement: element
@@ -292,6 +301,15 @@ export default function(state = initialState, action) {
         }
       }
       return state;
+      break;
+    case "SET_BOTTOM_TAB_INDEX":
+      return {
+        ...state,
+        finderUi: {
+          ...state.finderUi,
+          bottomTabIndex: action.payload.tabIndex
+        }
+      };
       break;
     default:
       return state;

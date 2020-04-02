@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import styled from "styled-components";
+var escapeHtml = require("escape-html");
 
 const FieldInfo = styled.div`
   z-index: 2147483647;
@@ -35,6 +36,9 @@ const BottomPanel = () => {
   const selectedElements = useSelector(
     state => state.PluginReducer.selectedElements
   );
+  const bottomTabIndex = useSelector(
+    state => state.PluginReducer.finderUi.bottomTabIndex
+  );
   const dispatch = useDispatch();
   const panelRef = useRef();
 
@@ -62,15 +66,56 @@ const BottomPanel = () => {
 
   function getHtmlPanel() {
     if (selectedElements.length > 0) {
-      return selectedElements[0].html;
+      return (
+        <div
+          style={{ whiteSpace: "pre-wrap" }}
+          dangerouslySetInnerHTML={{
+            __html: escapeHtml(formatXml(selectedElements[0].html.trim()))
+          }}
+        ></div>
+      );
     } else {
       return <div></div>;
     }
   }
+
+  function formatXml(xml) {
+    const PADDING = " ".repeat(2); // set desired indent size here
+    const reg = /(>)(<)(\/*)/g;
+    let pad = 0;
+
+    xml = xml.replace(reg, "$1\r\n$2$3");
+
+    return xml
+      .split("\r\n")
+      .map((node, index) => {
+        let indent = 0;
+        if (node.match(/.+<\/\w[^>]*>$/)) {
+          indent = 0;
+        } else if (node.match(/^<\/\w/) && pad > 0) {
+          pad -= 1;
+        } else if (node.match(/^<\w[^>]*[^\/]>.*$/)) {
+          indent = 1;
+        } else {
+          indent = 0;
+        }
+
+        pad += indent;
+
+        return PADDING.repeat(pad - indent) + node;
+      })
+      .join("\r\n");
+  }
+
   return (
     <FieldInfo ref={panelRef}>
       {getMovePanel()}
-      <Tabs>
+      <Tabs
+        selectedIndex={bottomTabIndex}
+        onSelect={tabIndex =>
+          dispatch({ type: "SET_BOTTOM_TAB_INDEX", payload: { tabIndex } })
+        }
+      >
         <TabList>
           <Tab>Info</Tab>
           <Tab>Selector</Tab>
