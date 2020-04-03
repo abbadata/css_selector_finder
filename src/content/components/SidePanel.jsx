@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import FieldSummary from "./FieldSummary";
 import FieldSelectionPicker from "./FieldSelectionPicker";
+import FieldSelectionRoot from "./FieldSelectionRoot";
 
 const FieldOptions = styled.div`
   display: flex;
@@ -85,6 +86,7 @@ const SidePanel = () => {
       return (
         <div>
           <FieldSummary selectedElements={selectedElements}></FieldSummary>
+          <FieldSelectionRoot></FieldSelectionRoot>
           <FieldSelectionPicker></FieldSelectionPicker>
         </div>
       );

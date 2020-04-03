@@ -1,9 +1,15 @@
 .abba-selected-element {
   outline: 3px dashed #ff7f00;
-  background-color: #faffb0;
+  background-color: rgba(250, 255, 176, 0.5);
+  /*background-color: #faffb0;*/
 }
 .abba-mouseover-element {
   outline: 3px solid red;
+}
+.abba-temp-selected-element {
+  outline: 2px dashed #1500ff;
+  background-color: rgba(0, 184, 255, 0.5);
+  /*  background-color: #00b8ff;*/
 }
 
 .move-left-arrow {

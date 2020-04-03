@@ -1,6 +1,6 @@
 /*global chrome*/
-import { getShortSelector, getLongSelector } from "../lib/SelectorUtils";
 import { addElement, removeElement, formatXml } from "../lib/ReducerUtils";
+import { markTempSelector, unmarkTempSelector } from "../lib/SelectorUtils";
 
 const initialState = {
   selectorFinderEnabled: false,
@@ -9,7 +9,14 @@ const initialState = {
   },
   selectionState: {
     lastClickedElement: null,
-    lastMouseoverElement: null
+    lastMouseoverElement: null,
+    selectorRoot: ":root",
+    tempSelector: "h1",
+    tempSelectedElements: [
+      /*
+        { element: "" }
+        */
+    ]
   },
   finderUi: {
     vertPanelPosition: "right",
@@ -88,7 +95,11 @@ export default function(state = initialState, action) {
             selectedElements: selectedElements
           };
         } else {
-          let newSE = addElement(element, state.selectedElements);
+          let newSE = addElement(
+            element,
+            state.selectedElements,
+            state.selectionState.selectorRoot
+          );
           element.classList.add("abba-selected-element");
           element.classList.remove("abba-mouseover-element");
           return {
@@ -127,7 +138,11 @@ export default function(state = initialState, action) {
           element.classList.add("abba-selected-element");
           element.classList.remove("abba-mouseover-element");
           // Compute these
-          let newSE = addElement(element, []);
+          let newSE = addElement(
+            element,
+            [],
+            state.selectionState.selectorRoot
+          );
           return {
             ...state,
             finderUi: {
@@ -206,7 +221,11 @@ export default function(state = initialState, action) {
               element,
               state.selectedElements
             );
-            let newSE = addElement(newelement, selectedElements);
+            let newSE = addElement(
+              newelement,
+              selectedElements,
+              state.selectionState.selectorRoot
+            );
 
             return {
               ...state,
@@ -233,7 +252,11 @@ export default function(state = initialState, action) {
               element,
               state.selectedElements
             );
-            let newSE = addElement(newelement, selectedElements);
+            let newSE = addElement(
+              newelement,
+              selectedElements,
+              state.selectionState.selectorRoot
+            );
 
             return {
               ...state,
@@ -260,7 +283,11 @@ export default function(state = initialState, action) {
               element,
               state.selectedElements
             );
-            let newSE = addElement(newelement, selectedElements);
+            let newSE = addElement(
+              newelement,
+              selectedElements,
+              state.selectionState.selectorRoot
+            );
 
             return {
               ...state,
@@ -287,7 +314,11 @@ export default function(state = initialState, action) {
               element,
               state.selectedElements
             );
-            let newSE = addElement(newelement, selectedElements);
+            let newSE = addElement(
+              newelement,
+              selectedElements,
+              state.selectionState.selectorRoot
+            );
 
             return {
               ...state,
@@ -310,6 +341,52 @@ export default function(state = initialState, action) {
           bottomTabIndex: action.payload.tabIndex
         }
       };
+      break;
+    case "SET_SELECTOR_ROOT":
+      return {
+        ...state,
+        selectionState: {
+          ...state.selectionState,
+          selectorRoot: action.payload.value
+        }
+      };
+      break;
+    case "SET_TEMP_SELECTOR":
+      return {
+        ...state,
+        selectionState: {
+          ...state.selectionState,
+          tempSelector: action.payload.value
+        }
+      };
+      break;
+    case "DO_TEST_SELECTOR_HIGHLIGHT":
+      {
+        let selectedList = state.selectionState.tempSelectedElements;
+        let tempSelector = state.selectionState.tempSelector;
+        unmarkTempSelector(selectedList);
+        let selectors = markTempSelector(tempSelector);
+        return {
+          ...state,
+          selectionState: {
+            ...state.selectionState,
+            tempSelectedElements: selectors
+          }
+        };
+      }
+      break;
+    case "STOP_TEST_SELECTOR_HIGHLIGHT":
+      {
+        let selectedList = state.selectionState.tempSelectedElements;
+        unmarkTempSelector(selectedList);
+        return {
+          ...state,
+          selectionState: {
+            ...state.selectionState,
+            tempSelectedElements: []
+          }
+        };
+      }
       break;
     default:
       return state;

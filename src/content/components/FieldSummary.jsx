@@ -29,16 +29,6 @@ const FieldSummary = ({ selectedElements }) => {
         value={selectedElements[0].text}
         selectfunc={() => {}}
       ></TextChooser>
-      <TextChooser
-        text="Short Selector"
-        value={selectedElements[0].shortselector}
-        selectfunc={() => {}}
-      ></TextChooser>
-      <TextChooser
-        text="Long Selector"
-        value={selectedElements[0].longselector}
-        selectfunc={() => {}}
-      ></TextChooser>
     </div>
   );
 };

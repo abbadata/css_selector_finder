@@ -4,6 +4,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import styled from "styled-components";
 var escapeHtml = require("escape-html");
+import SelectorTester from "./SelectorTester";
 
 const FieldInfo = styled.div`
   z-index: 2147483647;
@@ -17,8 +18,7 @@ const FieldInfo = styled.div`
   /*overflow: auto;*/
   box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.6);
 `;
-
-const HtmlPanel = styled.div`
+const SubPanel = styled.div`
   position: absolute;
   overflow: auto;
   top: 40px;
@@ -125,10 +125,12 @@ const BottomPanel = () => {
           <div>Placeholder for info view</div>
         </TabPanel>
         <TabPanel>
-          <div>Placeholder for selector view</div>
+          <SubPanel>
+            <SelectorTester></SelectorTester>
+          </SubPanel>
         </TabPanel>
         <TabPanel>
-          <HtmlPanel>{getHtmlPanel()}</HtmlPanel>
+          <SubPanel>{getHtmlPanel()}</SubPanel>
         </TabPanel>
       </Tabs>
     </FieldInfo>

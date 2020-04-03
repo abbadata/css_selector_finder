@@ -18,22 +18,22 @@ export const removeElement = (element, selectedElements) => {
   }
 };
 
-const generateElementEntry = element => {
+const generateElementEntry = (element, selectorRoot) => {
   return {
     element: element,
     elemtype: element.nodeName,
     text: element.innerText,
-    html: element.innerHTML,
-    shortselector: getShortSelector(element),
-    longselector: getLongSelector(element)
+    html: element.outerHTML,
+    shortselector: getShortSelector(element, selectorRoot),
+    longselector: getLongSelector(element, selectorRoot)
   };
 };
 
 // returns a new selectedElements array
-export const addElement = (element, selectedElements) => {
+export const addElement = (element, selectedElements, selectorRoot) => {
   let newSE = selectedElements.map((se, i) => {
     return { ...se };
   });
-  newSE.push(generateElementEntry(element));
+  newSE.push(generateElementEntry(element, selectorRoot));
   return newSE;
 };
