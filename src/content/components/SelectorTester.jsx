@@ -7,9 +7,9 @@ const Tester = styled.div`
 `;
 const Label = styled.div`
   display: inline-block;
-  color: black;
+  color: white;
   border: 1px solid #ccc;
-  background: #fff;
+  background: black;
   box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2);
   padding: 2px;
   padding-right: 5px;
@@ -22,13 +22,13 @@ const Value = styled.input`
   text-align: left;
   flex-grow: 1;
   width: 400px;
-  background-color: #ddd;
+  background-color: #fff;
 `;
 const TestButton = styled.div`
   display: inline;
-  color: black;
+  color: white;
   border: 1px solid #ccc;
-  background: #fff;
+  background: #007aa3;
   box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2);
   padding: 2px;
   padding-right: 5px;
@@ -40,10 +40,22 @@ const SelectorTester = () => {
   const tempSelector = useSelector(
     state => state.PluginReducer.selectionState.tempSelector
   );
+  const tempSelectedElements = useSelector(
+    state => state.PluginReducer.selectionState.tempSelectedElements
+  );
   const dispatch = useDispatch();
+
+  function getSelectorInfo() {
+    if (tempSelectedElements.length > 0) {
+      return <div>{tempSelectedElements.length} elements selected.</div>;
+    } else {
+      return <div></div>;
+    }
+  }
+
   return (
     <Tester>
-      <Label>Enter Selector to Test:</Label>
+      <Label>Enter Selector:</Label>
       <Value
         type="text"
         value={tempSelector}
@@ -72,6 +84,16 @@ const SelectorTester = () => {
       >
         Deselect
       </TestButton>
+      <TestButton
+        onClick={() =>
+          dispatch({
+            type: "STOP_TEST_SELECTOR_HIGHLIGHT"
+          })
+        }
+      >
+        Use as Root
+      </TestButton>
+      <div>{getSelectorInfo()}</div>
     </Tester>
   );
 };

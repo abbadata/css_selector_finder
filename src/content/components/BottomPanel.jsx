@@ -5,6 +5,7 @@ import "react-tabs/style/react-tabs.css";
 import styled from "styled-components";
 var escapeHtml = require("escape-html");
 import SelectorTester from "./SelectorTester";
+import SelectorChooser from "./SelectorChooser";
 
 const FieldInfo = styled.div`
   z-index: 2147483647;
@@ -24,6 +25,7 @@ const SubPanel = styled.div`
   top: 40px;
   bottom: 0;
   font-size: 80%;
+  width: 100%;
 `;
 
 const BottomPanel = () => {
@@ -127,6 +129,7 @@ const BottomPanel = () => {
         <TabPanel>
           <SubPanel>
             <SelectorTester></SelectorTester>
+            <SelectorChooser></SelectorChooser>
           </SubPanel>
         </TabPanel>
         <TabPanel>

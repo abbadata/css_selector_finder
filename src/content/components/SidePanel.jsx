@@ -28,6 +28,12 @@ const Header = styled.div`
   font-size: 150%;
 `;
 
+const Status = styled.div`
+  width: 100%;
+  color: red;
+  padding: 5px;
+`;
+
 const SidePanel = () => {
   const vertPanelPosition = useSelector(
     state => state.PluginReducer.finderUi.vertPanelPosition
@@ -41,6 +47,7 @@ const SidePanel = () => {
   const vertPanelDiv = useSelector(
     state => state.PluginReducer.finderUi.vertPanelDiv
   );
+  const errorMessage = useSelector(state => state.PluginReducer.errorMessage);
 
   const dispatch = useDispatch();
   const panelRef = useRef();
@@ -80,7 +87,7 @@ const SidePanel = () => {
   }
   function getFieldOptionsHtml() {
     if (selectedElements.length === 0) {
-      return <div>Select an Element</div>;
+      return <div>Select at least one element.</div>;
     } else if (selectedElements.length === 1) {
       console.log("SelectedElements: ", selectedElements);
       return (
@@ -95,14 +102,18 @@ const SidePanel = () => {
     }
   }
 
+  function getErrorMessageHtml() {
+    if (errorMessage !== "") {
+      return <Status>{errorMessage}</Status>;
+    }
+    return "";
+  }
   return (
     <FieldOptions ref={panelRef}>
       {getMovePanel()}
       <Header>ABBA Data Selector Finder</Header>
+      {getErrorMessageHtml()}
       {getFieldOptionsHtml()}
-      <div className="bottompanel">Test 321</div>
-      <div onClick={moveToLeft}>Left</div>
-      <div onClick={moveToRight}>Right</div>
     </FieldOptions>
   );
 };

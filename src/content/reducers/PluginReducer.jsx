@@ -1,12 +1,18 @@
 /*global chrome*/
 import { addElement, removeElement, formatXml } from "../lib/ReducerUtils";
-import { markTempSelector, unmarkTempSelector } from "../lib/SelectorUtils";
+import {
+  getSelector,
+  markTempSelector,
+  unmarkTempSelector,
+  verifySelector
+} from "../lib/SelectorUtils";
 
 const initialState = {
   selectorFinderEnabled: false,
   finderState: {
     enabled: false
   },
+  errorMessage: "this is an error",
   selectionState: {
     lastClickedElement: null,
     lastMouseoverElement: null,
@@ -16,7 +22,20 @@ const initialState = {
       /*
         { element: "" }
         */
-    ]
+    ],
+    tempSelectorRoot: "" /* Used for edit mode */,
+    selectorRootEditMode: false
+  },
+  finderState: {
+    isClassEnabled: false,
+    isIdEnabled: true,
+    isTagEnabled: true,
+    classFilter: [],
+    idFilter: [],
+    tagFilter: [],
+    seedMinLength: 1,
+    optimizedMinLength: 4,
+    errorMessage: ""
   },
   finderUi: {
     vertPanelPosition: "right",
@@ -102,6 +121,7 @@ export default function(state = initialState, action) {
           );
           element.classList.add("abba-selected-element");
           element.classList.remove("abba-mouseover-element");
+
           return {
             ...state,
             finderUi: {
@@ -342,12 +362,52 @@ export default function(state = initialState, action) {
         }
       };
       break;
-    case "SET_SELECTOR_ROOT":
+    case "CHANGE_SELECTOR_ROOT":
       return {
         ...state,
         selectionState: {
           ...state.selectionState,
-          selectorRoot: action.payload.value
+          tempSelectorRoot: action.payload.value
+        }
+      };
+      break;
+    case "ENABLE_SELECTOR_ROOT_EDIT":
+      return {
+        ...state,
+        selectionState: {
+          ...state.selectionState,
+          selectorRootEditMode: true,
+          tempSelectorRoot: state.selectionState.selectorRoot
+        }
+      };
+      break;
+    case "SAVE_TEMP_SELECTOR_ROOT":
+      {
+        // should verify that the selector is valid before we save it
+        let tempSelectorRoot = state.selectionState.tempSelectorRoot;
+        if (!verifySelector(tempSelectorRoot)) {
+          return {
+            ...state,
+            errorMessage: "Bad selector: " + tempSelectorRoot
+          };
+        }
+        return {
+          ...state,
+          selectionState: {
+            ...state.selectionState,
+            selectorRoot: tempSelectorRoot,
+            selectorRootEditMode: false
+          }
+        };
+      }
+      break;
+    case "CANCEL_TEMP_SELECTOR_ROOT":
+      return {
+        ...state,
+        selectionState: {
+          ...state.selectionState,
+          selectorRootEditMode: false,
+          tempSelectorRoot: state.selectionState.selectorRoot
         }
       };
       break;
@@ -388,6 +448,164 @@ export default function(state = initialState, action) {
         };
       }
       break;
+    case "SET_FINDER_ID_ENABLED": {
+      return {
+        ...state,
+        finderState: {
+          ...state.finderState,
+          isIdEnabled: action.payload.enabled
+        }
+      };
+    }
+    case "SET_FINDER_CLASS_ENABLED": {
+      return {
+        ...state,
+        finderState: {
+          ...state.finderState,
+          isClassEnabled: action.payload.enabled
+        }
+      };
+    }
+    case "SET_FINDER_TAG_ENABLED": {
+      return {
+        ...state,
+        finderState: {
+          ...state.finderState,
+          isTagEnabled: action.payload.enabled
+        }
+      };
+    }
+    case "ADD_FINDER_ID_FILTER": {
+      let filter = state.finderState.idFilter.slice();
+      filter.push(action.payload.value);
+      return {
+        ...state,
+        finderState: {
+          ...state.finderState,
+          idFilter: filter
+        }
+      };
+    }
+    case "DELETE_FINDER_ID_FILTER": {
+      let filter = state.finderState.idFilter.filter(e => {
+        return e !== action.payload.value;
+      });
+      return {
+        ...state,
+        finderState: {
+          ...state.finderState,
+          idFilter: filter
+        }
+      };
+    }
+    case "ADD_FINDER_CLASS_FILTER": {
+      let filter = state.finderState.classFilter.slice();
+      filter.push(action.payload.value);
+      return {
+        ...state,
+        finderState: {
+          ...state.finderState,
+          classFilter: filter
+        }
+      };
+    }
+    case "DELETE_FINDER_CLASS_FILTER": {
+      let filter = state.finderState.classFilter.filter(e => {
+        return e !== action.payload.value;
+      });
+      return {
+        ...state,
+        finderState: {
+          ...state.finderState,
+          classFilter: filter
+        }
+      };
+    }
+    case "ADD_FINDER_TAG_FILTER": {
+      let filter = state.finderState.tagFilter.slice();
+      filter.push(action.payload.value);
+      return {
+        ...state,
+        finderState: {
+          ...state.finderState,
+          tagFilter: filter
+        }
+      };
+    }
+    case "DELETE_FINDER_TAG_FILTER": {
+      let filter = state.finderState.tagFilter.filter(e => {
+        return e !== action.payload.value;
+      });
+      console.log("DELETE_FINDER: ", state.selectedElements);
+      return {
+        ...state,
+        finderState: {
+          ...state.finderState,
+          tagFilter: filter
+        }
+      };
+    }
+    case "SET_FINDER_SEED_MIN_LENGTH": {
+      return {
+        ...state,
+        finderState: {
+          ...state.finderState,
+          seedMinLength: action.payload.value
+        }
+      };
+    }
+    case "SET_FINDER_OPTIMIZED_MIN_LENGTH": {
+      return {
+        ...state,
+        finderState: {
+          ...state.finderState,
+          optimizedMinLength: action.payload.value
+        }
+      };
+    }
+    case "GENERATE_SELECTOR": {
+      // Need to generate the selector based on the current settings
+      const options = {
+        root: state.selectionState.selectorRoot,
+        isIdEnabled: state.finderState.isIdEnabled,
+        isClassEnabled: state.finderState.isClassEnabled,
+        isTagEnabled: state.finderState.isTagEnabled,
+        idFilter: state.finderState.idFilter,
+        classFilter: state.finderState.classFilter,
+        tagFilter: state.finderState.tagFilter
+      };
+      let selector = "";
+      try {
+        selector = getSelector(
+          state.selectionState.lastClickedElement,
+          options
+        );
+      } catch (error) {
+        return {
+          ...state,
+          finderState: {
+            ...state.finderState,
+            errorMessage: "Unable to find selector."
+          },
+          selectionState: {
+            ...state.selectionState,
+            tempSelector: ""
+          }
+        };
+      }
+
+      return {
+        ...state,
+        finderState: {
+          ...state.finderState,
+          errorMessage: ""
+        },
+        selectionState: {
+          ...state.selectionState,
+          tempSelector: selector
+        }
+      };
+    }
     default:
       return state;
   }

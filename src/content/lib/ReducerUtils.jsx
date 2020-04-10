@@ -31,6 +31,9 @@ const generateElementEntry = (element, selectorRoot) => {
 
 // returns a new selectedElements array
 export const addElement = (element, selectedElements, selectorRoot) => {
+  console.log("ELEMENT: ", element);
+  console.log("SELEMENT: ", selectedElements);
+  console.log("ROOT: ", selectorRoot);
   let newSE = selectedElements.map((se, i) => {
     return { ...se };
   });

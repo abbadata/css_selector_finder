@@ -10,29 +10,83 @@ const Header = styled.div`
   margin-top: 5px;
   font-weight: bold;
 `;
+const Button = styled.div`
+  display: inline;
+  color: black;
+  border: 1px solid #ccc;
+  background: #fff;
+  box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2);
+  padding: 2px;
+  padding-right: 5px;
+  text-align: left;
+  flex-grow: 0;
+`;
 
 const FieldSelectionRoot = () => {
   const selectorRoot = useSelector(
     state => state.PluginReducer.selectionState.selectorRoot
+  );
+  const tempSelectorRoot = useSelector(
+    state => state.PluginReducer.selectionState.tempSelectorRoot
+  );
+  const selectorRootEditMode = useSelector(
+    state => state.PluginReducer.selectionState.selectorRootEditMode
   );
   const selectedElements = useSelector(
     state => state.PluginReducer.selectedElements
   );
   const dispatch = useDispatch();
 
+  function getSelectorRootHtml() {
+    if (selectorRootEditMode) {
+      return (
+        <div>
+          <input
+            type="text"
+            value={tempSelectorRoot}
+            onChange={e =>
+              dispatch({
+                type: "CHANGE_SELECTOR_ROOT",
+                payload: { value: e.target.value }
+              })
+            }
+          ></input>
+          <input
+            type="button"
+            value="Save"
+            onClick={() => {
+              dispatch({ type: "SAVE_TEMP_SELECTOR_ROOT" });
+            }}
+          ></input>
+          <input
+            type="button"
+            value="Cancel"
+            onClick={() => {
+              dispatch({ type: "CANCEL_TEMP_SELECTOR_ROOT" });
+            }}
+          ></input>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <input type="text" value={selectorRoot} disabled={true}></input>
+          <input
+            type="button"
+            value="Edit"
+            onClick={() => {
+              dispatch({ type: "ENABLE_SELECTOR_ROOT_EDIT" });
+            }}
+          ></input>
+        </div>
+      );
+    }
+  }
+
   return (
     <div>
       <Header>Selector Root</Header>
-      <input
-        type="text"
-        value={selectorRoot}
-        onClick={e =>
-          dispatch({
-            type: "SET_SELECTOR_ROOT",
-            payload: { value: e.target.value }
-          })
-        }
-      ></input>
+      {getSelectorRootHtml()}
       <Header>Selectors</Header>
       <TextChooser
         text="Short Selector"
