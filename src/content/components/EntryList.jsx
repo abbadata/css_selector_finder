@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import styled, { css } from "styled-components";
 
 const ListMain = styled.div`
-  padding: 5px;
+  padding: 0px;
 `;
 
 const TopDiv = styled.div`
@@ -20,10 +20,10 @@ const ListDiv = styled.div`
   overflow: auto;
   color: black;
   padding: 3px;
-  width: 15rem;
-  height: 5rem;
+  width: 200px;
+  height: 50px;
 
-  ${props =>
+  ${(props) =>
     !props.enabled &&
     css`
       background-color: #999;
@@ -42,7 +42,7 @@ const AddButton = styled.div`
   text-align: left;
   flex-grow: 0;
 
-  ${props =>
+  ${(props) =>
     !props.enabled &&
     css`
       background-color: #999;
@@ -70,7 +70,7 @@ const Value = styled.input`
   background-color: #fff;
   flex-grow: 1;
 
-  ${props =>
+  ${(props) =>
     !props.enabled &&
     css`
       background-color: #999;
@@ -117,7 +117,7 @@ const EntryList = ({ listState, onAddHandler, onDeleteHandler, enabled }) => {
           type="text"
           value={addValue}
           ref={inputElem}
-          onChange={e => setAddValue(e.target.value)}
+          onChange={(e) => setAddValue(e.target.value)}
         ></Value>
         <AddButton
           enabled={enabled}

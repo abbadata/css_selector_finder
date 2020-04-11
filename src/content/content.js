@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import store from "./store";
 import { Provider } from "react-redux";
 
-import ShadowContentPageApp from "./components/ContentPageApp";
+import ShadowContentPageApp from "./components/ShadowContentPageApp";
 import "./content.css";
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {

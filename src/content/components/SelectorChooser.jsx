@@ -8,7 +8,7 @@ import EntryList from "./EntryList";
 const Status = styled.div`
   width: 100%;
   color: red;
-  padding: 5px;
+  padding: 2px;
 `;
 
 const Center = styled.div`
@@ -23,33 +23,37 @@ const FilterDiv = styled.div`
   font-weight: bold;
 `;
 
+const CustTable = styled.table`
+  border-spacing: 0px;
+`;
+
 const SelectorChooser = () => {
   const isIdEnabled = useSelector(
-    state => state.PluginReducer.finderState.isIdEnabled
+    (state) => state.PluginReducer.finderState.isIdEnabled
   );
   const isClassEnabled = useSelector(
-    state => state.PluginReducer.finderState.isClassEnabled
+    (state) => state.PluginReducer.finderState.isClassEnabled
   );
   const isTagEnabled = useSelector(
-    state => state.PluginReducer.finderState.isTagEnabled
+    (state) => state.PluginReducer.finderState.isTagEnabled
   );
   const idFilter = useSelector(
-    state => state.PluginReducer.finderState.idFilter
+    (state) => state.PluginReducer.finderState.idFilter
   );
   const classFilter = useSelector(
-    state => state.PluginReducer.finderState.classFilter
+    (state) => state.PluginReducer.finderState.classFilter
   );
   const tagFilter = useSelector(
-    state => state.PluginReducer.finderState.tagFilter
+    (state) => state.PluginReducer.finderState.tagFilter
   );
   const seedMinLength = useSelector(
-    state => state.PluginReducer.finderState.seedMinLength
+    (state) => state.PluginReducer.finderState.seedMinLength
   );
   const optimizedMinLength = useSelector(
-    state => state.PluginReducer.finderState.optimizedMinLength
+    (state) => state.PluginReducer.finderState.optimizedMinLength
   );
   const errorMessage = useSelector(
-    state => state.PluginReducer.finderState.errorMessage
+    (state) => state.PluginReducer.finderState.errorMessage
   );
   const dispatch = useDispatch();
 
@@ -62,7 +66,7 @@ const SelectorChooser = () => {
 
   return (
     <div>
-      <table>
+      <CustTable>
         <thead>
           <tr>
             <td></td>
@@ -72,10 +76,10 @@ const SelectorChooser = () => {
                 Use IDs in Selectors:
                 <Checkbox
                   checked={isIdEnabled}
-                  onChange={e =>
+                  onChange={(e) =>
                     dispatch({
                       type: "SET_FINDER_ID_ENABLED",
-                      payload: { enabled: e.target.checked }
+                      payload: { enabled: e.target.checked },
                     })
                   }
                 ></Checkbox>
@@ -87,10 +91,10 @@ const SelectorChooser = () => {
                 Use Class in Selectors:
                 <Checkbox
                   checked={isClassEnabled}
-                  onChange={e =>
+                  onChange={(e) =>
                     dispatch({
                       type: "SET_FINDER_CLASS_ENABLED",
-                      payload: { enabled: e.target.checked }
+                      payload: { enabled: e.target.checked },
                     })
                   }
                 ></Checkbox>
@@ -102,10 +106,10 @@ const SelectorChooser = () => {
                 Use Tags in Selectors:
                 <Checkbox
                   checked={isTagEnabled}
-                  onChange={e =>
+                  onChange={(e) =>
                     dispatch({
                       type: "SET_FINDER_TAG_ENABLED",
-                      payload: { enabled: e.target.checked }
+                      payload: { enabled: e.target.checked },
                     })
                   }
                 ></Checkbox>
@@ -123,16 +127,16 @@ const SelectorChooser = () => {
               <EntryList
                 enabled={isIdEnabled}
                 listState={idFilter}
-                onDeleteHandler={value => {
+                onDeleteHandler={(value) => {
                   dispatch({
                     type: "DELETE_FINDER_ID_FILTER",
-                    payload: { value }
+                    payload: { value },
                   });
                 }}
-                onAddHandler={value => {
+                onAddHandler={(value) => {
                   dispatch({
                     type: "ADD_FINDER_ID_FILTER",
-                    payload: { value }
+                    payload: { value },
                   });
                 }}
               ></EntryList>
@@ -144,16 +148,16 @@ const SelectorChooser = () => {
               <EntryList
                 enabled={isClassEnabled}
                 listState={classFilter}
-                onDeleteHandler={value => {
+                onDeleteHandler={(value) => {
                   dispatch({
                     type: "DELETE_FINDER_CLASS_FILTER",
-                    payload: { value }
+                    payload: { value },
                   });
                 }}
-                onAddHandler={value => {
+                onAddHandler={(value) => {
                   dispatch({
                     type: "ADD_FINDER_CLASS_FILTER",
-                    payload: { value }
+                    payload: { value },
                   });
                 }}
               ></EntryList>
@@ -165,46 +169,52 @@ const SelectorChooser = () => {
               <EntryList
                 enabled={isTagEnabled}
                 listState={tagFilter}
-                onDeleteHandler={value => {
+                onDeleteHandler={(value) => {
                   dispatch({
                     type: "DELETE_FINDER_TAG_FILTER",
-                    payload: { value }
+                    payload: { value },
                   });
                 }}
-                onAddHandler={value => {
+                onAddHandler={(value) => {
                   dispatch({
                     type: "ADD_FINDER_TAG_FILTER",
-                    payload: { value }
+                    payload: { value },
                   });
                 }}
               ></EntryList>
             </td>
+            <td>
+              <FilterDiv>
+                Seed Min Length:
+                <input
+                  type="text"
+                  size={5}
+                  value={seedMinLength}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "SET_FINDER_SEED_MIN_LENGTH",
+                      payload: { value: e.target.value },
+                    })
+                  }
+                ></input>
+                <br></br>
+                Optimized Min Length:
+                <input
+                  type="text"
+                  size={5}
+                  value={optimizedMinLength}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "SET_FINDER_OPTIMIZED_MIN_LENGTH",
+                      payload: { value: e.target.value },
+                    })
+                  }
+                ></input>
+              </FilterDiv>
+            </td>
           </tr>
         </tbody>
-      </table>
-      Seed Min Length:
-      <input
-        type="text"
-        value={seedMinLength}
-        onChange={e =>
-          dispatch({
-            type: "SET_FINDER_SEED_MIN_LENGTH",
-            payload: { value: e.target.value }
-          })
-        }
-      ></input>
-      Optimized Min Length:
-      <input
-        type="text"
-        value={optimizedMinLength}
-        onChange={e =>
-          dispatch({
-            type: "SET_FINDER_OPTIMIZED_MIN_LENGTH",
-            payload: { value: e.target.value }
-          })
-        }
-      ></input>
-      <br></br>
+      </CustTable>
       <input
         type="button"
         value="Generate Selector"

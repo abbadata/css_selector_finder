@@ -22,7 +22,7 @@ const FieldInfo = styled.div`
 const SubPanel = styled.div`
   position: absolute;
   overflow: auto;
-  top: 40px;
+  top: 34px;
   bottom: 0;
   font-size: 80%;
   width: 100%;
@@ -30,16 +30,16 @@ const SubPanel = styled.div`
 
 const BottomPanel = () => {
   const vertPanelPosition = useSelector(
-    state => state.PluginReducer.finderUi.vertPanelPosition
+    (state) => state.PluginReducer.finderUi.vertPanelPosition
   );
   const horizPanelPosition = useSelector(
-    state => state.PluginReducer.finderUi.horizPanelPosition
+    (state) => state.PluginReducer.finderUi.horizPanelPosition
   );
   const selectedElements = useSelector(
-    state => state.PluginReducer.selectedElements
+    (state) => state.PluginReducer.selectedElements
   );
   const bottomTabIndex = useSelector(
-    state => state.PluginReducer.finderUi.bottomTabIndex
+    (state) => state.PluginReducer.finderUi.bottomTabIndex
   );
   const dispatch = useDispatch();
   const panelRef = useRef();
@@ -56,13 +56,13 @@ const BottomPanel = () => {
   function moveToTop(e) {
     dispatch({
       type: "SET_HORIZ_PANEL_POSITION",
-      payload: { element: panelRef.current, position: "top" }
+      payload: { element: panelRef.current, position: "top" },
     });
   }
   function moveToBottom(e) {
     dispatch({
       type: "SET_HORIZ_PANEL_POSITION",
-      payload: { element: panelRef.current, position: "bottom" }
+      payload: { element: panelRef.current, position: "bottom" },
     });
   }
 
@@ -72,7 +72,7 @@ const BottomPanel = () => {
         <div
           style={{ whiteSpace: "pre-wrap" }}
           dangerouslySetInnerHTML={{
-            __html: escapeHtml(formatXml(selectedElements[0].html.trim()))
+            __html: escapeHtml(formatXml(selectedElements[0].html.trim())),
           }}
         ></div>
       );
@@ -114,7 +114,7 @@ const BottomPanel = () => {
       {getMovePanel()}
       <Tabs
         selectedIndex={bottomTabIndex}
-        onSelect={tabIndex =>
+        onSelect={(tabIndex) =>
           dispatch({ type: "SET_BOTTOM_TAB_INDEX", payload: { tabIndex } })
         }
       >
