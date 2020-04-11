@@ -4,10 +4,10 @@ import ReactDOM from "react-dom";
 import store from "./store";
 import { Provider } from "react-redux";
 
-import ContentPageApp from "./components/ContentPageApp";
+import ShadowContentPageApp from "./components/ContentPageApp";
 import "./content.css";
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.message === "start_selector_finder") {
     console.log("Received start_selector_finder");
     createSelectorFinderApp();
@@ -25,7 +25,7 @@ function createSelectorFinderApp() {
     document.body.appendChild(app);
     ReactDOM.render(
       <Provider store={store}>
-        <ContentPageApp />
+        <ShadowContentPageApp />
       </Provider>,
       app
     );
@@ -33,7 +33,7 @@ function createSelectorFinderApp() {
     let app = document.getElementById("content-page-app");
     ReactDOM.render(
       <Provider store={store}>
-        <ContentPageApp />
+        <ShadowContentPageApp />
       </Provider>,
       app
     );

@@ -7,11 +7,11 @@ module.exports = {
   entry: {
     "static/js/popup": "./src/popup.js",
     "static/js/background/background": "./src/background/background.js",
-    "static/js/content": "./src/content/content.js"
+    "static/js/content": "./src/content/content.js",
   },
   output: {
     filename: "[name].js",
-    path: path.resolve(__dirname, "dist")
+    path: path.resolve(__dirname, "dist"),
   },
   module: {
     rules: [
@@ -19,35 +19,35 @@ module.exports = {
         test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         resolve: {
-          extensions: [".js", ".jsx", ".ts", ".tsx"]
+          extensions: [".js", ".jsx", ".ts", ".tsx"],
         },
         use: {
-          loader: "babel-loader"
-        }
+          loader: "babel-loader",
+        },
       },
       {
         test: /\.html$/,
         use: [
           {
-            loader: "html-loader"
-          }
-        ]
+            loader: "html-loader",
+          },
+        ],
       },
       {
         test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, "css-loader"]
+        use: ["to-string-loader", MiniCssExtractPlugin.loader, "css-loader"],
         //use: ["style-loader", "css-loader"]
-      }
-    ]
+      },
+    ],
   },
   plugins: [
     new HtmlWebPackPlugin({
       template: "./src/popup.html",
       filename: "./popup.html",
-      chunks: ["static/js/popup"]
+      chunks: ["static/js/popup"],
     }),
     new MiniCssExtractPlugin({
-      filename: "[name].css"
-    })
-  ]
+      filename: "[name].css",
+    }),
+  ],
 };
