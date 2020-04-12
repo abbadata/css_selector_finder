@@ -21,7 +21,7 @@ const FieldInfo = styled.div`
 `;
 const SubPanel = styled.div`
   position: absolute;
-  overflow: auto;
+  overflow-y: auto;
   top: 34px;
   bottom: 0;
   font-size: 80%;

@@ -8,7 +8,7 @@ import {
 } from "../lib/SelectorUtils";
 
 const initialState = {
-  selectorFinderEnabled: false,
+  selectorFinderEnabled: true,
   finderState: {
     enabled: false,
   },
@@ -56,8 +56,6 @@ const initialState = {
   },
   */
   ],
-  initialDOMState: null,
-  numEvents: 0,
 };
 
 export default function (state = initialState, action) {
@@ -645,6 +643,29 @@ export default function (state = initialState, action) {
           ...state.selectionState,
           generatedSelector: selector,
         },
+      };
+    }
+    case "EXIT_APPLICATION": {
+      state.selectedElements.forEach((elem, i) => {
+        let el = elem.element;
+        el.classList.remove("abba-selected-element");
+      });
+
+      return {
+        ...state,
+        selectorFinderEnabled: false,
+        finderState: {
+          ...state.finderState,
+          errorMessage: "",
+        },
+        selectionState: {
+          ...state.selectionState,
+          lastClickedElement: null,
+          lastMouseoverElement: null,
+          generatedSelector: "",
+          tempSelectedElements: [],
+        },
+        selectedElements: [],
       };
     }
     default:

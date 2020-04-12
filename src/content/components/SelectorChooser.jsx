@@ -12,7 +12,8 @@ const Label = styled.div`
   display: inline-block;
   color: white;
   border: 1px solid #ccc;
-  background: black;
+  /*background: black;*/
+  background-color: #333;
   /*box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2); */
   padding: 2px;
   padding-right: 5px;
@@ -57,6 +58,31 @@ const FilterDiv = styled.div`
 
 const CustTable = styled.table`
   border-spacing: 0px;
+`;
+const GenButton = styled.a`
+  box-shadow: 0px 0px 0px 2px #9fb4f2;
+  background: linear-gradient(to bottom, #7892c2 5%, #476e9e 100%);
+  background-color: #7892c2;
+  border-radius: 10px;
+  border: 1px solid #4e6096;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 19px;
+  padding: 12px 37px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #283966;
+
+  &:hover {
+    background: linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);
+    background-color: #476e9e;
+  }
+
+  &:active {
+    position: relative;
+    top: 1px;
+  }
 `;
 
 const SelectorChooser = () => {
@@ -168,18 +194,39 @@ const SelectorChooser = () => {
 
   return (
     <div>
-      <InputLine>
-        <Label>Selector Root:</Label>
-        {getSelectorRootHtml()}
-      </InputLine>
-      <InputLine>
-        <Label>Custom Selector:</Label>
-        <Value type="text" value={generatedSelector}></Value>
-      </InputLine>
+      <CustTable>
+        <tbody>
+          <tr>
+            <td>
+              <GenButton
+                onClick={() => dispatch({ type: "GENERATE_SELECTOR" })}
+              >
+                Regenerate
+              </GenButton>
+            </td>
+            <td>
+              <InputLine>
+                <Label>Selector Root:</Label>
+                {getSelectorRootHtml()}
+              </InputLine>
+              <InputLine>
+                <Label>Custom Selector:</Label>
+                <Value type="text" value={generatedSelector} size={100}></Value>
+                <input
+                  type="button"
+                  value="Use As Root"
+                  onClick={() => {
+                    dispatch({ type: "USE_AS_ROOT" });
+                  }}
+                ></input>
+              </InputLine>
+            </td>
+          </tr>
+        </tbody>
+      </CustTable>
       <CustTable>
         <thead>
           <tr>
-            <td></td>
             <td></td>
             <td>
               <Center>
@@ -229,7 +276,6 @@ const SelectorChooser = () => {
         </thead>
         <tbody>
           <tr>
-            <td>Filter Out:</td>
             <td>
               <FilterDiv>ID:</FilterDiv>
             </td>
@@ -325,11 +371,7 @@ const SelectorChooser = () => {
           </tr>
         </tbody>
       </CustTable>
-      <input
-        type="button"
-        value="Generate Selector"
-        onClick={() => dispatch({ type: "GENERATE_SELECTOR" })}
-      ></input>
+
       <br></br>
       {getErrorMessageHtml()}
     </div>

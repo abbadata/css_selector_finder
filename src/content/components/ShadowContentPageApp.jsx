@@ -8,6 +8,10 @@ import SidePanel from "./SidePanel";
 import BottomPanel from "./BottomPanel";
 
 const ShadowContentPageApp = () => {
+  const selectorFinderEnabled = useSelector(
+    (state) => state.PluginReducer.selectorFinderEnabled
+  );
+
   let custStyles = `
   .react-tabs {
     -webkit-tap-highlight-color: transparent;
@@ -202,18 +206,19 @@ const ShadowContentPageApp = () => {
   }
   `;
 
-  return (
-    <root.div>
-      <style type="text/css">{custStyles}</style>
-      <ContentPageApp></ContentPageApp>
-    </root.div>
-  );
+  if (selectorFinderEnabled) {
+    return (
+      <root.div id="abba-rootdiv">
+        <style type="text/css">{custStyles}</style>
+        <ContentPageApp></ContentPageApp>
+      </root.div>
+    );
+  } else {
+    return <root.div id="abba-rootdiv"></root.div>;
+  }
 };
 
 const ContentPageApp = () => {
-  const selectorFinderEnabled = useSelector(
-    (state) => state.PluginReducer.selectorFinderEnabled
-  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -274,9 +279,17 @@ const ContentPageApp = () => {
       e.preventDefault();
     }
   }
+
+  function handleExit() {
+    console.log("Handle End Extraction");
+    document.removeEventListener("click", handleDocumentClick);
+    document.removeEventListener("mouseover", handleDocumentMouseover);
+    dispatch({ type: "EXIT_APPLICATION" });
+  }
+
   return (
     <div>
-      <SidePanel />
+      <SidePanel handleExit={handleExit} />
       <BottomPanel />
     </div>
   );

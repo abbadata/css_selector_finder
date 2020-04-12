@@ -95,7 +95,11 @@ const FieldSelectionRoot = () => {
       <Header>Selector Root</Header>
       {getSelectorRootHtml()}
       <Header>Selectors</Header>
-      <TextChooser text="Selector" value={generatedSelector}></TextChooser>
+      <TextChooser
+        text="Selector"
+        value={generatedSelector}
+        onClick={() => {}}
+      ></TextChooser>
     </div>
   );
 };
