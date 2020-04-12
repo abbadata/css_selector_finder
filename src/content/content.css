@@ -1,61 +1,11 @@
 .abba-selected-element {
-  outline: 3px dashed #ff7f00;
-  background-color: rgba(250, 255, 176, 0.5);
-  /*background-color: #faffb0;*/
+  outline: 3px dashed #ff7f00 !important;
+  background-color: rgba(250, 255, 176, 0.5) !important;
 }
 .abba-temp-selected-element {
-  outline: 3px dashed #1500ff;
-  background-color: rgba(0, 184, 255, 0.5);
-  /*  background-color: #00b8ff;*/
+  outline: 3px dashed #1500ff !important;
+  background-color: rgba(0, 184, 255, 0.5) !important;
 }
 .abba-mouseover-element {
-  outline: 3px solid red;
-}
-
-.move-left-arrow {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-size: 12px 12px;
-  width: 12px;
-  height: 12px;
-  background-image: url("chrome-extension://__MSG_@@extension_id__/images/arrow_left.jpg");
-  margin: 0;
-  padding: 0;
-}
-
-.move-right-arrow {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-size: 12px 12px;
-  width: 12px;
-  height: 12px;
-  background-image: url("chrome-extension://__MSG_@@extension_id__/images/arrow_right.jpg");
-  margin: 0;
-  padding: 0;
-}
-
-.move-up-arrow {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-size: 12px 12px;
-  width: 12px;
-  height: 12px;
-  background-image: url("chrome-extension://__MSG_@@extension_id__/images/arrow_up.jpg");
-  margin: 0;
-  padding: 0;
-}
-
-.move-down-arrow {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-size: 12px 12px;
-  width: 12px;
-  height: 12px;
-  background-image: url("chrome-extension://__MSG_@@extension_id__/images/arrow_down.jpg");
-  margin: 0;
-  padding: 0;
+  outline: 3px solid red !important;
 }

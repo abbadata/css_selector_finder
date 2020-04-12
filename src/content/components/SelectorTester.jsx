@@ -38,10 +38,10 @@ const TestButton = styled.div`
 
 const SelectorTester = () => {
   const tempSelector = useSelector(
-    state => state.PluginReducer.selectionState.tempSelector
+    (state) => state.PluginReducer.selectionState.tempSelector
   );
   const tempSelectedElements = useSelector(
-    state => state.PluginReducer.selectionState.tempSelectedElements
+    (state) => state.PluginReducer.selectionState.tempSelectedElements
   );
   const dispatch = useDispatch();
 
@@ -54,47 +54,50 @@ const SelectorTester = () => {
   }
 
   return (
-    <Tester>
-      <Label>Enter Selector:</Label>
-      <Value
-        type="text"
-        value={tempSelector}
-        onChange={e =>
-          dispatch({
-            type: "SET_TEMP_SELECTOR",
-            payload: { value: e.target.value }
-          })
-        }
-      ></Value>
-      <TestButton
-        onClick={() =>
-          dispatch({
-            type: "DO_TEST_SELECTOR_HIGHLIGHT"
-          })
-        }
-      >
-        Test
-      </TestButton>
-      <TestButton
-        onClick={() =>
-          dispatch({
-            type: "STOP_TEST_SELECTOR_HIGHLIGHT"
-          })
-        }
-      >
-        Deselect
-      </TestButton>
-      <TestButton
-        onClick={() =>
-          dispatch({
-            type: "STOP_TEST_SELECTOR_HIGHLIGHT"
-          })
-        }
-      >
-        Use as Root
-      </TestButton>
+    <div>
+      <Tester>
+        <Label>Enter Selector:</Label>
+        <Value
+          type="text"
+          value={tempSelector}
+          onChange={(e) =>
+            dispatch({
+              type: "SET_TEMP_SELECTOR",
+              payload: { value: e.target.value },
+            })
+          }
+        ></Value>
+        <TestButton
+          onClick={() =>
+            dispatch({
+              type: "DO_TEST_SELECTOR_HIGHLIGHT",
+            })
+          }
+        >
+          Test
+        </TestButton>
+        <TestButton
+          onClick={() =>
+            dispatch({
+              type: "STOP_TEST_SELECTOR_HIGHLIGHT",
+            })
+          }
+        >
+          Deselect
+        </TestButton>
+        <TestButton
+          onClick={() =>
+            dispatch({
+              type: "STOP_TEST_SELECTOR_HIGHLIGHT",
+            })
+          }
+        >
+          Use as Root
+        </TestButton>
+      </Tester>
+      <br></br>
       <div>{getSelectorInfo()}</div>
-    </Tester>
+    </div>
   );
 };
 

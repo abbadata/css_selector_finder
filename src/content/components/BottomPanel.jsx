@@ -27,6 +27,30 @@ const SubPanel = styled.div`
   font-size: 80%;
   width: 100%;
 `;
+const MoveUpArrow = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-size: 12px 12px;
+  width: 12px;
+  height: 12px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABpSURBVChTY8ABLKGYKOABxP+B+BsQ+4ME8IEAIAYphuEfQBwFxFhBJBAjK4bh30CcAsRgwAylQcAHiI9AmAwKUPoAEC8CYnYghslhgHoghpkOYqMAJihNNBgiGs4C8S8ovgQSoAAwMAAA1kEYSmyWoOIAAAAASUVORK5CYII=)
+    top left no-repeat;
+  )margin: 0;
+  padding: 0;
+`;
+const MoveDownArrow = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-size: 12px 12px;
+  width: 12px;
+  height: 12px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABtSURBVChTY6AGCATin1DsAxJABkxQGhnoATEbFBuDBJABNg14wSDUwAylQaACiJ2B2AGIFUACUABiWwLxETAPCaQA8W8g/o8FRwIxVhAFxD+AGFlxABDjBf5A/A2IQYo9QALEAJCbQRgNMDAAAD6SE5Kc8MyeAAAAAElFTkSuQmCC)
+    top left no-repeat;
+  )margin: 0;
+  padding: 0;
+`;
 
 const BottomPanel = () => {
   const vertPanelPosition = useSelector(
@@ -46,9 +70,9 @@ const BottomPanel = () => {
 
   function getMovePanel() {
     if (horizPanelPosition === "bottom") {
-      return <div onClick={moveToTop} className="move-up-arrow"></div>;
+      return <MoveUpArrow onClick={moveToTop}></MoveUpArrow>;
     } else if (horizPanelPosition === "top") {
-      return <div onClick={moveToBottom} className="move-down-arrow"></div>;
+      return <MoveDownArrow onClick={moveToBottom}></MoveDownArrow>;
     } else {
       console.log("Unknown value for horizPanelPosition");
     }
@@ -77,7 +101,7 @@ const BottomPanel = () => {
         ></div>
       );
     } else {
-      return <div></div>;
+      return <div>Select an element to see the HTML.</div>;
     }
   }
 
@@ -120,20 +144,25 @@ const BottomPanel = () => {
       >
         <TabList>
           <Tab>Info</Tab>
-          <Tab>Selector</Tab>
           <Tab>HTML</Tab>
+          <Tab>Custom Selector</Tab>
+          <Tab>Test Selector</Tab>
         </TabList>
         <TabPanel>
           <div>Placeholder for info view</div>
         </TabPanel>
         <TabPanel>
+          <SubPanel>{getHtmlPanel()}</SubPanel>
+        </TabPanel>
+        <TabPanel>
           <SubPanel>
-            <SelectorTester></SelectorTester>
             <SelectorChooser></SelectorChooser>
           </SubPanel>
         </TabPanel>
         <TabPanel>
-          <SubPanel>{getHtmlPanel()}</SubPanel>
+          <SubPanel>
+            <SelectorTester></SelectorTester>
+          </SubPanel>
         </TabPanel>
       </Tabs>
     </FieldInfo>

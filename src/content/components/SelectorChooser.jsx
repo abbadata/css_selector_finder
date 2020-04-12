@@ -5,6 +5,38 @@ import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import EntryList from "./EntryList";
 
+const InputLine = styled.div`
+  display: flex;
+`;
+const Label = styled.div`
+  display: inline-block;
+  color: white;
+  border: 1px solid #ccc;
+  background: black;
+  /*box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2); */
+  padding: 2px;
+  padding-right: 5px;
+  text-align: left;
+  flex-grow: 0;
+`;
+const Value = styled.input`
+  display: inline;
+  padding: 2px;
+  text-align: left;
+  flex-grow: 1;
+  width: 400px;
+  background-color: #fff;
+  border-width: 2px;
+`;
+const DisabledValue = styled.input`
+  display: inline;
+  padding: 2px;
+  text-align: left;
+  flex-grow: 1;
+  width: 400px;
+  background-color: #bbb;
+  border-width: 2px;
+`;
 const Status = styled.div`
   width: 100%;
   color: red;
@@ -28,6 +60,19 @@ const CustTable = styled.table`
 `;
 
 const SelectorChooser = () => {
+  const selectorRoot = useSelector(
+    (state) => state.PluginReducer.selectionState.selectorRoot
+  );
+  const tempSelectorRoot = useSelector(
+    (state) => state.PluginReducer.selectionState.tempSelectorRoot
+  );
+  const selectorRootEditMode = useSelector(
+    (state) => state.PluginReducer.selectionState.selectorRootEditMode
+  );
+
+  const generatedSelector = useSelector(
+    (state) => state.PluginReducer.selectionState.generatedSelector
+  );
   const isIdEnabled = useSelector(
     (state) => state.PluginReducer.finderState.isIdEnabled
   );
@@ -64,8 +109,66 @@ const SelectorChooser = () => {
     return "";
   }
 
+  function getSelectorRootHtml() {
+    if (selectorRootEditMode) {
+      return (
+        <div>
+          <Value
+            type="text"
+            value={tempSelectorRoot}
+            onChange={(e) =>
+              dispatch({
+                type: "CHANGE_SELECTOR_ROOT",
+                payload: { value: e.target.value },
+              })
+            }
+          ></Value>
+          <input
+            type="button"
+            value="Save"
+            onClick={() => {
+              dispatch({ type: "SAVE_TEMP_SELECTOR_ROOT" });
+            }}
+          ></input>
+          <input
+            type="button"
+            value="Cancel"
+            onClick={() => {
+              dispatch({ type: "CANCEL_TEMP_SELECTOR_ROOT" });
+            }}
+          ></input>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <DisabledValue
+            type="text"
+            value={selectorRoot}
+            disabled={true}
+          ></DisabledValue>
+          <input
+            type="button"
+            value="Edit"
+            onClick={() => {
+              dispatch({ type: "ENABLE_SELECTOR_ROOT_EDIT" });
+            }}
+          ></input>
+        </div>
+      );
+    }
+  }
+
   return (
     <div>
+      <InputLine>
+        <Label>Selector Root:</Label>
+        {getSelectorRootHtml()}
+      </InputLine>
+      <InputLine>
+        <Label>Custom Selector:</Label>
+        <Value type="text" value={generatedSelector}></Value>
+      </InputLine>
       <CustTable>
         <thead>
           <tr>

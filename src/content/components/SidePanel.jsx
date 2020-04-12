@@ -34,20 +34,46 @@ const Status = styled.div`
   padding: 5px;
 `;
 
+const MoveRightArrow = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-size: 12px 12px;
+  width: 12px;
+  height: 12px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAB0SURBVChTY6A5YIbSuEAFEMsC8RUwDwiYoDQuwA7Ey4A4AMwDAkYo7QPExhAmCnCAYhDwBOIdMA0/gZgNwsQLrAg5CRl8BxEwGwKBWA/CRAEwJ4FcEA7EG4EYL6gH4t9AHAXmAQEhJ4FMzgRiUEjRBTAwAADoWQ1/0c/llAAAAABJRU5ErkJggg==)
+    top left no-repeat;
+  )margin: 0;
+  padding: 0;
+`;
+
+const MoveLeftArrow = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-size: 12px 12px;
+  width: 12px;
+  height: 12px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABxSURBVChTY6A7SAHiCggTO2CC0iAQBcTTgZgdzMMBGKG0PxCvBGKQ4gNQjA4uAfF6EMMSiL8B8X8C+CcQw53ECaUJApiTPIB4O4SJ00lngXgLhAkBAUAMsroezMMBmKE0CNwA4ltAzAPER0ACAwEYGAB01RhX98zElQAAAABJRU5ErkJggg==)
+    top left no-repeat;
+  )margin: 0;
+  padding: 0;
+`;
+
 const SidePanel = () => {
   const vertPanelPosition = useSelector(
-    state => state.PluginReducer.finderUi.vertPanelPosition
+    (state) => state.PluginReducer.finderUi.vertPanelPosition
   );
   const horizPanelPosition = useSelector(
-    state => state.PluginReducer.finderUi.horizPanelPosition
+    (state) => state.PluginReducer.finderUi.horizPanelPosition
   );
   const selectedElements = useSelector(
-    state => state.PluginReducer.selectedElements
+    (state) => state.PluginReducer.selectedElements
   );
   const vertPanelDiv = useSelector(
-    state => state.PluginReducer.finderUi.vertPanelDiv
+    (state) => state.PluginReducer.finderUi.vertPanelDiv
   );
-  const errorMessage = useSelector(state => state.PluginReducer.errorMessage);
+  const errorMessage = useSelector((state) => state.PluginReducer.errorMessage);
 
   const dispatch = useDispatch();
   const panelRef = useRef();
@@ -55,19 +81,15 @@ const SidePanel = () => {
   useEffect(() => {
     dispatch({
       type: "SET_VERT_PANEL_DIV",
-      payload: { element: panelRef.current }
+      payload: { element: panelRef.current },
     });
   }, [vertPanelDiv]);
 
   function getMovePanel() {
     if (vertPanelPosition === "right") {
-      // Doesn't seem to work as a styled component since reference to chrome extension via
-      // chrome-extension://__MSG_@@extension_id__/images/arrow_right.jpg
-      // does not get resolved properly
-      //return <LeftArrow onClick={moveToLeft}></LeftArrow>;
-      return <div onClick={moveToLeft} className="move-left-arrow"></div>;
+      return <MoveLeftArrow onClick={moveToLeft}></MoveLeftArrow>;
     } else if (vertPanelPosition === "left") {
-      return <div onClick={moveToRight} className="move-right-arrow"></div>;
+      return <MoveRightArrow onClick={moveToRight}></MoveRightArrow>;
     } else {
       console.log("Unknown value for vertPanelPosition");
     }
@@ -75,14 +97,14 @@ const SidePanel = () => {
   function moveToRight(e) {
     dispatch({
       type: "SET_VERT_PANEL_POSITION",
-      payload: { element: panelRef.current, position: "right" }
+      payload: { element: panelRef.current, position: "right" },
     });
   }
   function moveToLeft(e) {
     console.log("moveToLeft: ", panelRef);
     dispatch({
       type: "SET_VERT_PANEL_POSITION",
-      payload: { element: panelRef.current, position: "left" }
+      payload: { element: panelRef.current, position: "left" },
     });
   }
   function getFieldOptionsHtml() {

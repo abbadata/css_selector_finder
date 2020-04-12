@@ -4,27 +4,29 @@ import {
   getSelector,
   markTempSelector,
   unmarkTempSelector,
-  verifySelector
+  verifySelector,
 } from "../lib/SelectorUtils";
 
 const initialState = {
   selectorFinderEnabled: false,
   finderState: {
-    enabled: false
+    enabled: false,
   },
   errorMessage: "this is an error",
   selectionState: {
     lastClickedElement: null,
     lastMouseoverElement: null,
     selectorRoot: ":root",
-    tempSelector: "h1",
+    generatedSelector: "",
+    /* These are used for the Selector Test ui */
+    tempSelector: "",
     tempSelectedElements: [
       /*
         { element: "" }
         */
     ],
     tempSelectorRoot: "" /* Used for edit mode */,
-    selectorRootEditMode: false
+    selectorRootEditMode: false,
   },
   finderState: {
     isClassEnabled: false,
@@ -35,13 +37,13 @@ const initialState = {
     tagFilter: [],
     seedMinLength: 1,
     optimizedMinLength: 4,
-    errorMessage: ""
+    errorMessage: "",
   },
   finderUi: {
     vertPanelPosition: "right",
     horizPanelPosition: "bottom",
     vertPanelDiv: null,
-    bottomTabIndex: 0
+    bottomTabIndex: 0,
   },
   selectedElements: [
     /*
@@ -55,10 +57,10 @@ const initialState = {
   */
   ],
   initialDOMState: null,
-  numEvents: 0
+  numEvents: 0,
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case "SET_MOUSEOVER_ELEMENT":
       {
@@ -69,8 +71,8 @@ export default function(state = initialState, action) {
             ...state,
             selectionState: {
               ...state.selectionState,
-              lastMouseoverElement: element
-            }
+              lastMouseoverElement: element,
+            },
           };
         } else {
           return state;
@@ -86,8 +88,8 @@ export default function(state = initialState, action) {
             ...state,
             selectionState: {
               ...state.selectionState,
-              lastMouseoverElement: null
-            }
+              lastMouseoverElement: null,
+            },
           };
         }
       }
@@ -109,9 +111,9 @@ export default function(state = initialState, action) {
             ...state,
             selectionState: {
               ...state.selectionState,
-              lastClickedElement: null
+              lastClickedElement: null,
             },
-            selectedElements: selectedElements
+            selectedElements: selectedElements,
           };
         } else {
           let newSE = addElement(
@@ -126,13 +128,13 @@ export default function(state = initialState, action) {
             ...state,
             finderUi: {
               ...state.finderUi,
-              bottomTabIndex: 2
+              bottomTabIndex: 2,
             },
             selectionState: {
               ...state.selectionState,
-              lastClickedElement: element
+              lastClickedElement: element,
             },
-            selectedElements: newSE
+            selectedElements: newSE,
           };
         }
       }
@@ -152,7 +154,7 @@ export default function(state = initialState, action) {
         ) {
           return {
             ...state,
-            selectedElements: []
+            selectedElements: [],
           };
         } else {
           element.classList.add("abba-selected-element");
@@ -167,13 +169,13 @@ export default function(state = initialState, action) {
             ...state,
             finderUi: {
               ...state.finderUi,
-              bottomTabIndex: 2
+              bottomTabIndex: 2,
             },
             selectionState: {
               ...state.selectionState,
-              lastClickedElement: element
+              lastClickedElement: element,
             },
-            selectedElements: newSE
+            selectedElements: newSE,
           };
         }
       }
@@ -185,8 +187,8 @@ export default function(state = initialState, action) {
         ...state,
         finderUi: {
           ...state.finderUi,
-          vertPanelDiv: action.payload.element
-        }
+          vertPanelDiv: action.payload.element,
+        },
       };
     }
     case "SET_HORIZ_PANEL_POSITION":
@@ -209,8 +211,8 @@ export default function(state = initialState, action) {
         ...state,
         finderUi: {
           ...state.finderUi,
-          horizPanelPosition: action.payload.position
-        }
+          horizPanelPosition: action.payload.position,
+        },
       };
     case "SET_VERT_PANEL_POSITION":
       console.log("vertElement: ", action.payload.element);
@@ -226,8 +228,8 @@ export default function(state = initialState, action) {
         ...state,
         finderUi: {
           ...state.finderUi,
-          vertPanelPosition: action.payload.position
-        }
+          vertPanelPosition: action.payload.position,
+        },
       };
     case "CHANGE_SELECTION_TO_PARENT":
       {
@@ -251,9 +253,9 @@ export default function(state = initialState, action) {
               ...state,
               selectionState: {
                 ...state.selectionState,
-                lastClickedElement: newelement
+                lastClickedElement: newelement,
               },
-              selectedElements: newSE
+              selectedElements: newSE,
             };
           }
         }
@@ -282,9 +284,9 @@ export default function(state = initialState, action) {
               ...state,
               selectionState: {
                 ...state.selectionState,
-                lastClickedElement: newelement
+                lastClickedElement: newelement,
               },
-              selectedElements: newSE
+              selectedElements: newSE,
             };
           }
         }
@@ -313,9 +315,9 @@ export default function(state = initialState, action) {
               ...state,
               selectionState: {
                 ...state.selectionState,
-                lastClickedElement: newelement
+                lastClickedElement: newelement,
               },
-              selectedElements: newSE
+              selectedElements: newSE,
             };
           }
         }
@@ -344,9 +346,9 @@ export default function(state = initialState, action) {
               ...state,
               selectionState: {
                 ...state.selectionState,
-                lastClickedElement: newelement
+                lastClickedElement: newelement,
               },
-              selectedElements: newSE
+              selectedElements: newSE,
             };
           }
         }
@@ -358,8 +360,8 @@ export default function(state = initialState, action) {
         ...state,
         finderUi: {
           ...state.finderUi,
-          bottomTabIndex: action.payload.tabIndex
-        }
+          bottomTabIndex: action.payload.tabIndex,
+        },
       };
       break;
     case "CHANGE_SELECTOR_ROOT":
@@ -367,8 +369,8 @@ export default function(state = initialState, action) {
         ...state,
         selectionState: {
           ...state.selectionState,
-          tempSelectorRoot: action.payload.value
-        }
+          tempSelectorRoot: action.payload.value,
+        },
       };
       break;
     case "ENABLE_SELECTOR_ROOT_EDIT":
@@ -377,8 +379,8 @@ export default function(state = initialState, action) {
         selectionState: {
           ...state.selectionState,
           selectorRootEditMode: true,
-          tempSelectorRoot: state.selectionState.selectorRoot
-        }
+          tempSelectorRoot: state.selectionState.selectorRoot,
+        },
       };
       break;
     case "SAVE_TEMP_SELECTOR_ROOT":
@@ -388,7 +390,7 @@ export default function(state = initialState, action) {
         if (!verifySelector(tempSelectorRoot)) {
           return {
             ...state,
-            errorMessage: "Bad selector: " + tempSelectorRoot
+            errorMessage: "Bad selector: " + tempSelectorRoot,
           };
         }
         return {
@@ -396,8 +398,8 @@ export default function(state = initialState, action) {
           selectionState: {
             ...state.selectionState,
             selectorRoot: tempSelectorRoot,
-            selectorRootEditMode: false
-          }
+            selectorRootEditMode: false,
+          },
         };
       }
       break;
@@ -407,8 +409,8 @@ export default function(state = initialState, action) {
         selectionState: {
           ...state.selectionState,
           selectorRootEditMode: false,
-          tempSelectorRoot: state.selectionState.selectorRoot
-        }
+          tempSelectorRoot: state.selectionState.selectorRoot,
+        },
       };
       break;
     case "SET_TEMP_SELECTOR":
@@ -416,8 +418,8 @@ export default function(state = initialState, action) {
         ...state,
         selectionState: {
           ...state.selectionState,
-          tempSelector: action.payload.value
-        }
+          tempSelector: action.payload.value,
+        },
       };
       break;
     case "DO_TEST_SELECTOR_HIGHLIGHT":
@@ -430,8 +432,8 @@ export default function(state = initialState, action) {
           ...state,
           selectionState: {
             ...state.selectionState,
-            tempSelectedElements: selectors
-          }
+            tempSelectedElements: selectors,
+          },
         };
       }
       break;
@@ -443,8 +445,8 @@ export default function(state = initialState, action) {
           ...state,
           selectionState: {
             ...state.selectionState,
-            tempSelectedElements: []
-          }
+            tempSelectedElements: [],
+          },
         };
       }
       break;
@@ -453,8 +455,8 @@ export default function(state = initialState, action) {
         ...state,
         finderState: {
           ...state.finderState,
-          isIdEnabled: action.payload.enabled
-        }
+          isIdEnabled: action.payload.enabled,
+        },
       };
     }
     case "SET_FINDER_CLASS_ENABLED": {
@@ -462,8 +464,8 @@ export default function(state = initialState, action) {
         ...state,
         finderState: {
           ...state.finderState,
-          isClassEnabled: action.payload.enabled
-        }
+          isClassEnabled: action.payload.enabled,
+        },
       };
     }
     case "SET_FINDER_TAG_ENABLED": {
@@ -471,8 +473,8 @@ export default function(state = initialState, action) {
         ...state,
         finderState: {
           ...state.finderState,
-          isTagEnabled: action.payload.enabled
-        }
+          isTagEnabled: action.payload.enabled,
+        },
       };
     }
     case "ADD_FINDER_ID_FILTER": {
@@ -482,20 +484,20 @@ export default function(state = initialState, action) {
         ...state,
         finderState: {
           ...state.finderState,
-          idFilter: filter
-        }
+          idFilter: filter,
+        },
       };
     }
     case "DELETE_FINDER_ID_FILTER": {
-      let filter = state.finderState.idFilter.filter(e => {
+      let filter = state.finderState.idFilter.filter((e) => {
         return e !== action.payload.value;
       });
       return {
         ...state,
         finderState: {
           ...state.finderState,
-          idFilter: filter
-        }
+          idFilter: filter,
+        },
       };
     }
     case "ADD_FINDER_CLASS_FILTER": {
@@ -505,20 +507,20 @@ export default function(state = initialState, action) {
         ...state,
         finderState: {
           ...state.finderState,
-          classFilter: filter
-        }
+          classFilter: filter,
+        },
       };
     }
     case "DELETE_FINDER_CLASS_FILTER": {
-      let filter = state.finderState.classFilter.filter(e => {
+      let filter = state.finderState.classFilter.filter((e) => {
         return e !== action.payload.value;
       });
       return {
         ...state,
         finderState: {
           ...state.finderState,
-          classFilter: filter
-        }
+          classFilter: filter,
+        },
       };
     }
     case "ADD_FINDER_TAG_FILTER": {
@@ -528,12 +530,12 @@ export default function(state = initialState, action) {
         ...state,
         finderState: {
           ...state.finderState,
-          tagFilter: filter
-        }
+          tagFilter: filter,
+        },
       };
     }
     case "DELETE_FINDER_TAG_FILTER": {
-      let filter = state.finderState.tagFilter.filter(e => {
+      let filter = state.finderState.tagFilter.filter((e) => {
         return e !== action.payload.value;
       });
       console.log("DELETE_FINDER: ", state.selectedElements);
@@ -541,8 +543,8 @@ export default function(state = initialState, action) {
         ...state,
         finderState: {
           ...state.finderState,
-          tagFilter: filter
-        }
+          tagFilter: filter,
+        },
       };
     }
     case "SET_FINDER_SEED_MIN_LENGTH": {
@@ -550,8 +552,8 @@ export default function(state = initialState, action) {
         ...state,
         finderState: {
           ...state.finderState,
-          seedMinLength: action.payload.value
-        }
+          seedMinLength: action.payload.value,
+        },
       };
     }
     case "SET_FINDER_OPTIMIZED_MIN_LENGTH": {
@@ -559,8 +561,8 @@ export default function(state = initialState, action) {
         ...state,
         finderState: {
           ...state.finderState,
-          optimizedMinLength: action.payload.value
-        }
+          optimizedMinLength: action.payload.value,
+        },
       };
     }
     case "GENERATE_SELECTOR": {
@@ -572,7 +574,7 @@ export default function(state = initialState, action) {
         isTagEnabled: state.finderState.isTagEnabled,
         idFilter: state.finderState.idFilter,
         classFilter: state.finderState.classFilter,
-        tagFilter: state.finderState.tagFilter
+        tagFilter: state.finderState.tagFilter,
       };
       let selector = "";
       try {
@@ -585,12 +587,12 @@ export default function(state = initialState, action) {
           ...state,
           finderState: {
             ...state.finderState,
-            errorMessage: "Unable to find selector."
+            errorMessage: "Unable to find selector.",
           },
           selectionState: {
             ...state.selectionState,
-            tempSelector: ""
-          }
+            generatedSelector: "",
+          },
         };
       }
 
@@ -598,12 +600,12 @@ export default function(state = initialState, action) {
         ...state,
         finderState: {
           ...state.finderState,
-          errorMessage: ""
+          errorMessage: "",
         },
         selectionState: {
           ...state.selectionState,
-          tempSelector: selector
-        }
+          generatedSelector: selector,
+        },
       };
     }
     default:
