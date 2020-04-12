@@ -9,10 +9,8 @@ import "./content.css";
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.message === "start_selector_finder") {
-    console.log("Received start_selector_finder");
     createSelectorFinderApp();
   } else if (request.message === "end_selector_finder") {
-    console.log("Received end_selector_finder");
     createSelectorFinderApp();
   }
 });

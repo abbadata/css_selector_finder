@@ -24,16 +24,16 @@ const Button = styled.div`
 
 const FieldSelectionRoot = () => {
   const selectorRoot = useSelector(
-    state => state.PluginReducer.selectionState.selectorRoot
+    (state) => state.PluginReducer.selectionState.selectorRoot
   );
   const tempSelectorRoot = useSelector(
-    state => state.PluginReducer.selectionState.tempSelectorRoot
+    (state) => state.PluginReducer.selectionState.tempSelectorRoot
   );
   const selectorRootEditMode = useSelector(
-    state => state.PluginReducer.selectionState.selectorRootEditMode
+    (state) => state.PluginReducer.selectionState.selectorRootEditMode
   );
-  const selectedElements = useSelector(
-    state => state.PluginReducer.selectedElements
+  const generatedSelector = useSelector(
+    (state) => state.PluginReducer.selectionState.generatedSelector
   );
   const dispatch = useDispatch();
 
@@ -44,10 +44,10 @@ const FieldSelectionRoot = () => {
           <input
             type="text"
             value={tempSelectorRoot}
-            onChange={e =>
+            onChange={(e) =>
               dispatch({
                 type: "CHANGE_SELECTOR_ROOT",
-                payload: { value: e.target.value }
+                payload: { value: e.target.value },
               })
             }
           ></input>
@@ -78,6 +78,13 @@ const FieldSelectionRoot = () => {
               dispatch({ type: "ENABLE_SELECTOR_ROOT_EDIT" });
             }}
           ></input>
+          <input
+            type="button"
+            value="Reset"
+            onClick={() => {
+              dispatch({ type: "RESET_SELECTOR_ROOT" });
+            }}
+          ></input>
         </div>
       );
     }
@@ -88,16 +95,7 @@ const FieldSelectionRoot = () => {
       <Header>Selector Root</Header>
       {getSelectorRootHtml()}
       <Header>Selectors</Header>
-      <TextChooser
-        text="Short Selector"
-        value={selectedElements[0].shortselector}
-        selectfunc={() => {}}
-      ></TextChooser>
-      <TextChooser
-        text="Long Selector"
-        value={selectedElements[0].longselector}
-        selectfunc={() => {}}
-      ></TextChooser>
+      <TextChooser text="Selector" value={generatedSelector}></TextChooser>
     </div>
   );
 };

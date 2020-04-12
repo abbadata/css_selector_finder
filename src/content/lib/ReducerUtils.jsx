@@ -1,5 +1,3 @@
-import { getShortSelector, getLongSelector } from "./SelectorUtils";
-
 export const removeElement = (element, selectedElements) => {
   let alreadyExists = selectedElements.some((elem, i) => {
     return elem.element === element;
@@ -24,8 +22,6 @@ const generateElementEntry = (element, selectorRoot) => {
     elemtype: element.nodeName,
     text: element.innerText,
     html: element.outerHTML,
-    shortselector: getShortSelector(element, selectorRoot),
-    longselector: getLongSelector(element, selectorRoot)
   };
 };
 

@@ -29,7 +29,7 @@ const initialState = {
     selectorRootEditMode: false,
   },
   finderState: {
-    isClassEnabled: false,
+    isClassEnabled: true,
     isIdEnabled: true,
     isTagEnabled: true,
     classFilter: [],
@@ -147,6 +147,17 @@ export default function (state = initialState, action) {
           let el = elem.element;
           el.classList.remove("abba-selected-element");
         });
+
+        const options = {
+          root: state.selectionState.selectorRoot,
+          isIdEnabled: state.finderState.isIdEnabled,
+          isClassEnabled: state.finderState.isClassEnabled,
+          isTagEnabled: state.finderState.isTagEnabled,
+          idFilter: state.finderState.idFilter,
+          classFilter: state.finderState.classFilter,
+          tagFilter: state.finderState.tagFilter,
+        };
+
         // We only toggle if a single element is selected and we click on it
         if (
           state.selectedElements.length === 1 &&
@@ -165,15 +176,32 @@ export default function (state = initialState, action) {
             [],
             state.selectionState.selectorRoot
           );
+
+          let selector = "";
+          try {
+            selector = getSelector(element, options);
+          } catch (error) {
+            return {
+              ...state,
+              finderState: {
+                ...state.finderState,
+                errorMessage: "Unable to find selector.",
+              },
+              selectionState: {
+                ...state.selectionState,
+                lastClickedElement: element,
+                generatedSelector: "",
+              },
+              selectedElements: newSE,
+            };
+          }
+
           return {
             ...state,
-            finderUi: {
-              ...state.finderUi,
-              bottomTabIndex: 2,
-            },
             selectionState: {
               ...state.selectionState,
               lastClickedElement: element,
+              generatedSelector: selector,
             },
             selectedElements: newSE,
           };
@@ -409,6 +437,17 @@ export default function (state = initialState, action) {
         selectionState: {
           ...state.selectionState,
           selectorRootEditMode: false,
+          tempSelectorRoot: state.selectionState.selectorRoot,
+        },
+      };
+      break;
+    case "RESET_SELECTOR_ROOT":
+      return {
+        ...state,
+        selectionState: {
+          ...state.selectionState,
+          selectorRootEditMode: false,
+          selectorRoot: ":root",
           tempSelectorRoot: state.selectionState.selectorRoot,
         },
       };

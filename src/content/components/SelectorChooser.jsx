@@ -154,6 +154,13 @@ const SelectorChooser = () => {
               dispatch({ type: "ENABLE_SELECTOR_ROOT_EDIT" });
             }}
           ></input>
+          <input
+            type="button"
+            value="Reset"
+            onClick={() => {
+              dispatch({ type: "RESET_SELECTOR_ROOT" });
+            }}
+          ></input>
         </div>
       );
     }

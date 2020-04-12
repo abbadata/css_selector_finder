@@ -149,7 +149,26 @@ const BottomPanel = () => {
           <Tab>Test Selector</Tab>
         </TabList>
         <TabPanel>
-          <div>Placeholder for info view</div>
+          <ul>
+            <li>
+              Select an element on the page to generate the CSS selector for.
+            </li>
+            <li>
+              Customize the CSS selector generation in the "Custom Selector" tab
+            </li>
+            <li>
+              Use "Test Selector" to manually enter a selector and see what gets
+              matched on the page.
+            </li>
+            <li>
+              Use "Modify Selection" options to change the selected dom element
+              to a parent/child/sibling.
+            </li>
+            <li>
+              Panels may cover content on the page. Use the arrows on the panels
+              to move them to the opposite side of the page.
+            </li>
+          </ul>
         </TabPanel>
         <TabPanel>
           <SubPanel>{getHtmlPanel()}</SubPanel>
@@ -160,9 +179,7 @@ const BottomPanel = () => {
           </SubPanel>
         </TabPanel>
         <TabPanel>
-          <SubPanel>
-            <SelectorTester></SelectorTester>
-          </SubPanel>
+          <SelectorTester></SelectorTester>
         </TabPanel>
       </Tabs>
     </FieldInfo>

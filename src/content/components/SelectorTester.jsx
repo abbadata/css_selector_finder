@@ -85,15 +85,6 @@ const SelectorTester = () => {
         >
           Deselect
         </TestButton>
-        <TestButton
-          onClick={() =>
-            dispatch({
-              type: "STOP_TEST_SELECTOR_HIGHLIGHT",
-            })
-          }
-        >
-          Use as Root
-        </TestButton>
       </Tester>
       <br></br>
       <div>{getSelectorInfo()}</div>

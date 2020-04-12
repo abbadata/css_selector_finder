@@ -246,7 +246,6 @@ const ContentPageApp = () => {
         type: "SET_MOUSEOVER_ELEMENT",
         payload: { element: targetElement },
       });
-      //props.setMouseoverElement(targetElement);
       e.preventDefault();
     }
   }
@@ -259,30 +258,19 @@ const ContentPageApp = () => {
         type: "SET_MOUSEOUT_ELEMENT",
         payload: { element: targetElement },
       });
-      //props.setMouseoverElement(targetElement);
       e.preventDefault();
     }
   }
 
   function handleDocumentClick(e) {
-    //console.log("CLICKED: ", element);
     let targetElement = e.target || e.srcElement;
     if (
       !isDescendant(document.getElementById("content-page-app"), targetElement)
     ) {
-      if (window.event.ctrlKey) {
-        // If CTRL key is held down, just add or remove from the current selection
-        dispatch({
-          type: "ADD_OR_REMOVE_SELECTED_ELEMENT",
-          payload: { element: targetElement },
-        });
-      } else {
-        // If no CTRL key, current element is selected, everything else is deselected
-        dispatch({
-          type: "ONLY_SELECT_SELECTED_ELEMENT",
-          payload: { element: targetElement },
-        });
-      }
+      dispatch({
+        type: "ONLY_SELECT_SELECTED_ELEMENT",
+        payload: { element: targetElement },
+      });
       e.preventDefault();
     }
   }
