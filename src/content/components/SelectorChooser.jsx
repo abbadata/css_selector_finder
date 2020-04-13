@@ -73,6 +73,8 @@ const GenButton = styled.a`
   padding: 12px 37px;
   text-decoration: none;
   text-shadow: 0px 1px 0px #283966;
+  margin-left: 10px;
+  margin-right: 10px;
 
   &:hover {
     background: linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);
@@ -206,10 +208,6 @@ const SelectorChooser = () => {
             </td>
             <td>
               <InputLine>
-                <Label>Selector Root:</Label>
-                {getSelectorRootHtml()}
-              </InputLine>
-              <InputLine>
                 <Label>Custom Selector:</Label>
                 <Value type="text" value={generatedSelector} size={100}></Value>
                 <input
@@ -219,6 +217,10 @@ const SelectorChooser = () => {
                     dispatch({ type: "USE_AS_ROOT" });
                   }}
                 ></input>
+              </InputLine>
+              <InputLine>
+                <Label>Selector Root:</Label>
+                {getSelectorRootHtml()}
               </InputLine>
             </td>
           </tr>
