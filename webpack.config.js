@@ -1,11 +1,10 @@
 const path = require("path");
-const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   devtool: "source-map",
   entry: {
-    "static/js/popup": "./src/popup.js",
     "static/js/background/background": "./src/background/background.js",
     "static/js/content": "./src/content/content.js",
   },
@@ -35,17 +34,12 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ["to-string-loader", MiniCssExtractPlugin.loader, "css-loader"],
-        //use: ["style-loader", "css-loader"]
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
     ],
   },
   plugins: [
-    new HtmlWebPackPlugin({
-      template: "./src/popup.html",
-      filename: "./popup.html",
-      chunks: ["static/js/popup"],
-    }),
+    new CopyPlugin([{ from: "public/" }]),
     new MiniCssExtractPlugin({
       filename: "[name].css",
     }),

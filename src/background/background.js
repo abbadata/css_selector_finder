@@ -1,4 +1,3 @@
-console.log("background.js started");
 chrome.browserAction.onClicked.addListener(function (tab) {
   chrome.tabs.insertCSS(null, { file: "/static/js/content.css" }, function () {
     chrome.tabs.executeScript(
