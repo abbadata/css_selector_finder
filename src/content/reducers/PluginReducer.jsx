@@ -5,6 +5,7 @@ import {
   markTempSelector,
   unmarkTempSelector,
   verifySelector,
+  copyTextToClipboard,
 } from "../lib/SelectorUtils";
 
 const initialState = {
@@ -642,6 +643,19 @@ export default function (state = initialState, action) {
         selectionState: {
           ...state.selectionState,
           generatedSelector: selector,
+        },
+      };
+    }
+    case "COPY_SELECTOR_TO_CLIPBOARD": {
+      copyTextToClipboard(state.selectionState.generatedSelector);
+      return state;
+    }
+    case "USE_AS_SELECTOR_ROOT": {
+      return {
+        ...state,
+        selectionState: {
+          ...state.selectionState,
+          selectorRoot: state.selectionState.generatedSelector,
         },
       };
     }

@@ -95,11 +95,21 @@ const FieldSelectionRoot = () => {
       <Header>Selector Root</Header>
       {getSelectorRootHtml()}
       <Header>Selectors</Header>
-      <TextChooser
-        text="Selector"
-        value={generatedSelector}
-        onClick={() => {}}
-      ></TextChooser>
+      <TextChooser value={generatedSelector} onClick={() => {}}></TextChooser>
+      <input
+        type="button"
+        value="Copy to Clipboard"
+        onClick={() => {
+          dispatch({ type: "COPY_SELECTOR_TO_CLIPBOARD" });
+        }}
+      ></input>
+      <input
+        type="button"
+        value="Use as Selector Root"
+        onClick={() => {
+          dispatch({ type: "USE_AS_SELECTOR_ROOT" });
+        }}
+      ></input>
     </div>
   );
 };

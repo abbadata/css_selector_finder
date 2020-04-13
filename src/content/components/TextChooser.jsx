@@ -26,13 +26,18 @@ const ChooserValue = styled.input`
   background-color: #ddd;
 `;
 
-// props.text - the text prompt
-// props.value - the value field
-// props.selectfunc - function called when the select button is pressed
 const TextChooser = ({ text, value, selectfunc }) => {
+  function getChooserTextHtml() {
+    if (text) {
+      return <ChooserText onClick={() => selectfunc()}>{text}</ChooserText>;
+    } else {
+      return "";
+    }
+  }
+
   return (
     <Chooser>
-      <ChooserText onClick={() => selectfunc()}>{text}</ChooserText>
+      {getChooserTextHtml()}
       <ChooserValue type="text" value={value} readOnly />
     </Chooser>
   );

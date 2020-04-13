@@ -212,9 +212,16 @@ const SelectorChooser = () => {
                 <Value type="text" value={generatedSelector} size={100}></Value>
                 <input
                   type="button"
-                  value="Use As Root"
+                  value="Copy to Clipboard"
                   onClick={() => {
-                    dispatch({ type: "USE_AS_ROOT" });
+                    dispatch({ type: "COPY_SELECTOR_TO_CLIPBOARD" });
+                  }}
+                ></input>
+                <input
+                  type="button"
+                  value="Use As Selector Root"
+                  onClick={() => {
+                    dispatch({ type: "USE_AS_SELECTOR_ROOT" });
                   }}
                 ></input>
               </InputLine>
