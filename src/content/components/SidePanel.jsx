@@ -28,12 +28,6 @@ const Header = styled.div`
   font-size: 150%;
 `;
 
-const Status = styled.div`
-  width: 100%;
-  color: red;
-  padding: 5px;
-`;
-
 const MoveRightArrow = styled.div`
   position: absolute;
   top: 0;
@@ -156,17 +150,10 @@ const SidePanel = ({ handleExit }) => {
     }
   }
 
-  function getErrorMessageHtml() {
-    if (errorMessage !== "") {
-      return <Status>{errorMessage}</Status>;
-    }
-    return "";
-  }
   return (
     <FieldOptions ref={panelRef}>
       {getMovePanel()}
       <Header>ABBA Data Selector Finder</Header>
-      {getErrorMessageHtml()}
       {getFieldOptionsHtml()}
       <CenteredDiv>
         <ExitButton

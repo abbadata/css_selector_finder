@@ -38,11 +38,6 @@ const DisabledValue = styled.input`
   background-color: #bbb;
   border-width: 2px;
 `;
-const Status = styled.div`
-  width: 100%;
-  color: red;
-  padding: 2px;
-`;
 
 const Center = styled.div`
   text-align: left;
@@ -70,7 +65,7 @@ const GenButton = styled.a`
   color: #ffffff;
   font-family: Arial;
   font-size: 19px;
-  padding: 12px 37px;
+  padding: 7px 32px;
   text-decoration: none;
   text-shadow: 0px 1px 0px #283966;
   margin-left: 10px;
@@ -129,13 +124,6 @@ const SelectorChooser = () => {
     (state) => state.PluginReducer.finderState.errorMessage
   );
   const dispatch = useDispatch();
-
-  function getErrorMessageHtml() {
-    if (errorMessage !== "") {
-      return <Status>{errorMessage}</Status>;
-    }
-    return "";
-  }
 
   function getSelectorRootHtml() {
     if (selectorRootEditMode) {
@@ -203,7 +191,7 @@ const SelectorChooser = () => {
               <GenButton
                 onClick={() => dispatch({ type: "GENERATE_SELECTOR" })}
               >
-                Regenerate
+                Generate
               </GenButton>
             </td>
             <td>
@@ -380,9 +368,6 @@ const SelectorChooser = () => {
           </tr>
         </tbody>
       </CustTable>
-
-      <br></br>
-      {getErrorMessageHtml()}
     </div>
   );
 };

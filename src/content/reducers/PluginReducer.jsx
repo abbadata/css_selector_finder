@@ -13,6 +13,7 @@ const initialState = {
   finderState: {
     enabled: false,
   },
+  consoleMessages: [{ time: new Date(), message: "This is a test", type: 0 }],
   errorMessage: "this is an error",
   selectionState: {
     lastClickedElement: null,
@@ -180,11 +181,24 @@ export default function (state = initialState, action) {
           try {
             selector = getSelector(element, options);
           } catch (error) {
+            let newConsoleMessages = JSON.parse(
+              JSON.stringify(state.consoleMessages)
+            );
+            newConsoleMessages.push({
+              time: new Date(),
+              message: "Unable to find selector",
+              type: 1,
+            });
+
             return {
               ...state,
+              consoleMessages: newConsoleMessages,
               finderState: {
                 ...state.finderState,
-                errorMessage: "Unable to find selector.",
+              },
+              finderUi: {
+                ...state.finderUi,
+                bottomTabIndex: 4,
               },
               selectionState: {
                 ...state.selectionState,
@@ -414,10 +428,22 @@ export default function (state = initialState, action) {
       {
         // should verify that the selector is valid before we save it
         let tempSelectorRoot = state.selectionState.tempSelectorRoot;
+        let newConsoleMessages = JSON.parse(
+          JSON.stringify(state.consoleMessages)
+        );
+        newConsoleMessages.push({
+          time: new Date(),
+          message: "Bad selector: " + tempSelectorRoot,
+          type: 1,
+        });
         if (!verifySelector(tempSelectorRoot)) {
           return {
             ...state,
-            errorMessage: "Bad selector: " + tempSelectorRoot,
+            consoleMessages: newConsoleMessages,
+            finderUi: {
+              ...state.finderUi,
+              bottomTabIndex: 4,
+            },
           };
         }
         return {
@@ -621,11 +647,25 @@ export default function (state = initialState, action) {
           options
         );
       } catch (error) {
+        let newConsoleMessages = JSON.parse(
+          JSON.stringify(state.consoleMessages)
+        );
+        newConsoleMessages.push({
+          time: new Date(),
+          message: "Unable to find selector",
+          type: 1,
+        });
+
         return {
           ...state,
+          consoleMessages: newConsoleMessages,
           finderState: {
             ...state.finderState,
             errorMessage: "Unable to find selector.",
+          },
+          finderUi: {
+            ...state.finderUi,
+            bottomTabIndex: 4,
           },
           selectionState: {
             ...state.selectionState,
@@ -668,6 +708,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         selectorFinderEnabled: false,
+        consoleMessages: [],
         finderState: {
           ...state.finderState,
           errorMessage: "",

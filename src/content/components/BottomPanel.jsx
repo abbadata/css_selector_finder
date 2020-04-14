@@ -6,6 +6,7 @@ import styled from "styled-components";
 var escapeHtml = require("escape-html");
 import SelectorTester from "./SelectorTester";
 import SelectorChooser from "./SelectorChooser";
+import Console from "./Console";
 
 const FieldInfo = styled.div`
   z-index: 2147483647;
@@ -147,6 +148,7 @@ const BottomPanel = () => {
           <Tab>HTML</Tab>
           <Tab>Custom Selector</Tab>
           <Tab>Test Selector</Tab>
+          <Tab>Output</Tab>
         </TabList>
         <TabPanel>
           <ul>
@@ -180,6 +182,11 @@ const BottomPanel = () => {
         </TabPanel>
         <TabPanel>
           <SelectorTester></SelectorTester>
+        </TabPanel>
+        <TabPanel>
+          <SubPanel>
+            <Console></Console>
+          </SubPanel>
         </TabPanel>
       </Tabs>
     </FieldInfo>
