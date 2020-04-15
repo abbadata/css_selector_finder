@@ -10,17 +10,6 @@ const Header = styled.div`
   margin-top: 5px;
   font-weight: bold;
 `;
-const Button = styled.div`
-  display: inline;
-  color: black;
-  border: 1px solid #ccc;
-  background: #fff;
-  box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2);
-  padding: 2px;
-  padding-right: 5px;
-  text-align: left;
-  flex-grow: 0;
-`;
 
 const FieldSelectionRoot = () => {
   const selectorRoot = useSelector(
@@ -32,9 +21,7 @@ const FieldSelectionRoot = () => {
   const selectorRootEditMode = useSelector(
     (state) => state.PluginReducer.selectionState.selectorRootEditMode
   );
-  const generatedSelector = useSelector(
-    (state) => state.PluginReducer.selectionState.generatedSelector
-  );
+
   const dispatch = useDispatch();
 
   function getSelectorRootHtml() {
@@ -94,22 +81,6 @@ const FieldSelectionRoot = () => {
     <div>
       <Header>Selector Root</Header>
       {getSelectorRootHtml()}
-      <Header>Selectors</Header>
-      <TextChooser value={generatedSelector} onClick={() => {}}></TextChooser>
-      <input
-        type="button"
-        value="Copy to Clipboard"
-        onClick={() => {
-          dispatch({ type: "COPY_SELECTOR_TO_CLIPBOARD" });
-        }}
-      ></input>
-      <input
-        type="button"
-        value="Use as Selector Root"
-        onClick={() => {
-          dispatch({ type: "USE_AS_SELECTOR_ROOT" });
-        }}
-      ></input>
     </div>
   );
 };

@@ -5,6 +5,7 @@ import styled from "styled-components";
 import FieldSummary from "./FieldSummary";
 import FieldSelectionPicker from "./FieldSelectionPicker";
 import FieldSelectionRoot from "./FieldSelectionRoot";
+import FieldSelector from "./FieldSelector";
 
 const FieldOptions = styled.div`
   display: flex;
@@ -55,7 +56,7 @@ const MoveLeftArrow = styled.div`
 `;
 
 const CenteredDiv = styled.div`
-  margin-top: 100px;
+  margin-top: 50px;
   text-align: center;
   width: 100%;
 `;
@@ -140,6 +141,7 @@ const SidePanel = ({ handleExit }) => {
       console.log("SelectedElements: ", selectedElements);
       return (
         <div>
+          <FieldSelector></FieldSelector>
           <FieldSummary selectedElements={selectedElements}></FieldSummary>
           <FieldSelectionRoot></FieldSelectionRoot>
           <FieldSelectionPicker></FieldSelectionPicker>

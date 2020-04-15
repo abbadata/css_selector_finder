@@ -24,7 +24,6 @@ const Console = ({ consoleDivRef }) => {
     consoleDivRef.current.scrollTop = consoleDivRef.current.scrollHeight;
   });
 
-  console.log("CONSOLE: ", consoleMessages);
   let msgs = consoleMessages.map((item, key) => {
     let dt = new Date(item.time);
     let dtString = dt.toLocaleDateString() + " " + dt.toLocaleTimeString();
