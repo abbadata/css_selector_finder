@@ -35,7 +35,7 @@ const AddButton = styled.div`
   display: inline;
   color: white;
   border: 1px solid #ccc;
-  background: #007aa3;
+  background: #7892c2;
   box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2);
   padding-left: 2px;
   padding-right: 2px;

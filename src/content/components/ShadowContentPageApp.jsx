@@ -82,7 +82,7 @@ const ShadowContentPageApp = () => {
   }
   .rc-checkbox:hover .rc-checkbox-inner,
   .rc-checkbox-input:focus + .rc-checkbox-inner {
-    border-color: #3dbcf6;
+    border-color: #7892c2;
   }
   .rc-checkbox-inner {
     position: relative;
@@ -127,11 +127,11 @@ const ShadowContentPageApp = () => {
   }
   /* Checked state */
   .rc-checkbox-checked:hover .rc-checkbox-inner {
-    border-color: #3dbcf6;
+    border-color: #7892c2;
   }
   .rc-checkbox-checked .rc-checkbox-inner {
-    border-color: #3dbcf6;
-    background-color: #3dbcf6;
+    border-color: #7892c2;
+    background-color: #7892c2;
   }
   .rc-checkbox-checked .rc-checkbox-inner:after {
     transform: rotate(45deg);
@@ -151,7 +151,7 @@ const ShadowContentPageApp = () => {
   }
   @media print {
     .rc-checkbox-checked .rc-checkbox-inner {
-      box-shadow: inset 0 0 0 16px #3dbcf6;
+      box-shadow: inset 0 0 0 16px #7892c2;
     }
   }
   .rc-checkbox-disabled.rc-checkbox-checked:hover .rc-checkbox-inner {

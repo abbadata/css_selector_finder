@@ -11,15 +11,26 @@ const InputLine = styled.div`
 const Label = styled.div`
   display: inline-block;
   color: white;
-  border: 1px solid #ccc;
+  border: 1px solid #7892c2;
   /*background: black;*/
-  background-color: #333;
+  background-color: #7892c2;
   /*box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2); */
   padding: 2px;
   padding-right: 5px;
   text-align: left;
   flex-grow: 0;
 `;
+
+const RootLabel = styled.div`
+  display: inline-block;
+  color: black;
+  padding: 2px;
+  padding-right: 5px;
+  padding-left: 15px;
+  text-align: left;
+  flex-grow: 0;
+`;
+
 const Value = styled.input`
   display: inline;
   padding: 2px;
@@ -214,7 +225,7 @@ const SelectorChooser = () => {
                 ></input>
               </InputLine>
               <InputLine>
-                <Label>Selector Root:</Label>
+                <RootLabel>Selector Root:</RootLabel>
                 {getSelectorRootHtml()}
               </InputLine>
             </td>

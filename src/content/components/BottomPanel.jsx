@@ -68,6 +68,7 @@ const BottomPanel = () => {
   );
   const dispatch = useDispatch();
   const panelRef = useRef();
+  const consoleRef = useRef();
 
   function getMovePanel() {
     if (horizPanelPosition === "bottom") {
@@ -146,9 +147,9 @@ const BottomPanel = () => {
         <TabList>
           <Tab>Info</Tab>
           <Tab>HTML</Tab>
-          <Tab>Custom Selector</Tab>
+          <Tab>Custom Selectors</Tab>
           <Tab>Test Selector</Tab>
-          <Tab>Output</Tab>
+          <Tab>Console</Tab>
         </TabList>
         <TabPanel>
           <ul>
@@ -184,8 +185,8 @@ const BottomPanel = () => {
           <SelectorTester></SelectorTester>
         </TabPanel>
         <TabPanel>
-          <SubPanel>
-            <Console></Console>
+          <SubPanel ref={consoleRef}>
+            <Console consoleDivRef={consoleRef}></Console>
           </SubPanel>
         </TabPanel>
       </Tabs>

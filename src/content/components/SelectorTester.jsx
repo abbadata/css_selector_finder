@@ -8,8 +8,8 @@ const Tester = styled.div`
 const Label = styled.div`
   display: inline-block;
   color: white;
-  border: 1px solid #ccc;
-  background: black;
+  border: 1px solid #7892c2;
+  background: #7892c2;
   box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2);
   padding: 2px;
   padding-right: 5px;
@@ -27,11 +27,12 @@ const Value = styled.input`
 const TestButton = styled.div`
   display: inline;
   color: white;
-  border: 1px solid #ccc;
-  background: #007aa3;
+  border: 1px solid #7892c2;
+  background: #7892c2;
   box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2);
   padding: 2px;
   padding-right: 5px;
+  margin-left: 2px;
   text-align: left;
   flex-grow: 0;
 `;

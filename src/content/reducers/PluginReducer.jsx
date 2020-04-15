@@ -13,7 +13,7 @@ const initialState = {
   finderState: {
     enabled: false,
   },
-  consoleMessages: [{ time: new Date(), message: "This is a test", type: 0 }],
+  consoleMessages: [],
   errorMessage: "this is an error",
   selectionState: {
     lastClickedElement: null,
@@ -697,6 +697,12 @@ export default function (state = initialState, action) {
           ...state.selectionState,
           selectorRoot: state.selectionState.generatedSelector,
         },
+      };
+    }
+    case "CLEAR_CONSOLE": {
+      return {
+        ...state,
+        consoleMessages: [],
       };
     }
     case "EXIT_APPLICATION": {
