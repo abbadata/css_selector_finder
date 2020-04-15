@@ -23,8 +23,8 @@ const FieldOptions = styled.div`
 
 const Header = styled.div`
   width: 100%;
-  background-color: gray;
-  color: white;
+  background-color: white;
+  color: black;
   font-weight: bold;
   font-size: 150%;
 `;
@@ -155,7 +155,7 @@ const SidePanel = ({ handleExit }) => {
   return (
     <FieldOptions ref={panelRef}>
       {getMovePanel()}
-      <Header>ABBA Data Selector Finder</Header>
+      <Header>ABBAdata Selector Spy</Header>
       {getFieldOptionsHtml()}
       <CenteredDiv>
         <ExitButton

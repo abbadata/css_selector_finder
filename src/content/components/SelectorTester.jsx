@@ -47,10 +47,12 @@ const SelectorTester = () => {
   const dispatch = useDispatch();
 
   function getSelectorInfo() {
-    if (tempSelectedElements.length > 0) {
-      return <div>{tempSelectedElements.length} elements selected.</div>;
-    } else {
-      return <div></div>;
+    if (tempSelectedElements !== null) {
+      if (tempSelectedElements.length > 0) {
+        return <div>{tempSelectedElements.length} elements selected.</div>;
+      } else {
+        return <div>No elements selected.</div>;
+      }
     }
   }
 

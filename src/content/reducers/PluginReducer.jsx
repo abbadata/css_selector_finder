@@ -22,11 +22,7 @@ const initialState = {
     generatedSelector: "",
     /* These are used for the Selector Test ui */
     tempSelector: "",
-    tempSelectedElements: [
-      /*
-        { element: "" }
-        */
-    ],
+    tempSelectedElements: null,
     tempSelectorRoot: "" /* Used for edit mode */,
     selectorRootEditMode: false,
   },
@@ -509,7 +505,7 @@ export default function (state = initialState, action) {
           ...state,
           selectionState: {
             ...state.selectionState,
-            tempSelectedElements: [],
+            tempSelectedElements: null,
           },
         };
       }
@@ -542,15 +538,23 @@ export default function (state = initialState, action) {
       };
     }
     case "ADD_FINDER_ID_FILTER": {
-      let filter = state.finderState.idFilter.slice();
-      filter.push(action.payload.value);
-      return {
-        ...state,
-        finderState: {
-          ...state.finderState,
-          idFilter: filter,
-        },
-      };
+      if (
+        state.finderState.idFilter.every((entry) => {
+          return entry !== action.payload.value;
+        })
+      ) {
+        let filter = state.finderState.idFilter.slice();
+        filter.push(action.payload.value);
+        return {
+          ...state,
+          finderState: {
+            ...state.finderState,
+            idFilter: filter,
+          },
+        };
+      } else {
+        return state;
+      }
     }
     case "DELETE_FINDER_ID_FILTER": {
       let filter = state.finderState.idFilter.filter((e) => {
@@ -565,15 +569,23 @@ export default function (state = initialState, action) {
       };
     }
     case "ADD_FINDER_CLASS_FILTER": {
-      let filter = state.finderState.classFilter.slice();
-      filter.push(action.payload.value);
-      return {
-        ...state,
-        finderState: {
-          ...state.finderState,
-          classFilter: filter,
-        },
-      };
+      if (
+        state.finderState.classFilter.every((entry) => {
+          return entry !== action.payload.value;
+        })
+      ) {
+        let filter = state.finderState.classFilter.slice();
+        filter.push(action.payload.value);
+        return {
+          ...state,
+          finderState: {
+            ...state.finderState,
+            classFilter: filter,
+          },
+        };
+      } else {
+        return state;
+      }
     }
     case "DELETE_FINDER_CLASS_FILTER": {
       let filter = state.finderState.classFilter.filter((e) => {
@@ -588,15 +600,23 @@ export default function (state = initialState, action) {
       };
     }
     case "ADD_FINDER_TAG_FILTER": {
-      let filter = state.finderState.tagFilter.slice();
-      filter.push(action.payload.value);
-      return {
-        ...state,
-        finderState: {
-          ...state.finderState,
-          tagFilter: filter,
-        },
-      };
+      if (
+        state.finderState.tagFilter.every((entry) => {
+          return entry !== action.payload.value;
+        })
+      ) {
+        let filter = state.finderState.tagFilter.slice();
+        filter.push(action.payload.value);
+        return {
+          ...state,
+          finderState: {
+            ...state.finderState,
+            tagFilter: filter,
+          },
+        };
+      } else {
+        return state;
+      }
     }
     case "DELETE_FINDER_TAG_FILTER": {
       let filter = state.finderState.tagFilter.filter((e) => {

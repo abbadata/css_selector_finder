@@ -131,9 +131,6 @@ const SelectorChooser = () => {
   const optimizedMinLength = useSelector(
     (state) => state.PluginReducer.finderState.optimizedMinLength
   );
-  const errorMessage = useSelector(
-    (state) => state.PluginReducer.finderState.errorMessage
-  );
   const dispatch = useDispatch();
 
   function getSelectorRootHtml() {

@@ -52,9 +52,11 @@ export const markTempSelector = (selector) => {
 };
 
 export const unmarkTempSelector = (selectedList) => {
-  selectedList.forEach((item) => {
-    item.element.classList.remove("abba-temp-selected-element");
-  });
+  if (selectedList !== null) {
+    selectedList.forEach((item) => {
+      item.element.classList.remove("abba-temp-selected-element");
+    });
+  }
 };
 
 export const verifySelector = (selector) => {

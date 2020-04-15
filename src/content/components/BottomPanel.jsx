@@ -94,11 +94,14 @@ const BottomPanel = () => {
 
   function getHtmlPanel() {
     if (selectedElements.length > 0) {
+      let html = selectedElements[0].html
+        .trim()
+        .replace(/\s?(abba-selected-element|abba-mouseover-element)\s?/g, "");
       return (
         <div
           style={{ whiteSpace: "pre-wrap" }}
           dangerouslySetInnerHTML={{
-            __html: escapeHtml(formatXml(selectedElements[0].html.trim())),
+            __html: escapeHtml(formatXml(html)),
           }}
         ></div>
       );
