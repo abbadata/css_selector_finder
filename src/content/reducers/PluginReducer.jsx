@@ -6,7 +6,9 @@ import {
   unmarkTempSelector,
   verifySelector,
   copyTextToClipboard,
+  getSelectorGenerationOptions,
 } from "../lib/SelectorUtils";
+import * as Types from "../Types";
 
 const initialState = {
   selectorFinderEnabled: true,
@@ -41,7 +43,7 @@ const initialState = {
     vertPanelPosition: "right",
     horizPanelPosition: "bottom",
     vertPanelDiv: null,
-    bottomTabIndex: 0,
+    bottomTabIndex: Types.TAB_INDEX_INFO,
   },
   selectedElements: [
     /*
@@ -55,6 +57,33 @@ const initialState = {
   */
   ],
 };
+function selectorGenerationErrorState(state, element, errorMessage) {
+  let newSE = state.selectedElements;
+  if (element !== null) {
+    newSE = addElement(element, [], state.selectionState.selectorRoot);
+  }
+  return {
+    ...state,
+    consoleMessages: [
+      ...state.consoleMessages,
+      {
+        time: new Date(),
+        message: errorMessage,
+        type: Types.CONSOLE_MSG_ERROR,
+      },
+    ],
+    finderUi: {
+      ...state.finderUi,
+      bottomTabIndex: Types.TAB_INDEX_CONSOLE,
+    },
+    selectionState: {
+      ...state.selectionState,
+      lastClickedElement: element,
+      generatedSelector: "",
+    },
+    selectedElements: newSE,
+  };
+}
 
 export default function (state = initialState, action) {
   switch (action.type) {
@@ -124,7 +153,7 @@ export default function (state = initialState, action) {
             ...state,
             finderUi: {
               ...state.finderUi,
-              bottomTabIndex: 2,
+              bottomTabIndex: Types.TAB_INDEX_CUSTOM_SELECTORS,
             },
             selectionState: {
               ...state.selectionState,
@@ -144,16 +173,6 @@ export default function (state = initialState, action) {
           el.classList.remove("abba-selected-element");
         });
 
-        const options = {
-          root: state.selectionState.selectorRoot,
-          isIdEnabled: state.finderState.isIdEnabled,
-          isClassEnabled: state.finderState.isClassEnabled,
-          isTagEnabled: state.finderState.isTagEnabled,
-          idFilter: state.finderState.idFilter,
-          classFilter: state.finderState.classFilter,
-          tagFilter: state.finderState.tagFilter,
-        };
-
         // We only toggle if a single element is selected and we click on it
         if (
           state.selectedElements.length === 1 &&
@@ -166,45 +185,24 @@ export default function (state = initialState, action) {
         } else {
           element.classList.add("abba-selected-element");
           element.classList.remove("abba-mouseover-element");
-          // Compute these
+
+          let selector = "";
+          try {
+            const options = getSelectorGenerationOptions(state);
+            selector = getSelector(element, options);
+          } catch (error) {
+            return selectorGenerationErrorState(
+              state,
+              element,
+              "Unable to find selector"
+            );
+          }
+
           let newSE = addElement(
             element,
             [],
             state.selectionState.selectorRoot
           );
-
-          let selector = "";
-          try {
-            selector = getSelector(element, options);
-          } catch (error) {
-            let newConsoleMessages = JSON.parse(
-              JSON.stringify(state.consoleMessages)
-            );
-            newConsoleMessages.push({
-              time: new Date(),
-              message: "Unable to find selector",
-              type: 1,
-            });
-
-            return {
-              ...state,
-              consoleMessages: newConsoleMessages,
-              finderState: {
-                ...state.finderState,
-              },
-              finderUi: {
-                ...state.finderUi,
-                bottomTabIndex: 4,
-              },
-              selectionState: {
-                ...state.selectionState,
-                lastClickedElement: element,
-                generatedSelector: "",
-              },
-              selectedElements: newSE,
-            };
-          }
-
           return {
             ...state,
             selectionState: {
@@ -273,7 +271,20 @@ export default function (state = initialState, action) {
         if (state.selectionState.lastClickedElement) {
           let element = state.selectionState.lastClickedElement;
           let newelement = element.parentElement;
+          let selector = "";
           if (newelement) {
+            try {
+              const options = getSelectorGenerationOptions(state);
+              selector = getSelector(newelement, options);
+            } catch (error) {
+              console.log("ERROR: ", error);
+              return selectorGenerationErrorState(
+                state,
+                newelement,
+                "Unable to generate selector."
+              );
+            }
+
             element.classList.remove("abba-selected-element");
             newelement.classList.add("abba-selected-element");
             let { selectedElements, alreadyExists } = removeElement(
@@ -291,8 +302,25 @@ export default function (state = initialState, action) {
               selectionState: {
                 ...state.selectionState,
                 lastClickedElement: newelement,
+                generatedSelector: selector,
               },
               selectedElements: newSE,
+            };
+          } else {
+            return {
+              ...state,
+              finderUi: {
+                ...state.finderUi,
+                bottomTabIndex: Types.TAB_INDEX_CONSOLE,
+              },
+              consoleMessages: [
+                ...state.consoleMessages,
+                {
+                  time: new Date(),
+                  message: "Element has no parent",
+                  type: Types.CONSOLE_MSG_ERROR,
+                },
+              ],
             };
           }
         }
@@ -304,7 +332,19 @@ export default function (state = initialState, action) {
         if (state.selectionState.lastClickedElement) {
           let element = state.selectionState.lastClickedElement;
           let newelement = element.firstElementChild;
+          let selector = "";
           if (newelement) {
+            try {
+              const options = getSelectorGenerationOptions(state);
+              selector = getSelector(newelement, options);
+            } catch (error) {
+              return selectorGenerationErrorState(
+                state,
+                newelement,
+                "Unable to generate selector."
+              );
+            }
+
             element.classList.remove("abba-selected-element");
             newelement.classList.add("abba-selected-element");
             let { selectedElements, alreadyExists } = removeElement(
@@ -322,8 +362,21 @@ export default function (state = initialState, action) {
               selectionState: {
                 ...state.selectionState,
                 lastClickedElement: newelement,
+                generatedSelector: selector,
               },
               selectedElements: newSE,
+            };
+          } else {
+            return {
+              ...state,
+              finderUi: {
+                ...state.finderUi,
+                bottomTabIndex: Types.TAB_INDEX_CONSOLE,
+              },
+              consoleMessages: [
+                ...state.consoleMessages,
+                { time: new Date(), message: "Element has no child", type: 1 },
+              ],
             };
           }
         }
@@ -335,7 +388,19 @@ export default function (state = initialState, action) {
         if (state.selectionState.lastClickedElement) {
           let element = state.selectionState.lastClickedElement;
           let newelement = element.nextElementSibling;
+          let selector = "";
           if (newelement) {
+            try {
+              const options = getSelectorGenerationOptions(state);
+              selector = getSelector(newelement, options);
+            } catch (error) {
+              return selectorGenerationErrorState(
+                state,
+                newelement,
+                "Unable to generate selector."
+              );
+            }
+
             element.classList.remove("abba-selected-element");
             newelement.classList.add("abba-selected-element");
             let { selectedElements, alreadyExists } = removeElement(
@@ -347,14 +412,31 @@ export default function (state = initialState, action) {
               selectedElements,
               state.selectionState.selectorRoot
             );
-
+            // generate selector
             return {
               ...state,
               selectionState: {
                 ...state.selectionState,
                 lastClickedElement: newelement,
+                generatedSelector: selector,
               },
               selectedElements: newSE,
+            };
+          } else {
+            return {
+              ...state,
+              finderUi: {
+                ...state.finderUi,
+                bottomTabIndex: Types.TAB_INDEX_CONSOLE,
+              },
+              consoleMessages: [
+                ...state.consoleMessages,
+                {
+                  time: new Date(),
+                  message: "Element has no next sibling",
+                  type: 1,
+                },
+              ],
             };
           }
         }
@@ -366,7 +448,19 @@ export default function (state = initialState, action) {
         if (state.selectionState.lastClickedElement) {
           let element = state.selectionState.lastClickedElement;
           let newelement = element.previousElementSibling;
+          let selector = "";
           if (newelement) {
+            try {
+              const options = getSelectorGenerationOptions(state);
+              selector = getSelector(newelement, options);
+            } catch (error) {
+              return selectorGenerationErrorState(
+                state,
+                newelement,
+                "Unable to generate selector."
+              );
+            }
+
             element.classList.remove("abba-selected-element");
             newelement.classList.add("abba-selected-element");
             let { selectedElements, alreadyExists } = removeElement(
@@ -384,8 +478,25 @@ export default function (state = initialState, action) {
               selectionState: {
                 ...state.selectionState,
                 lastClickedElement: newelement,
+                generatedSelector: selector,
               },
               selectedElements: newSE,
+            };
+          } else {
+            return {
+              ...state,
+              finderUi: {
+                ...state.finderUi,
+                bottomTabIndex: Types.TAB_INDEX_CONSOLE,
+              },
+              consoleMessages: [
+                ...state.consoleMessages,
+                {
+                  time: new Date(),
+                  message: "Element has no previous sibling",
+                  type: 1,
+                },
+              ],
             };
           }
         }
@@ -438,7 +549,7 @@ export default function (state = initialState, action) {
             consoleMessages: newConsoleMessages,
             finderUi: {
               ...state.finderUi,
-              bottomTabIndex: 4,
+              bottomTabIndex: Types.TAB_INDEX_CONSOLE,
             },
           };
         }
@@ -538,13 +649,15 @@ export default function (state = initialState, action) {
       };
     }
     case "ADD_FINDER_ID_FILTER": {
+      let value = action.payload.value.trim();
       if (
+        value !== "" &&
         state.finderState.idFilter.every((entry) => {
-          return entry !== action.payload.value;
+          return entry !== value;
         })
       ) {
         let filter = state.finderState.idFilter.slice();
-        filter.push(action.payload.value);
+        filter.push(value);
         return {
           ...state,
           finderState: {
@@ -569,13 +682,15 @@ export default function (state = initialState, action) {
       };
     }
     case "ADD_FINDER_CLASS_FILTER": {
+      let value = action.payload.value.trim();
       if (
+        value !== "" &&
         state.finderState.classFilter.every((entry) => {
-          return entry !== action.payload.value;
+          return entry !== value;
         })
       ) {
         let filter = state.finderState.classFilter.slice();
-        filter.push(action.payload.value);
+        filter.push(value);
         return {
           ...state,
           finderState: {
@@ -600,13 +715,15 @@ export default function (state = initialState, action) {
       };
     }
     case "ADD_FINDER_TAG_FILTER": {
+      let value = action.payload.value.trim();
       if (
+        value !== "" &&
         state.finderState.tagFilter.every((entry) => {
-          return entry !== action.payload.value;
+          return entry !== value;
         })
       ) {
         let filter = state.finderState.tagFilter.slice();
-        filter.push(action.payload.value);
+        filter.push(value);
         return {
           ...state,
           finderState: {
@@ -662,36 +779,17 @@ export default function (state = initialState, action) {
       };
       let selector = "";
       try {
+        const options = getSelectorGenerationOptions(state);
         selector = getSelector(
           state.selectionState.lastClickedElement,
           options
         );
       } catch (error) {
-        let newConsoleMessages = JSON.parse(
-          JSON.stringify(state.consoleMessages)
+        return selectorGenerationErrorState(
+          state,
+          null,
+          "Unable to find selector."
         );
-        newConsoleMessages.push({
-          time: new Date(),
-          message: "Unable to find selector",
-          type: 1,
-        });
-
-        return {
-          ...state,
-          consoleMessages: newConsoleMessages,
-          finderState: {
-            ...state.finderState,
-            errorMessage: "Unable to find selector.",
-          },
-          finderUi: {
-            ...state.finderUi,
-            bottomTabIndex: 4,
-          },
-          selectionState: {
-            ...state.selectionState,
-            generatedSelector: "",
-          },
-        };
       }
 
       return {

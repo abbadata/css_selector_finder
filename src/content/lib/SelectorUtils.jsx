@@ -1,6 +1,8 @@
 import finder from "@medv/finder";
 
 export const getSelector = (elem, options) => {
+  console.log("getSelector Elem: ", elem);
+  console.log("getSelector: ", options);
   let rootelem = document.body;
   if (options.root) {
     rootelem = document.querySelector(options.root);
@@ -75,4 +77,16 @@ export const copyTextToClipboard = (text) => {
   dummy.select();
   document.execCommand("copy");
   document.body.removeChild(dummy);
+};
+
+export const getSelectorGenerationOptions = (state) => {
+  return {
+    root: state.selectionState.selectorRoot,
+    isIdEnabled: state.finderState.isIdEnabled,
+    isClassEnabled: state.finderState.isClassEnabled,
+    isTagEnabled: state.finderState.isTagEnabled,
+    idFilter: state.finderState.idFilter,
+    classFilter: state.finderState.classFilter,
+    tagFilter: state.finderState.tagFilter,
+  };
 };

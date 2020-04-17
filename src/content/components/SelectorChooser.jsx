@@ -12,9 +12,7 @@ const Label = styled.div`
   display: inline-block;
   color: white;
   border: 1px solid #7892c2;
-  /*background: black;*/
   background-color: #7892c2;
-  /*box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2); */
   padding: 2px;
   padding-right: 5px;
   text-align: left;
@@ -36,7 +34,7 @@ const Value = styled.input`
   padding: 2px;
   text-align: left;
   flex-grow: 1;
-  width: 400px;
+  width: 500px;
   background-color: #fff;
   border-width: 2px;
 `;
@@ -45,7 +43,7 @@ const DisabledValue = styled.input`
   padding: 2px;
   text-align: left;
   flex-grow: 1;
-  width: 400px;
+  width: 500px;
   background-color: #bbb;
   border-width: 2px;
 `;
@@ -205,7 +203,7 @@ const SelectorChooser = () => {
             <td>
               <InputLine>
                 <Label>Custom Selector:</Label>
-                <Value type="text" value={generatedSelector} size={100}></Value>
+                <Value type="text" value={generatedSelector} size={150}></Value>
                 <input
                   type="button"
                   value="Copy to Clipboard"

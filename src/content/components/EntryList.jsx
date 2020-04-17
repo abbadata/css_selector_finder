@@ -41,6 +41,7 @@ const AddButton = styled.div`
   padding-right: 2px;
   text-align: left;
   flex-grow: 0;
+  cursor: pointer;
 
   ${(props) =>
     !props.enabled &&
@@ -54,11 +55,12 @@ const DeleteButton = styled.div`
   display: inline;
   color: white;
   border: 1px solid #ccc;
-  background: #007aa3;
+  background: #7892c2;
   box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2);
   padding: 2px;
   text-align: left;
   width: 10rem;
+  cursor: pointer;
 `;
 
 const Value = styled.input`

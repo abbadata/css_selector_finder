@@ -35,6 +35,7 @@ const TestButton = styled.div`
   margin-left: 2px;
   text-align: left;
   flex-grow: 0;
+  cursor: pointer;
 `;
 
 const SelectorTester = () => {

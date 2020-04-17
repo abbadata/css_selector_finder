@@ -9,26 +9,57 @@ const Header = styled.div`
   margin-top: 5px;
   font-weight: bold;
 `;
+const Property = styled.div`
+  display: flex;
+`;
+const PropertyText = styled.div`
+  display: inline-block;
+  color: black;
+  border: 1px solid #ccc;
+  background: #fff;
+  box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2);
+  padding: 2px;
+  padding-right: 5px;
+  text-align: left;
+  flex-grow: 0;
+`;
+const PropertyValue = styled.input`
+  display: inline;
+  flex-grow: 0;
+  padding: 2px;
+  text-align: left;
+  flex-grow: 1;
+  background-color: #ddd;
+`;
 
 const FieldSummary = ({ selectedElements }) => {
   return (
     <div>
       <Header>Element Summary</Header>
-      <TextChooser
-        text="Tag Type"
-        value={selectedElements[0].elemtype}
-        selectfunc={() => {}}
-      ></TextChooser>
-      <TextChooser
-        text="HTML value"
-        value={selectedElements[0].html}
-        selectfunc={() => {}}
-      ></TextChooser>
-      <TextChooser
-        text="Text value"
-        value={selectedElements[0].text}
-        selectfunc={() => {}}
-      ></TextChooser>
+      <Property>
+        <PropertyText>Tag Type</PropertyText>
+        <PropertyValue
+          type="text"
+          value={selectedElements[0].elemtype}
+          readOnly
+        ></PropertyValue>
+      </Property>
+      <Property>
+        <PropertyText>HTML value</PropertyText>
+        <PropertyValue
+          type="text"
+          value={selectedElements[0].html}
+          readOnly
+        ></PropertyValue>
+      </Property>
+      <Property>
+        <PropertyText>Text value</PropertyText>
+        <PropertyValue
+          type="text"
+          value={selectedElements[0].text}
+          readOnly
+        ></PropertyValue>
+      </Property>
     </div>
   );
 };
