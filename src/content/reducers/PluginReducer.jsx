@@ -16,7 +16,6 @@ const initialState = {
     enabled: false,
   },
   consoleMessages: [],
-  errorMessage: "this is an error",
   selectionState: {
     lastClickedElement: null,
     lastMouseoverElement: null,
@@ -37,7 +36,6 @@ const initialState = {
     tagFilter: [],
     seedMinLength: 1,
     optimizedMinLength: 4,
-    errorMessage: "",
   },
   finderUi: {
     vertPanelPosition: "right",
@@ -277,7 +275,6 @@ export default function (state = initialState, action) {
               const options = getSelectorGenerationOptions(state);
               selector = getSelector(newelement, options);
             } catch (error) {
-              console.log("ERROR: ", error);
               return selectorGenerationErrorState(
                 state,
                 newelement,
@@ -796,7 +793,6 @@ export default function (state = initialState, action) {
         ...state,
         finderState: {
           ...state.finderState,
-          errorMessage: "",
         },
         selectionState: {
           ...state.selectionState,
@@ -835,7 +831,6 @@ export default function (state = initialState, action) {
         consoleMessages: [],
         finderState: {
           ...state.finderState,
-          errorMessage: "",
         },
         selectionState: {
           ...state.selectionState,

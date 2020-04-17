@@ -100,7 +100,6 @@ const SidePanel = ({ handleExit }) => {
   const vertPanelDiv = useSelector(
     (state) => state.PluginReducer.finderUi.vertPanelDiv
   );
-  const errorMessage = useSelector((state) => state.PluginReducer.errorMessage);
 
   const dispatch = useDispatch();
   const panelRef = useRef();

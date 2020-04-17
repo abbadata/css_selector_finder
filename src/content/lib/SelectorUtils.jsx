@@ -1,8 +1,6 @@
 import finder from "@medv/finder";
 
 export const getSelector = (elem, options) => {
-  console.log("getSelector Elem: ", elem);
-  console.log("getSelector: ", options);
   let rootelem = document.body;
   if (options.root) {
     rootelem = document.querySelector(options.root);
