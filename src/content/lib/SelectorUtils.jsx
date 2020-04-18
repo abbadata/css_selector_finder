@@ -41,6 +41,19 @@ export const getSelector = (elem, options) => {
   return selector;
 };
 
+export const markRootSelector = (selector) => {
+  let elem = document.querySelector(selector);
+  if (elem) {
+    elem.classList.add("abba-root-element");
+  }
+};
+
+export const unmarkRootSelector = (selectorElement) => {
+  if (selectorElement) {
+    selectorElement.classList.remove("abba-root-element");
+  }
+};
+
 export const markTempSelector = (selector) => {
   let elems = document.querySelectorAll(selector);
   let selList = [];

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const MsgUl = styled.ul`
   padding-inline-start: 5px;
@@ -10,8 +10,19 @@ const Msg = styled.li`
   color: black;
 `;
 
+const ErrorMsgKeyframe = keyframes`
+  0% {
+    background-color: #EB7E91;
+  }
+  100% {
+    background-color: #fff;
+  }
+`;
+
 const ErrorMsg = styled.li`
   color: red;
+  background-color: #fff;
+  animation: ${ErrorMsgKeyframe} 2s ease-in-out 0s;
 `;
 
 const Console = ({ consoleDivRef }) => {

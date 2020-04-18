@@ -7,6 +7,8 @@ import {
   verifySelector,
   copyTextToClipboard,
   getSelectorGenerationOptions,
+  markRootSelector,
+  unmarkRootSelector,
 } from "../lib/SelectorUtils";
 import * as Types from "../Types";
 
@@ -20,6 +22,7 @@ const initialState = {
     lastClickedElement: null,
     lastMouseoverElement: null,
     selectorRoot: ":root",
+    selectorRootElement: null,
     generatedSelector: "",
     /* These are used for the Selector Test ui */
     tempSelector: "",
@@ -532,32 +535,35 @@ export default function (state = initialState, action) {
       {
         // should verify that the selector is valid before we save it
         let tempSelectorRoot = state.selectionState.tempSelectorRoot;
-        let newConsoleMessages = JSON.parse(
-          JSON.stringify(state.consoleMessages)
-        );
-        newConsoleMessages.push({
-          time: new Date(),
-          message: "Bad selector: " + tempSelectorRoot,
-          type: 1,
-        });
         if (!verifySelector(tempSelectorRoot)) {
           return {
             ...state,
-            consoleMessages: newConsoleMessages,
+            consoleMessages: [
+              ...state.consoleMessages,
+              {
+                time: new Date(),
+                message: "Bad selector: " + tempSelectorRoot,
+                type: Types.CONSOLE_MSG_ERROR,
+              },
+            ],
             finderUi: {
               ...state.finderUi,
               bottomTabIndex: Types.TAB_INDEX_CONSOLE,
             },
           };
+        } else {
+          unmarkRootSelector(state.selectionState.selectorRootElement);
+          markRootSelector(tempSelectorRoot);
+          return {
+            ...state,
+            selectionState: {
+              ...state.selectionState,
+              selectorRoot: tempSelectorRoot,
+              selectorRootElement: document.querySelector(tempSelectorRoot),
+              selectorRootEditMode: false,
+            },
+          };
         }
-        return {
-          ...state,
-          selectionState: {
-            ...state.selectionState,
-            selectorRoot: tempSelectorRoot,
-            selectorRootEditMode: false,
-          },
-        };
       }
       break;
     case "CANCEL_TEMP_SELECTOR_ROOT":
@@ -571,12 +577,14 @@ export default function (state = initialState, action) {
       };
       break;
     case "RESET_SELECTOR_ROOT":
+      unmarkRootSelector(state.selectionState.selectorRootElement);
       return {
         ...state,
         selectionState: {
           ...state.selectionState,
           selectorRootEditMode: false,
           selectorRoot: ":root",
+          selectorRootElement: null,
           tempSelectorRoot: state.selectionState.selectorRoot,
         },
       };
@@ -764,16 +772,6 @@ export default function (state = initialState, action) {
       };
     }
     case "GENERATE_SELECTOR": {
-      // Need to generate the selector based on the current settings
-      const options = {
-        root: state.selectionState.selectorRoot,
-        isIdEnabled: state.finderState.isIdEnabled,
-        isClassEnabled: state.finderState.isClassEnabled,
-        isTagEnabled: state.finderState.isTagEnabled,
-        idFilter: state.finderState.idFilter,
-        classFilter: state.finderState.classFilter,
-        tagFilter: state.finderState.tagFilter,
-      };
       let selector = "";
       try {
         const options = getSelectorGenerationOptions(state);
@@ -805,11 +803,16 @@ export default function (state = initialState, action) {
       return state;
     }
     case "USE_AS_SELECTOR_ROOT": {
+      unmarkRootSelector(state.selectionState.selectorRootElement);
+      markRootSelector(state.selectionState.generatedSelector);
       return {
         ...state,
         selectionState: {
           ...state.selectionState,
           selectorRoot: state.selectionState.generatedSelector,
+          selectorRootElement: document.querySelector(
+            state.selectionState.generatedSelector
+          ),
         },
       };
     }
@@ -824,6 +827,8 @@ export default function (state = initialState, action) {
         let el = elem.element;
         el.classList.remove("abba-selected-element");
       });
+      unmarkRootSelector(state.selectionState.selectorRootElement);
+      unmarkTempSelector(state.selectionState.tempSelectedElements);
 
       return {
         ...state,

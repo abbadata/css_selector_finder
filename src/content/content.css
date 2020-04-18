@@ -6,6 +6,10 @@
   outline: 3px dashed #1500ff !important;
   background-color: rgba(0, 184, 255, 0.5) !important;
 }
+.abba-root-element {
+  outline: 3px dashed #0fb10a !important;
+  background-color: rgb(139, 255, 168) !important;
+}
 .abba-mouseover-element {
   outline: 3px solid red !important;
 }
