@@ -88,18 +88,14 @@ const ExitButton = styled.a`
 `;
 
 const SidePanel = ({ handleExit }) => {
-  const vertPanelPosition = useSelector(
-    (state) => state.PluginReducer.finderUi.vertPanelPosition
-  );
+  const vertPanelPosition = useSelector((state) => state.ui.vertPanelPosition);
   const horizPanelPosition = useSelector(
-    (state) => state.PluginReducer.finderUi.horizPanelPosition
+    (state) => state.ui.horizPanelPosition
   );
   const selectedElements = useSelector(
     (state) => state.PluginReducer.selectedElements
   );
-  const vertPanelDiv = useSelector(
-    (state) => state.PluginReducer.finderUi.vertPanelDiv
-  );
+  const vertPanelDiv = useSelector((state) => state.ui.vertPanelDiv);
 
   const dispatch = useDispatch();
   const panelRef = useRef();

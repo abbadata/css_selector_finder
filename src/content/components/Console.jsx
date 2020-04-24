@@ -26,9 +26,7 @@ const ErrorMsg = styled.li`
 `;
 
 const Console = ({ consoleDivRef }) => {
-  const consoleMessages = useSelector(
-    (state) => state.PluginReducer.consoleMessages
-  );
+  const consoleMessages = useSelector((state) => state.global.consoleMessages);
   const dispatch = useDispatch();
 
   useEffect(() => {

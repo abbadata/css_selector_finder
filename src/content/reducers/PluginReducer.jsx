@@ -14,10 +14,6 @@ import * as Types from "../Types";
 
 const initialState = {
   selectorFinderEnabled: true,
-  finderState: {
-    enabled: false,
-  },
-  consoleMessages: [],
   selectionState: {
     lastClickedElement: null,
     lastMouseoverElement: null,
@@ -29,6 +25,7 @@ const initialState = {
     tempSelectedElements: null,
     tempSelectorRoot: "" /* Used for edit mode */,
     selectorRootEditMode: false,
+    errorMessage: "",
   },
   finderState: {
     isClassEnabled: true,
@@ -40,12 +37,14 @@ const initialState = {
     seedMinLength: 1,
     optimizedMinLength: 4,
   },
+  /*
   finderUi: {
     vertPanelPosition: "right",
     horizPanelPosition: "bottom",
     vertPanelDiv: null,
-    bottomTabIndex: Types.TAB_INDEX_INFO,
+    //bottomTabIndex: Types.TAB_INDEX_INFO,
   },
+  */
   selectedElements: [
     /*
   {
@@ -65,22 +64,11 @@ function selectorGenerationErrorState(state, element, errorMessage) {
   }
   return {
     ...state,
-    consoleMessages: [
-      ...state.consoleMessages,
-      {
-        time: new Date(),
-        message: errorMessage,
-        type: Types.CONSOLE_MSG_ERROR,
-      },
-    ],
-    finderUi: {
-      ...state.finderUi,
-      bottomTabIndex: Types.TAB_INDEX_CONSOLE,
-    },
     selectionState: {
       ...state.selectionState,
       lastClickedElement: element,
       generatedSelector: "",
+      errorMessage: errorMessage,
     },
     selectedElements: newSE,
   };
@@ -152,10 +140,12 @@ export default function (state = initialState, action) {
 
           return {
             ...state,
+            /*
             finderUi: {
               ...state.finderUi,
               bottomTabIndex: Types.TAB_INDEX_CUSTOM_SELECTORS,
             },
+            */
             selectionState: {
               ...state.selectionState,
               lastClickedElement: element,
@@ -216,6 +206,7 @@ export default function (state = initialState, action) {
         }
       }
       break;
+    /*
     case "SET_VERT_PANEL_DIV": {
       let panelElement = action.payload.element;
       console.log("SET_VERT_PANEL_DIV: ", panelElement);
@@ -227,6 +218,8 @@ export default function (state = initialState, action) {
         },
       };
     }
+    */
+    /*
     case "SET_HORIZ_PANEL_POSITION":
       let panelElement = action.payload.element;
       if (action.payload.position === "top") {
@@ -250,6 +243,8 @@ export default function (state = initialState, action) {
           horizPanelPosition: action.payload.position,
         },
       };
+      */
+    /*
     case "SET_VERT_PANEL_POSITION":
       console.log("vertElement: ", action.payload.element);
       let vertPanelElement = action.payload.element;
@@ -267,6 +262,7 @@ export default function (state = initialState, action) {
           vertPanelPosition: action.payload.position,
         },
       };
+      */
     case "CHANGE_SELECTION_TO_PARENT":
       {
         if (state.selectionState.lastClickedElement) {
@@ -309,18 +305,16 @@ export default function (state = initialState, action) {
           } else {
             return {
               ...state,
+              /*
               finderUi: {
                 ...state.finderUi,
                 bottomTabIndex: Types.TAB_INDEX_CONSOLE,
               },
-              consoleMessages: [
-                ...state.consoleMessages,
-                {
-                  time: new Date(),
-                  message: "Element has no parent",
-                  type: Types.CONSOLE_MSG_ERROR,
-                },
-              ],
+              */
+              selectionState: {
+                ...state.selectionState,
+                errorMessage: "Element has no parent",
+              },
             };
           }
         }
@@ -369,14 +363,16 @@ export default function (state = initialState, action) {
           } else {
             return {
               ...state,
+              /*
               finderUi: {
                 ...state.finderUi,
                 bottomTabIndex: Types.TAB_INDEX_CONSOLE,
               },
-              consoleMessages: [
-                ...state.consoleMessages,
-                { time: new Date(), message: "Element has no child", type: 1 },
-              ],
+              */
+              selectionState: {
+                ...state.selectionState,
+                errorMessage: "Element has no child",
+              },
             };
           }
         }
@@ -425,18 +421,16 @@ export default function (state = initialState, action) {
           } else {
             return {
               ...state,
+              /*
               finderUi: {
                 ...state.finderUi,
                 bottomTabIndex: Types.TAB_INDEX_CONSOLE,
               },
-              consoleMessages: [
-                ...state.consoleMessages,
-                {
-                  time: new Date(),
-                  message: "Element has no next sibling",
-                  type: 1,
-                },
-              ],
+              */
+              selectionState: {
+                ...state.selectionState,
+                errorMessage: "Element has no next sibling",
+              },
             };
           }
         }
@@ -485,32 +479,21 @@ export default function (state = initialState, action) {
           } else {
             return {
               ...state,
+              /*
               finderUi: {
                 ...state.finderUi,
                 bottomTabIndex: Types.TAB_INDEX_CONSOLE,
               },
-              consoleMessages: [
-                ...state.consoleMessages,
-                {
-                  time: new Date(),
-                  message: "Element has no previous sibling",
-                  type: 1,
-                },
-              ],
+              */
+              selectionState: {
+                ...state.selectionState,
+                errorMessage: "Element has no previous sibling",
+              },
             };
           }
         }
       }
       return state;
-      break;
-    case "SET_BOTTOM_TAB_INDEX":
-      return {
-        ...state,
-        finderUi: {
-          ...state.finderUi,
-          bottomTabIndex: action.payload.tabIndex,
-        },
-      };
       break;
     case "CHANGE_SELECTOR_ROOT":
       return {
@@ -538,17 +521,9 @@ export default function (state = initialState, action) {
         if (!verifySelector(tempSelectorRoot)) {
           return {
             ...state,
-            consoleMessages: [
-              ...state.consoleMessages,
-              {
-                time: new Date(),
-                message: "Bad selector: " + tempSelectorRoot,
-                type: Types.CONSOLE_MSG_ERROR,
-              },
-            ],
-            finderUi: {
-              ...state.finderUi,
-              bottomTabIndex: Types.TAB_INDEX_CONSOLE,
+            selectionState: {
+              ...state.selectionState,
+              errorMessage: "Bad selector: " + tempSelectorRoot,
             },
           };
         } else {
@@ -816,12 +791,6 @@ export default function (state = initialState, action) {
         },
       };
     }
-    case "CLEAR_CONSOLE": {
-      return {
-        ...state,
-        consoleMessages: [],
-      };
-    }
     case "EXIT_APPLICATION": {
       state.selectedElements.forEach((elem, i) => {
         let el = elem.element;
@@ -833,7 +802,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         selectorFinderEnabled: false,
-        consoleMessages: [],
+        //consoleMessages: [],
         finderState: {
           ...state.finderState,
         },

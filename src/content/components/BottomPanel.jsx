@@ -54,18 +54,14 @@ const MoveDownArrow = styled.div`
 `;
 
 const BottomPanel = () => {
-  const vertPanelPosition = useSelector(
-    (state) => state.PluginReducer.finderUi.vertPanelPosition
-  );
+  const vertPanelPosition = useSelector((state) => state.ui.vertPanelPosition);
   const horizPanelPosition = useSelector(
-    (state) => state.PluginReducer.finderUi.horizPanelPosition
+    (state) => state.ui.horizPanelPosition
   );
   const selectedElements = useSelector(
     (state) => state.PluginReducer.selectedElements
   );
-  const bottomTabIndex = useSelector(
-    (state) => state.PluginReducer.finderUi.bottomTabIndex
-  );
+  const bottomTabIndex = useSelector((state) => state.global.bottomTabIndex);
   const dispatch = useDispatch();
   const panelRef = useRef();
   const consoleRef = useRef();
@@ -106,7 +102,7 @@ const BottomPanel = () => {
         ></div>
       );
     } else {
-      return <div>Select an element to see the HTML.</div>;
+      return <div>No element selected.</div>;
     }
   }
 
@@ -138,6 +134,7 @@ const BottomPanel = () => {
       .join("\r\n");
   }
 
+  console.log("BOTTOM_INDEX: ", bottomTabIndex);
   return (
     <FieldInfo ref={panelRef}>
       {getMovePanel()}
@@ -160,19 +157,25 @@ const BottomPanel = () => {
               Select an element on the page to generate the CSS selector for.
             </li>
             <li>
-              Customize the CSS selector generation in the "Custom Selector" tab
+              Customize the CSS selector generation in the "Custom Selectors"
+              tab. Specific names of classes, IDs, and/or tag names can be
+              filtered out. A root selector can be specified and selectors will
+              be generated relative to that root.
             </li>
             <li>
-              Use "Test Selector" to manually enter a selector and see what gets
-              matched on the page.
+              Use the "Test Selector" tab to manually enter a selector and see
+              what gets matched on the page. Note that matched elements may not
+              always be visible, depending on the target page. However, the
+              count will be accurate.
             </li>
             <li>
-              Use "Modify Selection" options to change the selected dom element
-              to a parent/child/sibling.
+              Use "Modify Selection" options on the right panel to change the
+              selected dom element to a parent/child/sibling.
             </li>
             <li>
-              Panels may cover content on the page. Use the arrows on the panels
-              to move them to the opposite side of the page.
+              The side and bottom panels will cover content on the page. Use the
+              arrows on the upper right of the panels to move them to the
+              opposite side of the page.
             </li>
           </ul>
         </TabPanel>
