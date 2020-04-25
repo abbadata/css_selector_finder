@@ -22,18 +22,18 @@ export const initialState = {
 };
 
 function selectorGenerationErrorState(state, element, errorMessage) {
-  let newSE = state.PluginReducer.selectedElements;
+  let newSE = state.selection.selectedElements;
   if (element !== null) {
     newSE = addElement(
       element,
       [],
-      state.PluginReducer.selectionState.selectorRoot
+      state.selection.selectionState.selectorRoot
     );
   }
   return {
     ...state,
-    PluginReducer: {
-      ...state.PluginReducer,
+    selection: {
+      ...state.selection,
       selectionState: {
         ...state.selectionState,
         lastClickedElement: element,
@@ -58,7 +58,6 @@ function selectorGenerationErrorState(state, element, errorMessage) {
 
 export function globalReducer(state = initialState, action) {
   if (state.selection.selectionState.errorMessage !== "") {
-    //console.log("ERRORMSG: ", state.PluginReducer.selectionState);
     return {
       ...state,
       selection: {
@@ -151,7 +150,6 @@ export function globalReducer(state = initialState, action) {
 
           let selector = "";
           try {
-            //const options = getSelectorGenerationOptions(state);
             const options = {
               ...finderSettings,
               root: rootElement,

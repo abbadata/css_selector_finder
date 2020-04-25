@@ -1,4 +1,3 @@
-/*global chrome*/
 import React, { useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
@@ -112,8 +111,6 @@ const SidePanel = ({ handleExit }) => {
       return <MoveLeftArrow onClick={moveToLeft}></MoveLeftArrow>;
     } else if (vertPanelPosition === "left") {
       return <MoveRightArrow onClick={moveToRight}></MoveRightArrow>;
-    } else {
-      console.log("Unknown value for vertPanelPosition");
     }
   }
   function moveToRight(e) {
@@ -123,7 +120,6 @@ const SidePanel = ({ handleExit }) => {
     });
   }
   function moveToLeft(e) {
-    console.log("moveToLeft: ", panelRef);
     dispatch({
       type: "SET_VERT_PANEL_POSITION",
       payload: { element: panelRef.current, position: "left" },
@@ -133,7 +129,6 @@ const SidePanel = ({ handleExit }) => {
     if (selectedElements.length === 0) {
       return <div>Select at least one element.</div>;
     } else if (selectedElements.length === 1) {
-      console.log("SelectedElements: ", selectedElements);
       return (
         <div>
           <FieldSelector></FieldSelector>

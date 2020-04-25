@@ -1,5 +1,4 @@
 import { combineReducers } from "redux";
-import PluginReducer from "./PluginReducer";
 import FinderReducer from "./FinderReducer";
 import SelectionReducer from "./SelectionReducer";
 import UiReducer from "./UiReducer";

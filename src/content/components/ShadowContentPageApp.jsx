@@ -281,7 +281,6 @@ const ContentPageApp = () => {
   }
 
   function handleExit() {
-    console.log("Handle End Extraction");
     document.removeEventListener("click", handleDocumentClick);
     document.removeEventListener("mouseover", handleDocumentMouseover);
     dispatch({ type: "EXIT_APPLICATION" });

@@ -71,8 +71,6 @@ const BottomPanel = () => {
       return <MoveUpArrow onClick={moveToTop}></MoveUpArrow>;
     } else if (horizPanelPosition === "top") {
       return <MoveDownArrow onClick={moveToBottom}></MoveDownArrow>;
-    } else {
-      console.log("Unknown value for horizPanelPosition");
     }
   }
   function moveToTop(e) {
@@ -134,7 +132,6 @@ const BottomPanel = () => {
       .join("\r\n");
   }
 
-  console.log("BOTTOM_INDEX: ", bottomTabIndex);
   return (
     <FieldInfo ref={panelRef}>
       {getMovePanel()}

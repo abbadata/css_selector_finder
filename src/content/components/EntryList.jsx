@@ -85,7 +85,6 @@ const EntryList = ({ listState, onAddHandler, onDeleteHandler, enabled }) => {
   const inputElem = useRef(null);
 
   function getListHtml() {
-    //console.log("LISTSTATE: ", listState);
     return listState.map((e, index) => {
       return (
         <div>

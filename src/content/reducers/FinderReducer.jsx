@@ -1,4 +1,3 @@
-/*global chrome*/
 const initialState = {
   settings: {
     isClassEnabled: true,
@@ -8,7 +7,7 @@ const initialState = {
     idFilter: [],
     tagFilter: [],
     seedMinLength: 1,
-    optimizedMinLength: 4,
+    optimizedMinLength: 10,
   },
   errorMessage: "",
 };
@@ -25,7 +24,6 @@ export default function (state = initialState, action) {
       };
     }
     case "SET_FINDER_CLASS_ENABLED": {
-      console.log("SET_FINDER_CLASS_ENABLED: ", action.payload.enabled);
       return {
         ...state,
         settings: {
@@ -160,6 +158,7 @@ export default function (state = initialState, action) {
         },
       };
     }
+    default:
+      return state;
   }
-  return state;
 }

@@ -1,4 +1,3 @@
-/*global chrome*/
 import { addElement, removeElement, formatXml } from "../lib/ReducerUtils";
 import {
   getSelector,
@@ -6,7 +5,6 @@ import {
   unmarkTempSelector,
   verifySelector,
   copyTextToClipboard,
-  getSelectorGenerationOptions,
   markRootSelector,
   unmarkRootSelector,
 } from "../lib/SelectorUtils";
@@ -200,7 +198,6 @@ export default function (state = initialState, action) {
           let selector = "";
           if (newelement) {
             try {
-              //const options = getSelectorGenerationOptions(state);
               const options = {
                 ...finderSettings,
                 root: rootElement,
@@ -259,7 +256,6 @@ export default function (state = initialState, action) {
           let selector = "";
           if (newelement) {
             try {
-              //const options = getSelectorGenerationOptions(state);
               const options = {
                 ...finderSettings,
                 root: rootElement,
@@ -284,7 +280,6 @@ export default function (state = initialState, action) {
               selectedElements,
               state.selectionState.selectorRoot
             );
-            // generate selector
             return {
               ...state,
               selectionState: {

@@ -1,7 +1,3 @@
-/*global chrome*/
-
-import * as Types from "../Types";
-
 const initialState = {
   selectorFinderEnabled: true,
   vertPanelPosition: "right",
