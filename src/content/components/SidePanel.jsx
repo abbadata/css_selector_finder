@@ -5,6 +5,7 @@ import FieldSummary from "./FieldSummary";
 import FieldSelectionPicker from "./FieldSelectionPicker";
 import FieldSelectionRoot from "./FieldSelectionRoot";
 import FieldSelector from "./FieldSelector";
+import * as Types from "../Types";
 
 const FieldOptions = styled.div`
   display: flex;
@@ -107,22 +108,28 @@ const SidePanel = ({ handleExit }) => {
   }, [vertPanelDiv]);
 
   function getMovePanel() {
-    if (vertPanelPosition === "right") {
+    if (vertPanelPosition === Types.VERTPANEL_POS_RIGHT) {
       return <MoveLeftArrow onClick={moveToLeft}></MoveLeftArrow>;
-    } else if (vertPanelPosition === "left") {
+    } else if (vertPanelPosition === Types.VERTPANEL_POS_LEFT) {
       return <MoveRightArrow onClick={moveToRight}></MoveRightArrow>;
     }
   }
   function moveToRight(e) {
     dispatch({
       type: "SET_VERT_PANEL_POSITION",
-      payload: { element: panelRef.current, position: "right" },
+      payload: {
+        element: panelRef.current,
+        position: Types.VERTPANEL_POS_RIGHT,
+      },
     });
   }
   function moveToLeft(e) {
     dispatch({
       type: "SET_VERT_PANEL_POSITION",
-      payload: { element: panelRef.current, position: "left" },
+      payload: {
+        element: panelRef.current,
+        position: Types.VERTPANEL_POS_LEFT,
+      },
     });
   }
   function getFieldOptionsHtml() {

@@ -7,6 +7,7 @@ var escapeHtml = require("escape-html");
 import SelectorTester from "./SelectorTester";
 import SelectorSettings from "./SelectorSettings";
 import Console from "./Console";
+import * as Types from "../Types";
 
 const FieldInfo = styled.div`
   z-index: 2147483647;
@@ -67,22 +68,28 @@ const BottomPanel = () => {
   const consoleRef = useRef();
 
   function getMovePanel() {
-    if (horizPanelPosition === "bottom") {
+    if (horizPanelPosition === Types.HORIZPANEL_POS_BOTTOM) {
       return <MoveUpArrow onClick={moveToTop}></MoveUpArrow>;
-    } else if (horizPanelPosition === "top") {
+    } else if (horizPanelPosition === Types.HORIZPANEL_POS_TOP) {
       return <MoveDownArrow onClick={moveToBottom}></MoveDownArrow>;
     }
   }
   function moveToTop(e) {
     dispatch({
       type: "SET_HORIZ_PANEL_POSITION",
-      payload: { element: panelRef.current, position: "top" },
+      payload: {
+        element: panelRef.current,
+        position: Types.HORIZPANEL_POS_TOP,
+      },
     });
   }
   function moveToBottom(e) {
     dispatch({
       type: "SET_HORIZ_PANEL_POSITION",
-      payload: { element: panelRef.current, position: "bottom" },
+      payload: {
+        element: panelRef.current,
+        position: Types.HORIZPANEL_POS_BOTTOM,
+      },
     });
   }
 
