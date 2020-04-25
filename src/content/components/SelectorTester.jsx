@@ -40,10 +40,10 @@ const TestButton = styled.div`
 
 const SelectorTester = () => {
   const tempSelector = useSelector(
-    (state) => state.PluginReducer.selectionState.tempSelector
+    (state) => state.selection.selectionState.tempSelector
   );
   const tempSelectedElements = useSelector(
-    (state) => state.PluginReducer.selectionState.tempSelectedElements
+    (state) => state.selection.selectionState.tempSelectedElements
   );
   const dispatch = useDispatch();
 

@@ -13,7 +13,6 @@ export default function (state = initialState, action) {
   switch (action.type) {
     case "SET_VERT_PANEL_DIV": {
       let panelElement = action.payload.element;
-      console.log("SET_VERT_PANEL_DIV: ", panelElement);
       return {
         ...state,
         vertPanelDiv: action.payload.element,
@@ -41,7 +40,6 @@ export default function (state = initialState, action) {
       };
     }
     case "SET_VERT_PANEL_POSITION": {
-      console.log("vertElement: ", action.payload.element);
       let vertPanelElement = action.payload.element;
       if (action.payload.position === "left") {
         vertPanelElement.style.left = 0;

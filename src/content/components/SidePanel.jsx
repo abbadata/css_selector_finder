@@ -93,7 +93,7 @@ const SidePanel = ({ handleExit }) => {
     (state) => state.ui.horizPanelPosition
   );
   const selectedElements = useSelector(
-    (state) => state.PluginReducer.selectedElements
+    (state) => state.selection.selectedElements
   );
   const vertPanelDiv = useSelector((state) => state.ui.vertPanelDiv);
 

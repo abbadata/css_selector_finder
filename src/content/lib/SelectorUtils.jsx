@@ -90,6 +90,7 @@ export const copyTextToClipboard = (text) => {
   document.body.removeChild(dummy);
 };
 
+/*
 export const getSelectorGenerationOptions = (state) => {
   return {
     root: state.selectionState.selectorRoot,
@@ -101,3 +102,4 @@ export const getSelectorGenerationOptions = (state) => {
     tagFilter: state.finderState.tagFilter,
   };
 };
+*/

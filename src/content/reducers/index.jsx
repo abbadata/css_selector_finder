@@ -7,12 +7,10 @@ import * as GlobalReducer from "./GlobalReducer";
 import reduceReducers from "reduce-reducers";
 
 const combinedReducers = combineReducers({
-  PluginReducer: PluginReducer,
   finder: FinderReducer,
   selection: SelectionReducer,
   ui: UiReducer,
-  // state related to cross-cutting concerns are initialized here and
-  // updated by GlobalReducer
+  // state related to global and cross-cutting concerns are initialized here
   global: (state = GlobalReducer.initialState, action) => {
     return state;
   },
@@ -20,9 +18,7 @@ const combinedReducers = combineReducers({
 
 function rootReducer(state, action) {
   const intermediateState = combinedReducers(state, action);
-  console.log("InterState: ", intermediateState);
   const finalState = GlobalReducer.globalReducer(intermediateState, action);
-  console.log("FinalState: ", finalState);
   return finalState;
 }
 

@@ -1,4 +1,16 @@
 import * as Types from "../Types";
+import { addElement, removeElement, formatXml } from "../lib/ReducerUtils";
+import {
+  getSelector,
+  markTempSelector,
+  unmarkTempSelector,
+  verifySelector,
+  copyTextToClipboard,
+  getSelectorGenerationOptions,
+  markRootSelector,
+  unmarkRootSelector,
+} from "../lib/SelectorUtils";
+
 /*
  Handles logging to the console, and changing the bottom index,
  which are cross-cutting concerns.
@@ -9,14 +21,50 @@ export const initialState = {
   bottomTabIndex: Types.TAB_INDEX_INFO,
 };
 
+function selectorGenerationErrorState(state, element, errorMessage) {
+  let newSE = state.PluginReducer.selectedElements;
+  if (element !== null) {
+    newSE = addElement(
+      element,
+      [],
+      state.PluginReducer.selectionState.selectorRoot
+    );
+  }
+  return {
+    ...state,
+    PluginReducer: {
+      ...state.PluginReducer,
+      selectionState: {
+        ...state.selectionState,
+        lastClickedElement: element,
+        generatedSelector: "",
+      },
+      selectedElements: newSE,
+    },
+    global: {
+      ...state.global,
+      consoleMessages: [
+        ...state.global.consoleMessages,
+        {
+          time: new Date(),
+          message: errorMessage,
+          type: Types.CONSOLE_MSG_ERROR,
+        },
+      ],
+      bottomTabIndex: Types.TAB_INDEX_CONSOLE,
+    },
+  };
+}
+
 export function globalReducer(state = initialState, action) {
-  if (state.PluginReducer.selectionState.errorMessage !== "") {
+  if (state.selection.selectionState.errorMessage !== "") {
+    //console.log("ERRORMSG: ", state.PluginReducer.selectionState);
     return {
       ...state,
-      PluginReducer: {
-        ...state.PluginReducer,
+      selection: {
+        ...state.selection,
         selectionState: {
-          ...state.PluginReducer.selectionState,
+          ...state.selection.selectionState,
           errorMessage: "",
         },
       },
@@ -26,7 +74,7 @@ export function globalReducer(state = initialState, action) {
           ...state.global.consoleMessages,
           {
             time: new Date(),
-            message: state.PluginReducer.selectionState.errorMessage,
+            message: state.selection.selectionState.errorMessage,
             type: Types.CONSOLE_MSG_ERROR,
           },
         ],
@@ -72,6 +120,74 @@ export function globalReducer(state = initialState, action) {
         },
       };
     }
+    case "ONLY_SELECT_SELECTED_ELEMENT":
+      {
+        // Only select the current element. Remove any other element from the selection.
+        let element = action.payload.element;
+
+        let finderSettings = state.finder.settings;
+        let rootElement = state.selection.selectionState.selectorRoot;
+
+        state.selection.selectedElements.forEach((elem, i) => {
+          let el = elem.element;
+          el.classList.remove("abba-selected-element");
+        });
+
+        // We only toggle if a single element is selected and we click on it
+        if (
+          state.selection.selectedElements.length === 1 &&
+          state.selection.selectedElements[0].element === element
+        ) {
+          return {
+            ...state,
+            selection: {
+              ...state.selection,
+              selectedElements: [],
+            },
+          };
+        } else {
+          element.classList.add("abba-selected-element");
+          element.classList.remove("abba-mouseover-element");
+
+          let selector = "";
+          try {
+            //const options = getSelectorGenerationOptions(state);
+            const options = {
+              ...finderSettings,
+              root: rootElement,
+            };
+            selector = getSelector(element, options);
+          } catch (error) {
+            return selectorGenerationErrorState(
+              state.selection,
+              element,
+              "Unable to find selector"
+            );
+          }
+
+          let newSE = addElement(
+            element,
+            [],
+            state.selection.selectionState.selectorRoot
+          );
+          return {
+            ...state,
+            selection: {
+              ...state.selection,
+              selectionState: {
+                ...state.selection.selectionState,
+                lastClickedElement: element,
+                generatedSelector: selector,
+                errorMessage: "",
+              },
+              selectedElements: newSE,
+            },
+          };
+        }
+      }
+      break;
+    case "GENERATE_SELECTOR":
+
     default:
       return state;
   }

@@ -5,7 +5,7 @@ import "react-tabs/style/react-tabs.css";
 import styled from "styled-components";
 var escapeHtml = require("escape-html");
 import SelectorTester from "./SelectorTester";
-import SelectorChooser from "./SelectorChooser";
+import SelectorSettings from "./SelectorSettings";
 import Console from "./Console";
 
 const FieldInfo = styled.div`
@@ -59,7 +59,7 @@ const BottomPanel = () => {
     (state) => state.ui.horizPanelPosition
   );
   const selectedElements = useSelector(
-    (state) => state.PluginReducer.selectedElements
+    (state) => state.selection.selectedElements
   );
   const bottomTabIndex = useSelector((state) => state.global.bottomTabIndex);
   const dispatch = useDispatch();
@@ -184,7 +184,7 @@ const BottomPanel = () => {
         </TabPanel>
         <TabPanel>
           <SubPanel>
-            <SelectorChooser></SelectorChooser>
+            <SelectorSettings></SelectorSettings>
           </SubPanel>
         </TabPanel>
         <TabPanel>

@@ -91,43 +91,36 @@ const GenButton = styled.a`
   }
 `;
 
-const SelectorChooser = () => {
+const SelectorSettings = () => {
+  const finderSettings = useSelector((state) => state.finder.settings);
   const selectorRoot = useSelector(
-    (state) => state.PluginReducer.selectionState.selectorRoot
+    (state) => state.selection.selectionState.selectorRoot
   );
   const tempSelectorRoot = useSelector(
-    (state) => state.PluginReducer.selectionState.tempSelectorRoot
+    (state) => state.selection.selectionState.tempSelectorRoot
   );
   const selectorRootEditMode = useSelector(
-    (state) => state.PluginReducer.selectionState.selectorRootEditMode
+    (state) => state.selection.selectionState.selectorRootEditMode
   );
 
   const generatedSelector = useSelector(
-    (state) => state.PluginReducer.selectionState.generatedSelector
+    (state) => state.selection.selectionState.generatedSelector
   );
-  const isIdEnabled = useSelector(
-    (state) => state.PluginReducer.finderState.isIdEnabled
-  );
+  const isIdEnabled = useSelector((state) => state.finder.settings.isIdEnabled);
   const isClassEnabled = useSelector(
-    (state) => state.PluginReducer.finderState.isClassEnabled
+    (state) => state.finder.settings.isClassEnabled
   );
   const isTagEnabled = useSelector(
-    (state) => state.PluginReducer.finderState.isTagEnabled
+    (state) => state.finder.settings.isTagEnabled
   );
-  const idFilter = useSelector(
-    (state) => state.PluginReducer.finderState.idFilter
-  );
-  const classFilter = useSelector(
-    (state) => state.PluginReducer.finderState.classFilter
-  );
-  const tagFilter = useSelector(
-    (state) => state.PluginReducer.finderState.tagFilter
-  );
+  const idFilter = useSelector((state) => state.finder.settings.idFilter);
+  const classFilter = useSelector((state) => state.finder.settings.classFilter);
+  const tagFilter = useSelector((state) => state.finder.settings.tagFilter);
   const seedMinLength = useSelector(
-    (state) => state.PluginReducer.finderState.seedMinLength
+    (state) => state.finder.settings.seedMinLength
   );
   const optimizedMinLength = useSelector(
-    (state) => state.PluginReducer.finderState.optimizedMinLength
+    (state) => state.finder.settings.optimizedMinLength
   );
   const dispatch = useDispatch();
 
@@ -195,7 +188,15 @@ const SelectorChooser = () => {
           <tr>
             <td>
               <GenButton
-                onClick={() => dispatch({ type: "GENERATE_SELECTOR" })}
+                onClick={() =>
+                  dispatch({
+                    type: "GENERATE_SELECTOR",
+                    payload: {
+                      finderSettings: finderSettings,
+                      rootElement: selectorRoot,
+                    },
+                  })
+                }
               >
                 Generate
               </GenButton>
@@ -378,4 +379,4 @@ const SelectorChooser = () => {
   );
 };
 
-export default SelectorChooser;
+export default SelectorSettings;

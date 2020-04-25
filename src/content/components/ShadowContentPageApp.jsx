@@ -2,14 +2,13 @@ import React, { useEffect } from "react";
 import root from "react-shadow/styled-components";
 import styles from "../content.css";
 
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import SidePanel from "./SidePanel";
 import BottomPanel from "./BottomPanel";
 
 const ShadowContentPageApp = () => {
   const selectorFinderEnabled = useSelector(
-    (state) => state.PluginReducer.selectorFinderEnabled
+    (state) => state.selection.selectorFinderEnabled
   );
 
   let custStyles = `
@@ -220,7 +219,6 @@ const ShadowContentPageApp = () => {
 
 const ContentPageApp = () => {
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch({ type: "SAVE_INITIAL_DOM_SETTINGS" });
     nodeAddHandlers(document, "mouseover", handleDocumentMouseover);
@@ -274,7 +272,9 @@ const ContentPageApp = () => {
     ) {
       dispatch({
         type: "ONLY_SELECT_SELECTED_ELEMENT",
-        payload: { element: targetElement },
+        payload: {
+          element: targetElement,
+        },
       });
       e.preventDefault();
     }

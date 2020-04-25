@@ -13,13 +13,13 @@ const Header = styled.div`
 
 const FieldSelectionRoot = () => {
   const selectorRoot = useSelector(
-    (state) => state.PluginReducer.selectionState.selectorRoot
+    (state) => state.selection.selectionState.selectorRoot
   );
   const tempSelectorRoot = useSelector(
-    (state) => state.PluginReducer.selectionState.tempSelectorRoot
+    (state) => state.selection.selectionState.tempSelectorRoot
   );
   const selectorRootEditMode = useSelector(
-    (state) => state.PluginReducer.selectionState.selectorRootEditMode
+    (state) => state.selection.selectionState.selectorRootEditMode
   );
 
   const dispatch = useDispatch();

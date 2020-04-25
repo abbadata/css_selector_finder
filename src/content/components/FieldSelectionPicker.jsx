@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 
 const Header = styled.div`
@@ -21,26 +21,64 @@ const Entry = styled.div`
 `;
 
 const FieldSelectionPicker = () => {
+  const finderSettings = useSelector((state) => state.finder.settings);
+  const rootElement = useSelector(
+    (state) => state.selection.selectionState.selectorRoot
+  );
   const dispatch = useDispatch();
 
   return (
     <div>
       <Header>Modify Selector</Header>
-      <Entry onClick={() => dispatch({ type: "CHANGE_SELECTION_TO_PARENT" })}>
+      <Entry
+        onClick={() =>
+          dispatch({
+            type: "CHANGE_SELECTION_TO_PARENT",
+            payload: {
+              finderSettings: finderSettings,
+              rootElement: rootElement,
+            },
+          })
+        }
+      >
         Select Parent Element
       </Entry>
       <Entry
-        onClick={() => dispatch({ type: "CHANGE_SELECTION_TO_FIRST_CHILD" })}
+        onClick={() =>
+          dispatch({
+            type: "CHANGE_SELECTION_TO_FIRST_CHILD",
+            payload: {
+              finderSettings: finderSettings,
+              rootElement: rootElement,
+            },
+          })
+        }
       >
         Select First Child Element
       </Entry>
       <Entry
-        onClick={() => dispatch({ type: "CHANGE_SELECTION_TO_NEXT_SIBLING" })}
+        onClick={() =>
+          dispatch({
+            type: "CHANGE_SELECTION_TO_NEXT_SIBLING",
+            payload: {
+              finderSettings: finderSettings,
+              rootElement: rootElement,
+            },
+          })
+        }
       >
         Select Next Sibling Element
       </Entry>
       <Entry
-        onClick={() => dispatch({ type: "CHANGE_SELECTION_TO_PREV_SIBLING" })}
+        onClick={() =>
+          dispatch({
+            type: "CHANGE_SELECTION_TO_PREV_SIBLING",
+            payload: {
+              finderSettings: finderSettings,
+              rootElement: rootElement,
+            },
+          })
+        }
       >
         Select Previous Sibling Element
       </Entry>

@@ -13,7 +13,7 @@ const Header = styled.div`
 
 const FieldSelector = () => {
   const generatedSelector = useSelector(
-    (state) => state.PluginReducer.selectionState.generatedSelector
+    (state) => state.selection.selectionState.generatedSelector
   );
   const dispatch = useDispatch();
 
