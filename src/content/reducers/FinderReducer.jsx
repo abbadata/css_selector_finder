@@ -1,3 +1,5 @@
+import * as Actions from "../actions/FinderActions";
+
 const initialState = {
   settings: {
     isClassEnabled: true,
@@ -14,7 +16,7 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case "SET_FINDER_ID_ENABLED": {
+    case Actions.SET_FINDER_ID_ENABLED: {
       return {
         ...state,
         settings: {
@@ -23,7 +25,7 @@ export default function (state = initialState, action) {
         },
       };
     }
-    case "SET_FINDER_CLASS_ENABLED": {
+    case Actions.SET_FINDER_CLASS_ENABLED: {
       return {
         ...state,
         settings: {
@@ -32,7 +34,7 @@ export default function (state = initialState, action) {
         },
       };
     }
-    case "SET_FINDER_TAG_ENABLED": {
+    case Actions.SET_FINDER_TAG_ENABLED: {
       return {
         ...state,
         settings: {
@@ -41,7 +43,7 @@ export default function (state = initialState, action) {
         },
       };
     }
-    case "ADD_FINDER_ID_FILTER": {
+    case Actions.ADD_FINDER_ID_FILTER: {
       let value = action.payload.value.trim();
       if (
         value !== "" &&
@@ -62,7 +64,7 @@ export default function (state = initialState, action) {
         return state;
       }
     }
-    case "DELETE_FINDER_ID_FILTER": {
+    case Actions.DELETE_FINDER_ID_FILTER: {
       let filter = state.settings.idFilter.filter((e) => {
         return e !== action.payload.value;
       });
@@ -74,7 +76,7 @@ export default function (state = initialState, action) {
         },
       };
     }
-    case "ADD_FINDER_CLASS_FILTER": {
+    case Actions.ADD_FINDER_CLASS_FILTER: {
       let value = action.payload.value.trim();
       if (
         value !== "" &&
@@ -95,7 +97,7 @@ export default function (state = initialState, action) {
         return state;
       }
     }
-    case "DELETE_FINDER_CLASS_FILTER": {
+    case Actions.DELETE_FINDER_CLASS_FILTER: {
       let filter = state.settings.classFilter.filter((e) => {
         return e !== action.payload.value;
       });
@@ -107,7 +109,7 @@ export default function (state = initialState, action) {
         },
       };
     }
-    case "ADD_FINDER_TAG_FILTER": {
+    case Actions.ADD_FINDER_TAG_FILTER: {
       let value = action.payload.value.trim();
       if (
         value !== "" &&
@@ -128,7 +130,7 @@ export default function (state = initialState, action) {
         return state;
       }
     }
-    case "DELETE_FINDER_TAG_FILTER": {
+    case Actions.DELETE_FINDER_TAG_FILTER: {
       let filter = state.settings.tagFilter.filter((e) => {
         return e !== action.payload.value;
       });
@@ -140,7 +142,7 @@ export default function (state = initialState, action) {
         },
       };
     }
-    case "SET_FINDER_SEED_MIN_LENGTH": {
+    case Actions.SET_FINDER_SEED_MIN_LENGTH: {
       return {
         ...state,
         settings: {
@@ -149,7 +151,7 @@ export default function (state = initialState, action) {
         },
       };
     }
-    case "SET_FINDER_OPTIMIZED_MIN_LENGTH": {
+    case Actions.SET_FINDER_OPTIMIZED_MIN_LENGTH: {
       return {
         ...state,
         settings: {

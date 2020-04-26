@@ -1,4 +1,5 @@
 import * as Types from "../Types";
+import * as Actions from "../actions/UiActions";
 
 const initialState = {
   selectorFinderEnabled: true,
@@ -9,14 +10,14 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case "SET_VERT_PANEL_DIV": {
+    case Actions.SET_VERT_PANEL_DIV: {
       let panelElement = action.payload.element;
       return {
         ...state,
         vertPanelDiv: action.payload.element,
       };
     }
-    case "SET_HORIZ_PANEL_POSITION": {
+    case Actions.SET_HORIZ_PANEL_POSITION: {
       let panelElement = action.payload.element;
       if (action.payload.position === Types.HORIZPANEL_POS_TOP) {
         panelElement.style.top = 0;
@@ -37,7 +38,7 @@ export default function (state = initialState, action) {
         horizPanelPosition: action.payload.position,
       };
     }
-    case "SET_VERT_PANEL_POSITION": {
+    case Actions.SET_VERT_PANEL_POSITION: {
       let vertPanelElement = action.payload.element;
       if (action.payload.position === Types.VERTPANEL_POS_LEFT) {
         vertPanelElement.style.left = 0;

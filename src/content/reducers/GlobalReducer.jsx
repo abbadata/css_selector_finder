@@ -10,6 +10,7 @@ import {
   markRootSelector,
   unmarkRootSelector,
 } from "../lib/SelectorUtils";
+import * as Actions from "../actions/GlobalActions";
 
 /*
  Handles logging to the console, and changing the bottom index,
@@ -83,7 +84,7 @@ export function globalReducer(state = initialState, action) {
   }
 
   switch (action.type) {
-    case "SET_BOTTOM_TAB_INDEX": {
+    case Actions.SET_BOTTOM_TAB_INDEX: {
       return {
         ...state,
         global: {
@@ -92,7 +93,7 @@ export function globalReducer(state = initialState, action) {
         },
       };
     }
-    case "CLEAR_CONSOLE": {
+    case Actions.CLEAR_CONSOLE: {
       return {
         ...state,
         global: {
@@ -101,7 +102,7 @@ export function globalReducer(state = initialState, action) {
         },
       };
     }
-    case "EXIT_APPLICATION": {
+    case Actions.EXIT_APPLICATION: {
       return {
         ...state,
         global: {
@@ -110,7 +111,7 @@ export function globalReducer(state = initialState, action) {
         },
       };
     }
-    case "ADD_OR_REMOVE_SELECTED_ELEMENT": {
+    case Actions.ADD_OR_REMOVE_SELECTED_ELEMENT: {
       return {
         ...state,
         global: {
@@ -119,7 +120,7 @@ export function globalReducer(state = initialState, action) {
         },
       };
     }
-    case "ONLY_SELECT_SELECTED_ELEMENT":
+    case Actions.ONLY_SELECT_SELECTED_ELEMENT:
       {
         // Only select the current element. Remove any other element from the selection.
         let element = action.payload.element;
@@ -184,8 +185,6 @@ export function globalReducer(state = initialState, action) {
         }
       }
       break;
-    case "GENERATE_SELECTOR":
-
     default:
       return state;
   }

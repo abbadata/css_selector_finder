@@ -8,6 +8,7 @@ import {
   markRootSelector,
   unmarkRootSelector,
 } from "../lib/SelectorUtils";
+import * as Actions from "../actions/SelectionActions";
 
 const initialState = {
   selectorFinderEnabled: true,
@@ -56,7 +57,7 @@ function selectorGenerationErrorState(state, element, errorMessage) {
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case "SET_MOUSEOVER_ELEMENT":
+    case Actions.SET_MOUSEOVER_ELEMENT:
       {
         let element = action.payload.element;
         if (element && element !== state.selectionState.lastMouseoverElement) {
@@ -74,7 +75,7 @@ export default function (state = initialState, action) {
       }
       break;
 
-    case "SET_MOUSEOUT_ELEMENT":
+    case Actions.SET_MOUSEOUT_ELEMENT:
       {
         let element = action.payload.element;
         if (element) {
@@ -90,7 +91,7 @@ export default function (state = initialState, action) {
       }
       break;
 
-    case "ADD_OR_REMOVE_SELECTED_ELEMENT":
+    case Actions.ADD_OR_REMOVE_SELECTED_ELEMENT:
       {
         // If the element is currently in the selection, remove it. If it's not, add
         // it to the current selection
@@ -129,7 +130,7 @@ export default function (state = initialState, action) {
         }
       }
       break;
-    case "CHANGE_SELECTION_TO_PARENT":
+    case Actions.CHANGE_SELECTION_TO_PARENT:
       {
         let finderSettings = action.payload.finderSettings;
         let rootElement = action.payload.rootElement;
@@ -187,7 +188,7 @@ export default function (state = initialState, action) {
       }
       return state;
       break;
-    case "CHANGE_SELECTION_TO_FIRST_CHILD":
+    case Actions.CHANGE_SELECTION_TO_FIRST_CHILD:
       {
         let finderSettings = action.payload.finderSettings;
         let rootElement = action.payload.rootElement;
@@ -245,7 +246,7 @@ export default function (state = initialState, action) {
       }
       return state;
       break;
-    case "CHANGE_SELECTION_TO_NEXT_SIBLING":
+    case Actions.CHANGE_SELECTION_TO_NEXT_SIBLING:
       {
         let finderSettings = action.payload.finderSettings;
         let rootElement = action.payload.rootElement;
@@ -302,7 +303,7 @@ export default function (state = initialState, action) {
       }
       return state;
       break;
-    case "CHANGE_SELECTION_TO_PREV_SIBLING":
+    case Actions.CHANGE_SELECTION_TO_PREV_SIBLING:
       {
         let finderSettings = action.payload.finderSettings;
         let rootElement = action.payload.rootElement;
@@ -360,7 +361,7 @@ export default function (state = initialState, action) {
       }
       return state;
       break;
-    case "CHANGE_SELECTOR_ROOT":
+    case Actions.CHANGE_SELECTOR_ROOT:
       return {
         ...state,
         selectionState: {
@@ -369,7 +370,7 @@ export default function (state = initialState, action) {
         },
       };
       break;
-    case "ENABLE_SELECTOR_ROOT_EDIT":
+    case Actions.ENABLE_SELECTOR_ROOT_EDIT:
       return {
         ...state,
         selectionState: {
@@ -379,7 +380,7 @@ export default function (state = initialState, action) {
         },
       };
       break;
-    case "SAVE_TEMP_SELECTOR_ROOT":
+    case Actions.SAVE_TEMP_SELECTOR_ROOT:
       {
         let tempSelectorRoot = state.selectionState.tempSelectorRoot;
         if (!verifySelector(tempSelectorRoot)) {
@@ -405,7 +406,7 @@ export default function (state = initialState, action) {
         }
       }
       break;
-    case "CANCEL_TEMP_SELECTOR_ROOT":
+    case Actions.CANCEL_TEMP_SELECTOR_ROOT:
       return {
         ...state,
         selectionState: {
@@ -415,7 +416,7 @@ export default function (state = initialState, action) {
         },
       };
       break;
-    case "RESET_SELECTOR_ROOT":
+    case Actions.RESET_SELECTOR_ROOT:
       unmarkRootSelector(state.selectionState.selectorRootElement);
       return {
         ...state,
@@ -428,7 +429,7 @@ export default function (state = initialState, action) {
         },
       };
       break;
-    case "SET_TEMP_SELECTOR":
+    case Actions.SET_TEMP_SELECTOR:
       return {
         ...state,
         selectionState: {
@@ -437,7 +438,7 @@ export default function (state = initialState, action) {
         },
       };
       break;
-    case "DO_TEST_SELECTOR_HIGHLIGHT":
+    case Actions.DO_TEST_SELECTOR_HIGHLIGHT:
       {
         let selectedList = state.selectionState.tempSelectedElements;
         let tempSelector = state.selectionState.tempSelector;
@@ -452,7 +453,7 @@ export default function (state = initialState, action) {
         };
       }
       break;
-    case "STOP_TEST_SELECTOR_HIGHLIGHT":
+    case Actions.STOP_TEST_SELECTOR_HIGHLIGHT:
       {
         let selectedList = state.selectionState.tempSelectedElements;
         unmarkTempSelector(selectedList);
@@ -465,11 +466,11 @@ export default function (state = initialState, action) {
         };
       }
       break;
-    case "COPY_SELECTOR_TO_CLIPBOARD": {
+    case Actions.COPY_SELECTOR_TO_CLIPBOARD: {
       copyTextToClipboard(state.selectionState.generatedSelector);
       return state;
     }
-    case "USE_AS_SELECTOR_ROOT": {
+    case Actions.USE_AS_SELECTOR_ROOT: {
       unmarkRootSelector(state.selectionState.selectorRootElement);
       markRootSelector(state.selectionState.generatedSelector);
       return {
@@ -483,7 +484,7 @@ export default function (state = initialState, action) {
         },
       };
     }
-    case "EXIT_APPLICATION": {
+    case Actions.EXIT_APPLICATION: {
       state.selectedElements.forEach((elem, i) => {
         let el = elem.element;
         el.classList.remove("abba-selected-element");
@@ -504,7 +505,7 @@ export default function (state = initialState, action) {
         selectedElements: [],
       };
     }
-    case "GENERATE_SELECTOR": {
+    case Actions.GENERATE_SELECTOR: {
       let selector = "";
       let finderSettings = action.payload.finderSettings;
       let rootElement = action.payload.rootElement;
