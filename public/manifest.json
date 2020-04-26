@@ -1,0 +1,23 @@
+{
+  "short_name": "CSS Selector Spy",
+  "name": "ABBAdata CSS Selector Spy",
+  "version": "1.0",
+  "permissions": ["activeTab", "webNavigation"],
+  "manifest_version": 2,
+  "background": {
+    "scripts": ["/static/js/background/background.js"],
+    "persistent": false
+  },
+  "browser_action": {},
+  "icons": {
+    "16": "/images/abba16.png",
+    "48": "/images/abba48.png",
+    "128": "/images/abba128.png"
+  },
+  "web_accessible_resources": [
+    "/static/js/content.css",
+    "/static/css/content.css",
+    "/static/css/app.css",
+    "/images/copy_clipboard.png"
+  ]
+}
