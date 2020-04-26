@@ -130,7 +130,7 @@ export function globalReducer(state = initialState, action) {
 
         state.selection.selectedElements.forEach((elem, i) => {
           let el = elem.element;
-          el.classList.remove("abba-selected-element");
+          el.classList.remove(Types.CLASS_SELECTED_ELEMENT);
         });
 
         // We only toggle if a single element is selected and we click on it
@@ -146,8 +146,8 @@ export function globalReducer(state = initialState, action) {
             },
           };
         } else {
-          element.classList.add("abba-selected-element");
-          element.classList.remove("abba-mouseover-element");
+          element.classList.add(Types.CLASS_SELECTED_ELEMENT);
+          element.classList.remove(Types.CLASS_MOUSEOVER_ELEMENT);
 
           let selector = "";
           try {

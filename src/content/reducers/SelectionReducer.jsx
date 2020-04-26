@@ -9,6 +9,7 @@ import {
   unmarkRootSelector,
 } from "../lib/SelectorUtils";
 import * as Actions from "../actions/SelectionActions";
+import * as Types from "../Types";
 
 const initialState = {
   selectorFinderEnabled: true,
@@ -55,13 +56,57 @@ function selectorGenerationErrorState(state, element, errorMessage) {
   };
 }
 
+function changeElementAndGenerateSelector(
+  state,
+  element,
+  newelement,
+  finderSettings,
+  rootElement
+) {
+  let selector = "";
+  try {
+    const options = {
+      ...finderSettings,
+      root: rootElement,
+    };
+    selector = getSelector(newelement, options);
+  } catch (error) {
+    return selectorGenerationErrorState(
+      state,
+      newelement,
+      "Unable to generate selector."
+    );
+  }
+
+  element.classList.remove(Types.CLASS_SELECTED_ELEMENT);
+  newelement.classList.add(Types.CLASS_SELECTED_ELEMENT);
+  let { selectedElements, alreadyExists } = removeElement(
+    element,
+    state.selectedElements
+  );
+  let newSE = addElement(
+    newelement,
+    selectedElements,
+    state.selectionState.selectorRoot
+  );
+  return {
+    ...state,
+    selectionState: {
+      ...state.selectionState,
+      lastClickedElement: newelement,
+      generatedSelector: selector,
+    },
+    selectedElements: newSE,
+  };
+}
+
 export default function (state = initialState, action) {
   switch (action.type) {
     case Actions.SET_MOUSEOVER_ELEMENT:
       {
         let element = action.payload.element;
         if (element && element !== state.selectionState.lastMouseoverElement) {
-          element.classList.add("abba-mouseover-element");
+          element.classList.add(Types.CLASS_MOUSEOVER_ELEMENT);
           return {
             ...state,
             selectionState: {
@@ -79,7 +124,7 @@ export default function (state = initialState, action) {
       {
         let element = action.payload.element;
         if (element) {
-          element.classList.remove("abba-mouseover-element");
+          element.classList.remove(Types.CLASS_MOUSEOVER_ELEMENT);
           return {
             ...state,
             selectionState: {
@@ -101,7 +146,7 @@ export default function (state = initialState, action) {
           state.selectedElements
         );
         if (alreadyExists) {
-          element.classList.remove("abba-selected-element");
+          element.classList.remove(Types.CLASS_SELECTED_ELEMENT);
           return {
             ...state,
             selectionState: {
@@ -116,8 +161,8 @@ export default function (state = initialState, action) {
             state.selectedElements,
             state.selectionState.selectorRoot
           );
-          element.classList.add("abba-selected-element");
-          element.classList.remove("abba-mouseover-element");
+          element.classList.add(Types.CLASS_SELECTED_ELEMENT);
+          element.classList.remove(Types.CLASS_MOUSEOVER_ELEMENT);
 
           return {
             ...state,
@@ -138,43 +183,14 @@ export default function (state = initialState, action) {
         if (state.selectionState.lastClickedElement) {
           let element = state.selectionState.lastClickedElement;
           let newelement = element.parentElement;
-          let selector = "";
           if (newelement) {
-            try {
-              const options = {
-                ...finderSettings,
-                root: rootElement,
-              };
-              selector = getSelector(newelement, options);
-            } catch (error) {
-              return selectorGenerationErrorState(
-                state,
-                newelement,
-                "Unable to generate selector."
-              );
-            }
-
-            element.classList.remove("abba-selected-element");
-            newelement.classList.add("abba-selected-element");
-            let { selectedElements, alreadyExists } = removeElement(
+            return changeElementAndGenerateSelector(
+              state,
               element,
-              state.selectedElements
-            );
-            let newSE = addElement(
               newelement,
-              selectedElements,
-              state.selectionState.selectorRoot
+              finderSettings,
+              rootElement
             );
-
-            return {
-              ...state,
-              selectionState: {
-                ...state.selectionState,
-                lastClickedElement: newelement,
-                generatedSelector: selector,
-              },
-              selectedElements: newSE,
-            };
           } else {
             return {
               ...state,
@@ -196,43 +212,14 @@ export default function (state = initialState, action) {
         if (state.selectionState.lastClickedElement) {
           let element = state.selectionState.lastClickedElement;
           let newelement = element.firstElementChild;
-          let selector = "";
           if (newelement) {
-            try {
-              const options = {
-                ...finderSettings,
-                root: rootElement,
-              };
-              selector = getSelector(newelement, options);
-            } catch (error) {
-              return selectorGenerationErrorState(
-                state,
-                newelement,
-                "Unable to generate selector."
-              );
-            }
-
-            element.classList.remove("abba-selected-element");
-            newelement.classList.add("abba-selected-element");
-            let { selectedElements, alreadyExists } = removeElement(
+            return changeElementAndGenerateSelector(
+              state,
               element,
-              state.selectedElements
-            );
-            let newSE = addElement(
               newelement,
-              selectedElements,
-              state.selectionState.selectorRoot
+              finderSettings,
+              rootElement
             );
-
-            return {
-              ...state,
-              selectionState: {
-                ...state.selectionState,
-                lastClickedElement: newelement,
-                generatedSelector: selector,
-              },
-              selectedElements: newSE,
-            };
           } else {
             return {
               ...state,
@@ -254,42 +241,14 @@ export default function (state = initialState, action) {
         if (state.selectionState.lastClickedElement) {
           let element = state.selectionState.lastClickedElement;
           let newelement = element.nextElementSibling;
-          let selector = "";
           if (newelement) {
-            try {
-              const options = {
-                ...finderSettings,
-                root: rootElement,
-              };
-              selector = getSelector(newelement, options);
-            } catch (error) {
-              return selectorGenerationErrorState(
-                state,
-                newelement,
-                "Unable to generate selector."
-              );
-            }
-
-            element.classList.remove("abba-selected-element");
-            newelement.classList.add("abba-selected-element");
-            let { selectedElements, alreadyExists } = removeElement(
+            return changeElementAndGenerateSelector(
+              state,
               element,
-              state.selectedElements
-            );
-            let newSE = addElement(
               newelement,
-              selectedElements,
-              state.selectionState.selectorRoot
+              finderSettings,
+              rootElement
             );
-            return {
-              ...state,
-              selectionState: {
-                ...state.selectionState,
-                lastClickedElement: newelement,
-                generatedSelector: selector,
-              },
-              selectedElements: newSE,
-            };
           } else {
             return {
               ...state,
@@ -311,43 +270,14 @@ export default function (state = initialState, action) {
         if (state.selectionState.lastClickedElement) {
           let element = state.selectionState.lastClickedElement;
           let newelement = element.previousElementSibling;
-          let selector = "";
           if (newelement) {
-            try {
-              const options = {
-                ...finderSettings,
-                root: rootElement,
-              };
-              selector = getSelector(newelement, options);
-            } catch (error) {
-              return selectorGenerationErrorState(
-                state,
-                newelement,
-                "Unable to generate selector."
-              );
-            }
-
-            element.classList.remove("abba-selected-element");
-            newelement.classList.add("abba-selected-element");
-            let { selectedElements, alreadyExists } = removeElement(
+            return changeElementAndGenerateSelector(
+              state,
               element,
-              state.selectedElements
-            );
-            let newSE = addElement(
               newelement,
-              selectedElements,
-              state.selectionState.selectorRoot
+              finderSettings,
+              rootElement
             );
-
-            return {
-              ...state,
-              selectionState: {
-                ...state.selectionState,
-                lastClickedElement: newelement,
-                generatedSelector: selector,
-              },
-              selectedElements: newSE,
-            };
           } else {
             return {
               ...state,
@@ -487,7 +417,7 @@ export default function (state = initialState, action) {
     case Actions.EXIT_APPLICATION: {
       state.selectedElements.forEach((elem, i) => {
         let el = elem.element;
-        el.classList.remove("abba-selected-element");
+        el.classList.remove(Types.CLASS_SELECTED_ELEMENT);
       });
       unmarkRootSelector(state.selectionState.selectorRootElement);
       unmarkTempSelector(state.selectionState.tempSelectedElements);

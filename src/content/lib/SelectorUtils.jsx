@@ -1,4 +1,5 @@
 import finder from "@medv/finder";
+import * as Types from "../Types";
 
 export const getSelector = (elem, options) => {
   let rootelem = document.body;
@@ -17,7 +18,7 @@ export const getSelector = (elem, options) => {
       }
     },
     className: (name) => {
-      if (name.startsWith("abba-")) {
+      if (name.startsWith(Types.CLASS_PREFIX)) {
         return false;
       }
       if (!options.isClassEnabled) {
@@ -44,13 +45,13 @@ export const getSelector = (elem, options) => {
 export const markRootSelector = (selector) => {
   let elem = document.querySelector(selector);
   if (elem) {
-    elem.classList.add("abba-root-element");
+    elem.classList.add(Types.CLASS_ROOT_ELEMENT);
   }
 };
 
 export const unmarkRootSelector = (selectorElement) => {
   if (selectorElement) {
-    selectorElement.classList.remove("abba-root-element");
+    selectorElement.classList.remove(Types.CLASS_ROOT_ELEMENT);
   }
 };
 
@@ -58,7 +59,7 @@ export const markTempSelector = (selector) => {
   let elems = document.querySelectorAll(selector);
   let selList = [];
   elems.forEach((elem) => {
-    elem.classList.add("abba-temp-selected-element");
+    elem.classList.add(Types.CLASS_TEMP_SELECTED_ELEMENT);
     selList.push({ element: elem });
   });
   return selList;
@@ -67,7 +68,7 @@ export const markTempSelector = (selector) => {
 export const unmarkTempSelector = (selectedList) => {
   if (selectedList !== null) {
     selectedList.forEach((item) => {
-      item.element.classList.remove("abba-temp-selected-element");
+      item.element.classList.remove(Types.CLASS_TEMP_SELECTED_ELEMENT);
     });
   }
 };
@@ -89,17 +90,3 @@ export const copyTextToClipboard = (text) => {
   document.execCommand("copy");
   document.body.removeChild(dummy);
 };
-
-/*
-export const getSelectorGenerationOptions = (state) => {
-  return {
-    root: state.selectionState.selectorRoot,
-    isIdEnabled: state.finderState.isIdEnabled,
-    isClassEnabled: state.finderState.isClassEnabled,
-    isTagEnabled: state.finderState.isTagEnabled,
-    idFilter: state.finderState.idFilter,
-    classFilter: state.finderState.classFilter,
-    tagFilter: state.finderState.tagFilter,
-  };
-};
-*/

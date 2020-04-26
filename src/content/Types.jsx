@@ -12,3 +12,10 @@ export const VERTPANEL_POS_RIGHT = "right";
 
 export const HORIZPANEL_POS_TOP = "top";
 export const HORIZPANEL_POS_BOTTOM = "bottom";
+
+export const CLASS_PREFIX = "abba-";
+export const CLASS_SELECTED_ELEMENT = CLASS_PREFIX + "selected-element";
+export const CLASS_MOUSEOVER_ELEMENT = CLASS_PREFIX + "mouseover-element";
+export const CLASS_ROOT_ELEMENT = CLASS_PREFIX + "root-element";
+export const CLASS_TEMP_SELECTED_ELEMENT =
+  CLASS_PREFIX + "temp-selected-element";
