@@ -1,4 +1,7 @@
 export const removeElement = (element, selectedElements) => {
+  if (!element) {
+    return { selectedElements, alreadyExists: false };
+  }
   let alreadyExists = selectedElements.some((elem, i) => {
     return elem.element === element;
   });

@@ -11,6 +11,9 @@ import {
   unmarkRootSelector,
 } from "../lib/SelectorUtils";
 import * as Actions from "../actions/GlobalActions";
+import SelectionReducer from "./SelectionReducer";
+import FinderReducer from "./FinderReducer";
+import UiReducer from "./UiReducer";
 
 /*
  Handles logging to the console, and changing the bottom index,
@@ -111,15 +114,20 @@ export function globalReducer(state = initialState, action) {
         },
       };
     }
-    case Actions.ADD_OR_REMOVE_SELECTED_ELEMENT: {
+    // Couldn't put this in SelectionReducer since we don't have a good way
+    // to pass in the
+
+    /*
+    case Actions.ONLY_SELECT_SELECTED_ELEMENT:
       return {
-        ...state,
-        global: {
-          ...state.global,
-          bottomTabIndex: Types.TAB_INDEX_CUSTOM_SELECTORS,
-        },
+        selection: SelectionReducer(state.selection, action, state.finder),
+        finder: FinderReducer(state.finder, action),
+        ui: UiReducer(state.ui, action),
+        global: state.global,
       };
-    }
+      */
+
+    /*
     case Actions.ONLY_SELECT_SELECTED_ELEMENT:
       {
         // Only select the current element. Remove any other element from the selection.
@@ -185,6 +193,7 @@ export function globalReducer(state = initialState, action) {
         }
       }
       break;
+      */
     default:
       return state;
   }

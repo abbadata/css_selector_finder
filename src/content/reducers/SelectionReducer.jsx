@@ -78,7 +78,8 @@ function changeElementAndGenerateSelector(
     );
   }
 
-  element.classList.remove(Types.CLASS_SELECTED_ELEMENT);
+  console.log("Selector: ", selector);
+  if (element) element.classList.remove(Types.CLASS_SELECTED_ELEMENT);
   newelement.classList.add(Types.CLASS_SELECTED_ELEMENT);
   let { selectedElements, alreadyExists } = removeElement(
     element,
@@ -100,7 +101,7 @@ function changeElementAndGenerateSelector(
   };
 }
 
-export default function (state = initialState, action) {
+export default function (state = initialState, action, finderState) {
   switch (action.type) {
     case Actions.SET_MOUSEOVER_ELEMENT:
       {
@@ -136,45 +137,30 @@ export default function (state = initialState, action) {
       }
       break;
 
-    case Actions.ADD_OR_REMOVE_SELECTED_ELEMENT:
-      {
-        // If the element is currently in the selection, remove it. If it's not, add
-        // it to the current selection
-        let element = action.payload.element;
-        let { selectedElements, alreadyExists } = removeElement(
-          element,
-          state.selectedElements
-        );
-        if (alreadyExists) {
-          element.classList.remove(Types.CLASS_SELECTED_ELEMENT);
-          return {
-            ...state,
-            selectionState: {
-              ...state.selectionState,
-              lastClickedElement: null,
-            },
-            selectedElements: selectedElements,
-          };
-        } else {
-          let newSE = addElement(
-            element,
-            state.selectedElements,
-            state.selectionState.selectorRoot
-          );
-          element.classList.add(Types.CLASS_SELECTED_ELEMENT);
-          element.classList.remove(Types.CLASS_MOUSEOVER_ELEMENT);
+    case Actions.ONLY_SELECT_SELECTED_ELEMENT: {
+      const newelement = action.payload.element;
+      let finderSettings = action.payload.finderSettings;
+      let rootElement = action.payload.rootElement;
 
-          return {
-            ...state,
-            selectionState: {
-              ...state.selectionState,
-              lastClickedElement: element,
-            },
-            selectedElements: newSE,
-          };
-        }
+      const element = state.selectionState.lastClickedElement;
+      // If user clicks on the last clicked element, just deselect it
+      if (element == newelement) {
+        element.classList.remove(Types.CLASS_SELECTED_ELEMENT);
+        return {
+          ...state,
+          selectedElements: [],
+        };
+      } else {
+        return changeElementAndGenerateSelector(
+          state,
+          element,
+          newelement,
+          finderSettings,
+          rootElement
+        );
       }
-      break;
+    }
+
     case Actions.CHANGE_SELECTION_TO_PARENT:
       {
         let finderSettings = action.payload.finderSettings;

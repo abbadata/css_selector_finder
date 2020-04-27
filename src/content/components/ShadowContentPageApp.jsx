@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import root from "react-shadow/styled-components";
 import styles from "../content.css";
 
 import { useSelector, useDispatch } from "react-redux";
 import SidePanel from "./SidePanel";
 import BottomPanel from "./BottomPanel";
+
+window.savedClickHandler = null;
+window.savedMouseoverHandler = null;
+window.savedMouseoutHandler = null;
 
 const ShadowContentPageApp = () => {
   const selectorFinderEnabled = useSelector(
@@ -218,13 +222,50 @@ const ShadowContentPageApp = () => {
 };
 
 const ContentPageApp = () => {
+  const finderSettings = useSelector((state) => state.finder.settings);
+  const rootElement = useSelector(
+    (state) => state.selection.selectionState.selectorRoot
+  );
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({ type: "SAVE_INITIAL_DOM_SETTINGS" });
-    nodeAddHandlers(document, "mouseover", handleDocumentMouseover);
-    nodeAddHandlers(document, "mouseout", handleDocumentMouseout);
-    nodeAddHandlers(document, "click", handleDocumentClick);
+    // Need to save the handlers so we can remove them later.
+    window.savedMouseoverHandler = handleDocumentMouseover;
+    document.documentElement.addEventListener(
+      "mouseover",
+      handleDocumentMouseover,
+      false
+    );
+    window.savedMouseoutHandler = handleDocumentMouseout;
+    document.documentElement.addEventListener(
+      "mouseout",
+      handleDocumentMouseout,
+      false
+    );
+    window.savedClickHandler = handleDocumentClick;
+    document.documentElement.addEventListener(
+      "click",
+      handleDocumentClick,
+      false
+    );
   }, []);
+  useEffect(() => {
+    // Need to readd handlers after finderSettings change, otherwise
+    // the handler doesn't have the updated settings
+    if (window.savedClickHandler) {
+      document.documentElement.removeEventListener(
+        "click",
+        window.savedClickHandler
+      );
+    }
+
+    window.savedClickHandler = handleDocumentClick;
+    document.documentElement.addEventListener(
+      "click",
+      handleDocumentClick,
+      false
+    );
+  }, [finderSettings, rootElement]);
 
   function isDescendant(parent, child) {
     var node = child.parentNode;
@@ -236,10 +277,7 @@ const ContentPageApp = () => {
     }
     return false;
   }
-  function nodeAddHandlers(node, eventtype, handler) {
-    node.addEventListener(eventtype, handler, false);
-    return node;
-  }
+
   function handleDocumentMouseover(e) {
     let targetElement = e.target || e.srcElement;
     if (
@@ -265,15 +303,29 @@ const ContentPageApp = () => {
     }
   }
 
+  function recreateNode(el, withChildren) {
+    if (withChildren) {
+      el.parentNode.replaceChild(el.cloneNode(true), el);
+    } else {
+      var newEl = el.cloneNode(false);
+      while (el.hasChildNodes()) newEl.appendChild(el.firstChild);
+      el.parentNode.replaceChild(newEl, el);
+    }
+  }
+
   function handleDocumentClick(e) {
     let targetElement = e.target || e.srcElement;
     if (
       !isDescendant(document.getElementById("content-page-app"), targetElement)
     ) {
+      console.log("FINDERSETTINGS2: ", finderSettings);
+
       dispatch({
         type: "ONLY_SELECT_SELECTED_ELEMENT",
         payload: {
           element: targetElement,
+          finderSettings: finderSettings,
+          rootElement: rootElement,
         },
       });
       e.preventDefault();
@@ -281,8 +333,18 @@ const ContentPageApp = () => {
   }
 
   function handleExit() {
-    document.removeEventListener("click", handleDocumentClick);
-    document.removeEventListener("mouseover", handleDocumentMouseover);
+    document.documentElement.removeEventListener(
+      "mouseover",
+      window.savedMouseoverHandler
+    );
+    document.documentElement.removeEventListener(
+      "mouseout",
+      window.savedMouseoutHandler
+    );
+    document.documentElement.removeEventListener(
+      "click",
+      window.savedClickHandler
+    );
     dispatch({ type: "EXIT_APPLICATION" });
   }
 
