@@ -1,15 +1,5 @@
 import * as Types from "../Types";
 import { addElement, removeElement, formatXml } from "../lib/ReducerUtils";
-import {
-  getSelector,
-  markTempSelector,
-  unmarkTempSelector,
-  verifySelector,
-  copyTextToClipboard,
-  getSelectorGenerationOptions,
-  markRootSelector,
-  unmarkRootSelector,
-} from "../lib/SelectorUtils";
 import * as Actions from "../actions/GlobalActions";
 import SelectionReducer from "./SelectionReducer";
 import FinderReducer from "./FinderReducer";

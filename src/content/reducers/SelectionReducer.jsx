@@ -450,6 +450,22 @@ export default function (state = initialState, action, finderState) {
         },
       };
     }
+
+    case Actions.SET_BOTTOM_TAB_INDEX: {
+      if (action.payload.tabIndex !== Types.TAB_INDEX_TEST_SELECTORS) {
+        if (state.selectionState.tempSelectedElements) {
+          let selectedList = state.selectionState.tempSelectedElements;
+          unmarkTempSelector(selectedList);
+          return {
+            ...state,
+            selectionState: {
+              ...state.selectionState,
+              tempSelectedElements: null,
+            },
+          };
+        }
+      }
+    }
   }
   return state;
 }
