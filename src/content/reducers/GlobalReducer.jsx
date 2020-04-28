@@ -10,6 +10,7 @@ import * as Actions from "../actions/GlobalActions";
 
 export const initialState = {
   consoleMessages: [],
+  consoleMessageJustAdded: false,
   bottomTabIndex: Types.TAB_INDEX_INFO,
 };
 
@@ -34,6 +35,7 @@ export function globalReducer(state = initialState, action) {
             type: Types.CONSOLE_MSG_ERROR,
           },
         ],
+        consoleMessageJustAdded: true,
         bottomTabIndex: Types.TAB_INDEX_CONSOLE,
       },
     };
@@ -45,6 +47,7 @@ export function globalReducer(state = initialState, action) {
         ...state,
         global: {
           ...state.global,
+          consoleMessageJustAdded: false,
           bottomTabIndex: action.payload.tabIndex,
         },
       };
@@ -54,6 +57,7 @@ export function globalReducer(state = initialState, action) {
         ...state,
         global: {
           ...state.global,
+          consoleMessageJustAdded: false,
           consoleMessages: [],
         },
       };
@@ -63,7 +67,17 @@ export function globalReducer(state = initialState, action) {
         ...state,
         global: {
           ...state.global,
+          consoleMessageJustAdded: false,
           consoleMessages: [],
+        },
+      };
+    }
+    case Actions.USE_AS_SELECTOR_ROOT: {
+      return {
+        ...state,
+        global: {
+          ...state.global,
+          bottomTabIndex: Types.TAB_INDEX_CUSTOM_SELECTORS,
         },
       };
     }

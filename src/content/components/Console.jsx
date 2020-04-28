@@ -25,15 +25,23 @@ const ErrorMsg = styled.li`
   animation: ${ErrorMsgKeyframe} 2s ease-in-out 0s;
 `;
 
+const ErrorMsgSeen = styled.li`
+  color: red;
+  background-color: #fff;
+`;
+
 const Console = ({ consoleDivRef }) => {
   const consoleMessages = useSelector((state) => state.global.consoleMessages);
+  const consoleMessageJustAdded = useSelector(
+    (state) => state.global.consoleMessageJustAdded
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
     consoleDivRef.current.scrollTop = consoleDivRef.current.scrollHeight;
   });
 
-  let msgs = consoleMessages.map((item, key) => {
+  let msgs = consoleMessages.map((item, index) => {
     let dt = new Date(item.time);
     let dtString = dt.toLocaleDateString() + " " + dt.toLocaleTimeString();
     if (item.type === 0) {
@@ -43,11 +51,19 @@ const Console = ({ consoleDivRef }) => {
         </Msg>
       );
     } else if (item.type === 1) {
-      return (
-        <ErrorMsg>
-          {dtString}: {item.message}
-        </ErrorMsg>
-      );
+      if (consoleMessageJustAdded && index == consoleMessages.length - 1) {
+        return (
+          <ErrorMsg>
+            {dtString}: {item.message}
+          </ErrorMsg>
+        );
+      } else {
+        return (
+          <ErrorMsgSeen>
+            {dtString}: {item.message}
+          </ErrorMsgSeen>
+        );
+      }
     }
   });
 

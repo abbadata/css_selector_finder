@@ -7,6 +7,7 @@ import {
   copyTextToClipboard,
   markRootSelector,
   unmarkRootSelector,
+  isDescendant,
 } from "../lib/SelectorUtils";
 import * as Actions from "../actions/SelectionActions";
 import * as Types from "../Types";
@@ -64,6 +65,7 @@ function changeElementAndGenerateSelector(
   rootElement
 ) {
   let selector = "";
+  if (element) element.classList.remove(Types.CLASS_SELECTED_ELEMENT);
   try {
     const options = {
       ...finderSettings,
@@ -71,14 +73,21 @@ function changeElementAndGenerateSelector(
     };
     selector = getSelector(newelement, options);
   } catch (error) {
-    return selectorGenerationErrorState(
+    let newstate = selectorGenerationErrorState(
       state,
       newelement,
-      "Unable to generate selector."
+      "Unable to generate selector. Error=" + error.message
     );
+    return {
+      ...newstate,
+      selectionState: {
+        ...newstate.selectionState,
+        lastClickedElement: null,
+      },
+      selectedElements: [],
+    };
   }
 
-  if (element) element.classList.remove(Types.CLASS_SELECTED_ELEMENT);
   newelement.classList.add(Types.CLASS_SELECTED_ELEMENT);
   let { selectedElements, alreadyExists } = removeElement(
     element,
@@ -316,6 +325,8 @@ export default function (state = initialState, action, finderState) {
               selectorRoot: tempSelectorRoot,
               selectorRootElement: document.querySelector(tempSelectorRoot),
               selectorRootEditMode: false,
+              selectedElements: [],
+              lastClickedElement: null,
             },
           };
         }
@@ -341,6 +352,8 @@ export default function (state = initialState, action, finderState) {
           selectorRoot: Types.DEFAULT_SELECTOR_ROOT,
           selectorRootElement: null,
           tempSelectorRoot: state.selectionState.selectorRoot,
+          selectedElements: [],
+          lastClickedElement: null,
         },
       };
       break;
@@ -396,7 +409,9 @@ export default function (state = initialState, action, finderState) {
           selectorRootElement: document.querySelector(
             state.selectionState.generatedSelector
           ),
+          lastClickedElement: null,
         },
+        selectedElements: [],
       };
     }
     case Actions.EXIT_APPLICATION: {

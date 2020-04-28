@@ -134,7 +134,7 @@ const SidePanel = ({ handleExit }) => {
   }
   function getFieldOptionsHtml() {
     if (selectedElements.length === 0) {
-      return <div>Select at least one element.</div>;
+      return <div>Please select an element.</div>;
     } else if (selectedElements.length === 1) {
       return (
         <div>
