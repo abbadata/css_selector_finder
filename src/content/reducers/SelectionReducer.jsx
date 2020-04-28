@@ -16,7 +16,7 @@ const initialState = {
   selectionState: {
     lastClickedElement: null,
     lastMouseoverElement: null,
-    selectorRoot: ":root",
+    selectorRoot: Types.DEFAULT_SELECTOR_ROOT,
     selectorRootElement: null,
     generatedSelector: "",
     /* These are used for the Selector Test ui */
@@ -78,7 +78,6 @@ function changeElementAndGenerateSelector(
     );
   }
 
-  console.log("Selector: ", selector);
   if (element) element.classList.remove(Types.CLASS_SELECTED_ELEMENT);
   newelement.classList.add(Types.CLASS_SELECTED_ELEMENT);
   let { selectedElements, alreadyExists } = removeElement(
@@ -339,7 +338,7 @@ export default function (state = initialState, action, finderState) {
         selectionState: {
           ...state.selectionState,
           selectorRootEditMode: false,
-          selectorRoot: ":root",
+          selectorRoot: Types.DEFAULT_SELECTOR_ROOT,
           selectorRootElement: null,
           tempSelectorRoot: state.selectionState.selectorRoot,
         },

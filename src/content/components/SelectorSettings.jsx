@@ -4,6 +4,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import EntryList from "./EntryList";
+import * as Types from "../Types";
 
 const InputLine = styled.div`
   display: flex;
@@ -19,7 +20,7 @@ const Label = styled.div`
   flex-grow: 0;
 `;
 
-const RootLabel = styled.div`
+const RootLabelDefault = styled.div`
   display: inline-block;
   color: black;
   padding: 2px;
@@ -27,6 +28,24 @@ const RootLabel = styled.div`
   padding-left: 15px;
   text-align: left;
   flex-grow: 0;
+`;
+
+const RootLabelNonDefault = styled.div`
+  display: inline-block;
+  color: black;
+  padding: 2px;
+  padding-right: 5px;
+  padding-left: 15px;
+  text-align: left;
+  flex-grow: 0;
+  background-color: rgb(139, 255, 168);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 15px,
+    rgba(255, 255, 255, 0.5) 15px,
+    rgba(255, 255, 255, 0.5) 30px
+  );
 `;
 
 const Value = styled.input`
@@ -181,6 +200,14 @@ const SelectorSettings = () => {
     }
   }
 
+  function getRootSelectorLabel() {
+    if (selectorRoot == Types.DEFAULT_SELECTOR_ROOT) {
+      return <RootLabelDefault>Selector Root:</RootLabelDefault>;
+    } else {
+      return <RootLabelNonDefault>Selector Root:</RootLabelNonDefault>;
+    }
+  }
+
   return (
     <div>
       <CustTable>
@@ -221,7 +248,7 @@ const SelectorSettings = () => {
                 ></input>
               </InputLine>
               <InputLine>
-                <RootLabel>Selector Root:</RootLabel>
+                {getRootSelectorLabel()}
                 {getSelectorRootHtml()}
               </InputLine>
             </td>

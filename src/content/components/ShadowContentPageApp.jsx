@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import root from "react-shadow/styled-components";
-import styles from "../content.css";
-
 import { useSelector, useDispatch } from "react-redux";
 import SidePanel from "./SidePanel";
 import BottomPanel from "./BottomPanel";
@@ -303,23 +301,11 @@ const ContentPageApp = () => {
     }
   }
 
-  function recreateNode(el, withChildren) {
-    if (withChildren) {
-      el.parentNode.replaceChild(el.cloneNode(true), el);
-    } else {
-      var newEl = el.cloneNode(false);
-      while (el.hasChildNodes()) newEl.appendChild(el.firstChild);
-      el.parentNode.replaceChild(newEl, el);
-    }
-  }
-
   function handleDocumentClick(e) {
     let targetElement = e.target || e.srcElement;
     if (
       !isDescendant(document.getElementById("content-page-app"), targetElement)
     ) {
-      console.log("FINDERSETTINGS2: ", finderSettings);
-
       dispatch({
         type: "ONLY_SELECT_SELECTED_ELEMENT",
         payload: {

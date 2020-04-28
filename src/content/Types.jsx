@@ -1,3 +1,5 @@
+export const DEFAULT_SELECTOR_ROOT = ":root";
+
 export const TAB_INDEX_INFO = 0;
 export const TAB_INDEX_HTML = 1;
 export const TAB_INDEX_CUSTOM_SELECTORS = 2;
