@@ -42,6 +42,20 @@ export const getSelector = (elem, options) => {
   return selector;
 };
 
+export const markSelectedElement = (selector) => {
+  let elem =
+    typeof selector == "object" ? selector : document.querySelector(selector);
+  if (elem) {
+    elem.classList.add(Types.CLASS_SELECTED_ELEMENT);
+  }
+};
+
+export const unmarkSelectedElement = (selectorElement) => {
+  if (selectorElement) {
+    selectorElement.classList.remove(Types.CLASS_SELECTED_ELEMENT);
+  }
+};
+
 export const markRootSelector = (selector) => {
   let elem = document.querySelector(selector);
   if (elem) {

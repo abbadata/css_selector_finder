@@ -1,6 +1,8 @@
 import { addElement, removeElement, formatXml } from "../lib/ReducerUtils";
 import {
   getSelector,
+  markSelectedElement,
+  unmarkSelectedElement,
   markTempSelector,
   unmarkTempSelector,
   verifySelector,
@@ -65,7 +67,7 @@ function changeElementAndGenerateSelector(
   rootElement
 ) {
   let selector = "";
-  if (element) element.classList.remove(Types.CLASS_SELECTED_ELEMENT);
+  unmarkSelectedElement(element);
   try {
     const options = {
       ...finderSettings,
@@ -88,7 +90,7 @@ function changeElementAndGenerateSelector(
     };
   }
 
-  newelement.classList.add(Types.CLASS_SELECTED_ELEMENT);
+  markSelectedElement(newelement);
   let { selectedElements, alreadyExists } = removeElement(
     element,
     state.selectedElements
@@ -153,7 +155,7 @@ export default function (state = initialState, action, finderState) {
       const element = state.selectionState.lastClickedElement;
       // If user clicks on the last clicked element, just deselect it
       if (element == newelement) {
-        element.classList.remove(Types.CLASS_SELECTED_ELEMENT);
+        unmarkSelectedElement(element);
         return {
           ...state,
           selectedElements: [],
@@ -316,6 +318,9 @@ export default function (state = initialState, action, finderState) {
             },
           };
         } else {
+          state.selectedElements.forEach((elem, i) => {
+            unmarkSelectedElement(elem.element);
+          });
           unmarkRootSelector(state.selectionState.selectorRootElement);
           markRootSelector(tempSelectorRoot);
           return {
@@ -343,6 +348,9 @@ export default function (state = initialState, action, finderState) {
       };
       break;
     case Actions.RESET_SELECTOR_ROOT:
+      state.selectedElements.forEach((elem, i) => {
+        unmarkSelectedElement(elem.element);
+      });
       unmarkRootSelector(state.selectionState.selectorRootElement);
       return {
         ...state,
@@ -399,6 +407,9 @@ export default function (state = initialState, action, finderState) {
       return state;
     }
     case Actions.USE_AS_SELECTOR_ROOT: {
+      state.selectedElements.forEach((elem, i) => {
+        unmarkSelectedElement(elem.element);
+      });
       unmarkRootSelector(state.selectionState.selectorRootElement);
       markRootSelector(state.selectionState.generatedSelector);
       return {
@@ -416,8 +427,7 @@ export default function (state = initialState, action, finderState) {
     }
     case Actions.EXIT_APPLICATION: {
       state.selectedElements.forEach((elem, i) => {
-        let el = elem.element;
-        el.classList.remove(Types.CLASS_SELECTED_ELEMENT);
+        unmarkSelectedElement(elem.element);
       });
       unmarkRootSelector(state.selectionState.selectorRootElement);
       unmarkTempSelector(state.selectionState.tempSelectedElements);
