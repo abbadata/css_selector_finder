@@ -1,14 +1,35 @@
 .abba-selected-element {
   outline: 3px dashed #ff7f00 !important;
-  background-color: rgba(250, 255, 176, 0.5) !important;
+  background-color: rgba(246, 218, 115, 0.5) !important;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 15px,
+    rgba(255, 255, 255, 0.5) 15px,
+    rgba(255, 255, 255, 0.5) 30px
+  ) !important;
 }
 .abba-temp-selected-element {
   outline: 3px dashed #1500ff !important;
   background-color: rgba(0, 184, 255, 0.5) !important;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 15px,
+    rgba(255, 255, 255, 0.5) 15px,
+    rgba(255, 255, 255, 0.5) 30px
+  ) !important;
 }
 .abba-root-element {
   outline: 3px dashed #0fb10a !important;
   background-color: rgb(139, 255, 168) !important;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 15px,
+    rgba(255, 255, 255, 0.5) 15px,
+    rgba(255, 255, 255, 0.5) 30px
+  ) !important;
 }
 .abba-mouseover-element {
   outline: 3px solid red !important;

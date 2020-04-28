@@ -250,8 +250,8 @@ const ContentPageApp = () => {
     );
   }, []);
   useEffect(() => {
-    // Need to readd handlers after finderSettings change, otherwise
-    // the handler doesn't have the updated settings
+    // Need to recreate onclick handler after state change, otherwise
+    // the handler doesn't seem to pick up the updated state
     if (window.savedClickHandler) {
       document.documentElement.removeEventListener(
         "click",
