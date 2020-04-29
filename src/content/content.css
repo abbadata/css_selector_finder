@@ -11,9 +11,9 @@
 }
 .abba-temp-selected-element {
   outline: 3px dashed #1500ff !important;
-  background-color: rgba(0, 184, 255, 0.5) !important;
+  background-color: rgb(204, 187, 255) !important;
   background-image: repeating-linear-gradient(
-    45deg,
+    135deg,
     transparent,
     transparent 15px,
     rgba(255, 255, 255, 0.5) 15px,

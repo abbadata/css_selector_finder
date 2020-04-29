@@ -10,6 +10,7 @@ const initialState = {
     tagFilter: [],
     seedMinLength: 1,
     optimizedMinLength: 10,
+    threshhold: 1000,
   },
   errorMessage: "",
 };
@@ -157,6 +158,15 @@ export default function (state = initialState, action) {
         settings: {
           ...state.settings,
           optimizedMinLength: action.payload.value,
+        },
+      };
+    }
+    case Actions.SET_FINDER_THRESHHOLD: {
+      return {
+        ...state,
+        settings: {
+          ...state.settings,
+          threshhold: action.payload.value,
         },
       };
     }

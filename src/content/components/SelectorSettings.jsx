@@ -141,6 +141,7 @@ const SelectorSettings = () => {
   const optimizedMinLength = useSelector(
     (state) => state.finder.settings.optimizedMinLength
   );
+  const threshhold = useSelector((state) => state.finder.settings.threshhold);
   const dispatch = useDispatch();
 
   function getSelectorRootHtml() {
@@ -393,6 +394,19 @@ const SelectorSettings = () => {
                   onChange={(e) =>
                     dispatch({
                       type: "SET_FINDER_OPTIMIZED_MIN_LENGTH",
+                      payload: { value: e.target.value },
+                    })
+                  }
+                ></input>
+                <br></br>
+                Threshhold:
+                <input
+                  type="text"
+                  size={5}
+                  value={threshhold}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "SET_FINDER_THRESHHOLD",
                       payload: { value: e.target.value },
                     })
                   }
