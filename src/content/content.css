@@ -1,5 +1,6 @@
 .abba-selected-element {
   outline: 3px dashed #ff7f00 !important;
+  outline-offset: 1px;
   background-color: rgba(246, 218, 115, 0.5) !important;
   background-image: repeating-linear-gradient(
     45deg,
@@ -10,7 +11,10 @@
   ) !important;
 }
 .abba-temp-selected-element {
-  outline: 3px dashed #1500ff !important;
+  /*outline: 3px dashed #1500ff !important;*/
+  outline-color: #1500ff;
+  outline-style: dashed !important;
+  outline-width: 3px !important;
   background-color: rgb(204, 187, 255) !important;
   background-image: repeating-linear-gradient(
     45deg,
@@ -33,4 +37,16 @@
 }
 .abba-mouseover-element {
   outline: 3px solid red !important;
+}
+#content-page-app {
+  all: initial;
+  /*
+  font-size: 13.4px;
+  line-height: 21.04px;
+  */
+  font-family: "DDG_ProximaNova", "DDG_ProximaNova_UI_0", "DDG_ProximaNova_UI_1",
+    "DDG_ProximaNova_UI_2", "DDG_ProximaNova_UI_3", "DDG_ProximaNova_UI_4",
+    "DDG_ProximaNova_UI_5", "DDG_ProximaNova_UI_6", "Proxima Nova",
+    "Helvetica Neue", "Helvetica", "Segoe UI", "Nimbus Sans L",
+    "Liberation Sans", "Open Sans", FreeSans, Arial, sans-serif;
 }

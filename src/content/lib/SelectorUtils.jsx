@@ -70,7 +70,10 @@ export const unmarkRootSelector = (selectorElement) => {
 };
 
 export const markTempSelector = (selector) => {
-  let elems = document.querySelectorAll(selector);
+  let elems = [];
+  try {
+    elems = document.querySelectorAll(selector);
+  } catch (error) {}
   let selList = [];
   elems.forEach((elem) => {
     elem.classList.add(Types.CLASS_TEMP_SELECTED_ELEMENT);

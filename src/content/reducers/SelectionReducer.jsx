@@ -158,6 +158,10 @@ export default function (state = initialState, action, finderState) {
         unmarkSelectedElement(element);
         return {
           ...state,
+          selectionState: {
+            ...state.selectionState,
+            lastClickedElement: null,
+          },
           selectedElements: [],
         };
       } else {
@@ -376,8 +380,8 @@ export default function (state = initialState, action, finderState) {
       break;
     case Actions.DO_TEST_SELECTOR_HIGHLIGHT:
       {
-        let selectedList = state.selectionState.tempSelectedElements;
-        let tempSelector = state.selectionState.tempSelector;
+        const selectedList = state.selectionState.tempSelectedElements;
+        const tempSelector = state.selectionState.tempSelector;
         unmarkTempSelector(selectedList);
         let selectors = markTempSelector(tempSelector);
         return {

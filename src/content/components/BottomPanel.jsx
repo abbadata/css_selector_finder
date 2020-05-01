@@ -156,32 +156,34 @@ const BottomPanel = () => {
           <Tab>Console</Tab>
         </TabList>
         <TabPanel>
-          <ul>
-            <li>
-              Select an element on the page to generate the CSS selector for.
-            </li>
-            <li>
-              Customize the CSS selector generation in the "Custom Selectors"
-              tab. Specific names of classes, IDs, and/or tag names can be
-              filtered out. A root selector can be specified and selectors will
-              be generated relative to that root.
-            </li>
-            <li>
-              Use the "Test Selector" tab to manually enter a selector and see
-              what gets matched on the page. Note that matched elements may not
-              always be visible, depending on the target page. However, the
-              count will be accurate.
-            </li>
-            <li>
-              Use "Modify Selection" options on the right panel to change the
-              selected dom element to a parent/child/sibling.
-            </li>
-            <li>
-              The side and bottom panels will cover content on the page. Use the
-              arrows on the upper right of the panels to move them to the
-              opposite side of the page.
-            </li>
-          </ul>
+          <SubPanel>
+            <ul>
+              <li>
+                Select an element on the page to generate the CSS selector for.
+              </li>
+              <li>
+                Customize the CSS selector generation in the "Custom Selectors"
+                tab. Specific names of classes, IDs, and/or tag names can be
+                filtered out. A root selector can be specified and selectors
+                will be generated relative to that root.
+              </li>
+              <li>
+                Use the "Test Selector" tab to manually enter a selector and see
+                what gets matched on the page. Note that matched elements may
+                not always be visible, depending on the target page. However,
+                the count will be accurate.
+              </li>
+              <li>
+                Use "Modify Selection" options on the right panel to change the
+                selected dom element to a parent/child/sibling.
+              </li>
+              <li>
+                The side and bottom panels will cover content on the page. Use
+                the arrows on the upper right of the panels to move them to the
+                opposite side of the page.
+              </li>
+            </ul>
+          </SubPanel>
         </TabPanel>
         <TabPanel>
           <SubPanel>{getHtmlPanel()}</SubPanel>
