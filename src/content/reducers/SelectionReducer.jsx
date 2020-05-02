@@ -334,9 +334,9 @@ export default function (state = initialState, action, finderState) {
               selectorRoot: tempSelectorRoot,
               selectorRootElement: document.querySelector(tempSelectorRoot),
               selectorRootEditMode: false,
-              selectedElements: [],
               lastClickedElement: null,
             },
+            selectedElements: [],
           };
         }
       }
@@ -364,9 +364,9 @@ export default function (state = initialState, action, finderState) {
           selectorRoot: Types.DEFAULT_SELECTOR_ROOT,
           selectorRootElement: null,
           tempSelectorRoot: state.selectionState.selectorRoot,
-          selectedElements: [],
           lastClickedElement: null,
         },
+        selectedElements: [],
       };
       break;
     case Actions.SET_TEMP_SELECTOR:
