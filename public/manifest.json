@@ -16,8 +16,6 @@
   },
   "web_accessible_resources": [
     "/static/js/content.css",
-    "/static/css/content.css",
-    "/static/css/app.css",
-    "/images/copy_clipboard.png"
+    "/static/js/content.js.map"
   ]
 }
