@@ -11,7 +11,7 @@ import * as Actions from "../actions/GlobalActions";
 export const initialState = {
   consoleMessages: [],
   consoleMessageJustAdded: false,
-  bottomTabIndex: Types.TAB_INDEX_INFO,
+  bottomTabIndex: Types.TAB_INDEX_CUSTOM_SELECTORS,
 };
 
 export function globalReducer(state = initialState, action) {

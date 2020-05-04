@@ -3,7 +3,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-  devtool: "source-map",
   entry: {
     "static/js/background/background": "./src/background/background.js",
     "static/js/content": "./src/content/content.js",

@@ -149,12 +149,28 @@ const BottomPanel = () => {
         }
       >
         <TabList>
-          <Tab>Info</Tab>
-          <Tab>HTML</Tab>
           <Tab>Custom Selectors</Tab>
+          <Tab>HTML</Tab>
           <Tab>Test Selector</Tab>
           <Tab>Console</Tab>
+          <Tab>Info</Tab>
         </TabList>
+        <TabPanel>
+          <SubPanel>
+            <SelectorSettings></SelectorSettings>
+          </SubPanel>
+        </TabPanel>
+        <TabPanel>
+          <SubPanel>{getHtmlPanel()}</SubPanel>
+        </TabPanel>
+        <TabPanel>
+          <SelectorTester></SelectorTester>
+        </TabPanel>
+        <TabPanel>
+          <SubPanel ref={consoleRef}>
+            <Console consoleDivRef={consoleRef}></Console>
+          </SubPanel>
+        </TabPanel>
         <TabPanel>
           <SubPanel>
             <ul>
@@ -183,22 +199,6 @@ const BottomPanel = () => {
                 opposite side of the page.
               </li>
             </ul>
-          </SubPanel>
-        </TabPanel>
-        <TabPanel>
-          <SubPanel>{getHtmlPanel()}</SubPanel>
-        </TabPanel>
-        <TabPanel>
-          <SubPanel>
-            <SelectorSettings></SelectorSettings>
-          </SubPanel>
-        </TabPanel>
-        <TabPanel>
-          <SelectorTester></SelectorTester>
-        </TabPanel>
-        <TabPanel>
-          <SubPanel ref={consoleRef}>
-            <Console consoleDivRef={consoleRef}></Console>
           </SubPanel>
         </TabPanel>
       </Tabs>

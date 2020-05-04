@@ -152,7 +152,7 @@ const SidePanel = ({ handleExit }) => {
   return (
     <FieldOptions ref={panelRef}>
       {getMovePanel()}
-      <Header>ABBAdata Selector Spy</Header>
+      <Header>ABBAdata Selector Finder</Header>
       {getFieldOptionsHtml()}
       <CenteredDiv>
         <ExitButton
