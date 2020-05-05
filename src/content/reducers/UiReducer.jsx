@@ -24,14 +24,17 @@ export default function (state = initialState, action) {
         panelElement.style.setProperty(Types.HORIZPANEL_POS_BOTTOM, "initial");
         // Adjust position of vertical panel depending on whether
         // horizontal panel is above or below it
-        state.vertPanelDiv.style.top = "200px";
-        state.vertPanelDiv.style.bottom = "0px";
+        if (state.vertPanelDiv) {
+          state.vertPanelDiv.style.top = "200px";
+          state.vertPanelDiv.style.bottom = "0px";
+        }
       } else {
         panelElement.style.bottom = 0;
         panelElement.style.setProperty(Types.HORIZPANEL_POS_TOP, "initial");
-
-        state.vertPanelDiv.style.top = "0";
-        state.vertPanelDiv.style.bottom = "200px";
+        if (state.vertPanelDiv) {
+          state.vertPanelDiv.style.top = "0";
+          state.vertPanelDiv.style.bottom = "200px";
+        }
       }
       return {
         ...state,

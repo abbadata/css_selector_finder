@@ -181,6 +181,7 @@ const SelectorSettings = () => {
             type="text"
             value={selectorRoot}
             disabled={true}
+            readOnly
           ></DisabledValue>
           <input
             type="button"
@@ -232,7 +233,12 @@ const SelectorSettings = () => {
             <td>
               <InputLine>
                 <Label>Custom Selector:</Label>
-                <Value type="text" value={generatedSelector} size={150}></Value>
+                <Value
+                  type="text"
+                  value={generatedSelector}
+                  size={150}
+                  readOnly
+                ></Value>
                 <input
                   type="button"
                   value="Copy to Clipboard"

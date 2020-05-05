@@ -38,12 +38,8 @@
 .abba-mouseover-element {
   outline: 3px solid red !important;
 }
-#content-page-app {
+#content-page-app * {
   all: initial;
-  /*
-  font-size: 13.4px;
-  line-height: 21.04px;
-  */
   font-family: "DDG_ProximaNova", "DDG_ProximaNova_UI_0", "DDG_ProximaNova_UI_1",
     "DDG_ProximaNova_UI_2", "DDG_ProximaNova_UI_3", "DDG_ProximaNova_UI_4",
     "DDG_ProximaNova_UI_5", "DDG_ProximaNova_UI_6", "Proxima Nova",

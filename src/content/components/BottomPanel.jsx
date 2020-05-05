@@ -69,9 +69,14 @@ const BottomPanel = () => {
 
   function getMovePanel() {
     if (horizPanelPosition === Types.HORIZPANEL_POS_BOTTOM) {
-      return <MoveUpArrow onClick={moveToTop}></MoveUpArrow>;
+      return <MoveUpArrow id="move-up-arrow" onClick={moveToTop}></MoveUpArrow>;
     } else if (horizPanelPosition === Types.HORIZPANEL_POS_TOP) {
-      return <MoveDownArrow onClick={moveToBottom}></MoveDownArrow>;
+      return (
+        <MoveDownArrow
+          id="move-down-arrow"
+          onClick={moveToBottom}
+        ></MoveDownArrow>
+      );
     }
   }
   function moveToTop(e) {

@@ -1,0 +1,60 @@
+import * as Actions from "../actions/FinderActions";
+import FinderReducer from "./FinderReducer";
+
+const initialState = {
+  settings: {
+    isClassEnabled: true,
+    isIdEnabled: true,
+    isTagEnabled: true,
+    classFilter: [],
+    idFilter: [],
+    tagFilter: [],
+    seedMinLength: 1,
+    optimizedMinLength: 10,
+    threshhold: 1000,
+  },
+  errorMessage: "",
+};
+
+describe("CSS Selector Finder reducer", () => {
+  it("Test initial state", () => {
+    expect(FinderReducer(undefined, {})).toEqual(initialState);
+  });
+
+  it("Test ADD_FINDER_CLASS_FILTER", () => {
+    const nextState = FinderReducer(initialState, {
+      type: Actions.ADD_FINDER_CLASS_FILTER,
+      payload: { value: "TestClass" },
+    });
+    //console.log("NXT: ", nextState);
+    expect(nextState.settings.classFilter).toEqual(["TestClass"]);
+  });
+
+  it("Test ADD_FINDER_CLASS_FILTER with existing filtered entries", () => {
+    const testState = {
+      ...initialState,
+      settings: { ...initialState.settings, classFilter: ["AAA", "BBB"] },
+    };
+    const nextState = FinderReducer(testState, {
+      type: Actions.ADD_FINDER_CLASS_FILTER,
+      payload: { value: "TestClass" },
+    });
+    //console.log("NXT: ", nextState);
+    expect(nextState.settings.classFilter).toEqual(["AAA", "BBB", "TestClass"]);
+  });
+
+  it("Test DELETE_FINDER_CLASS_FILTER", () => {
+    const testState = {
+      ...initialState,
+      settings: {
+        ...initialState.settings,
+        classFilter: ["AAA", "TestClass", "BBB"],
+      },
+    };
+    const nextState = FinderReducer(testState, {
+      type: Actions.DELETE_FINDER_CLASS_FILTER,
+      payload: { value: "TestClass" },
+    });
+    expect(nextState.settings.classFilter).toEqual(["AAA", "BBB"]);
+  });
+});

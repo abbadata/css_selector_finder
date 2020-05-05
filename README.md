@@ -28,7 +28,6 @@ Built With
 React
 Redux
 
-
 Help
 
 Documentation and tutorials are available on https://www.abbadata.com/css_selector_finder

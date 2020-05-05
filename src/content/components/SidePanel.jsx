@@ -109,9 +109,19 @@ const SidePanel = ({ handleExit }) => {
 
   function getMovePanel() {
     if (vertPanelPosition === Types.VERTPANEL_POS_RIGHT) {
-      return <MoveLeftArrow onClick={moveToLeft}></MoveLeftArrow>;
+      return (
+        <MoveLeftArrow
+          id="move-left-arrow"
+          onClick={moveToLeft}
+        ></MoveLeftArrow>
+      );
     } else if (vertPanelPosition === Types.VERTPANEL_POS_LEFT) {
-      return <MoveRightArrow onClick={moveToRight}></MoveRightArrow>;
+      return (
+        <MoveRightArrow
+          id="move-right-arrow"
+          onClick={moveToRight}
+        ></MoveRightArrow>
+      );
     }
   }
   function moveToRight(e) {
