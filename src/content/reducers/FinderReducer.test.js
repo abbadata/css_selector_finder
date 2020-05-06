@@ -21,12 +21,19 @@ describe("CSS Selector Finder reducer", () => {
     expect(FinderReducer(undefined, {})).toEqual(initialState);
   });
 
+  it("Test SET_FINDER_CLASS_ENABLED", () => {
+    const nextState = FinderReducer(initialState, {
+      type: Actions.SET_FINDER_CLASS_ENABLED,
+      payload: { enabled: false },
+    });
+    expect(nextState.settings.isClassEnabled).toEqual(false);
+  });
+
   it("Test ADD_FINDER_CLASS_FILTER", () => {
     const nextState = FinderReducer(initialState, {
       type: Actions.ADD_FINDER_CLASS_FILTER,
       payload: { value: "TestClass" },
     });
-    //console.log("NXT: ", nextState);
     expect(nextState.settings.classFilter).toEqual(["TestClass"]);
   });
 
@@ -39,7 +46,6 @@ describe("CSS Selector Finder reducer", () => {
       type: Actions.ADD_FINDER_CLASS_FILTER,
       payload: { value: "TestClass" },
     });
-    //console.log("NXT: ", nextState);
     expect(nextState.settings.classFilter).toEqual(["AAA", "BBB", "TestClass"]);
   });
 

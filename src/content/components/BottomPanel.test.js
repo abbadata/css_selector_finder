@@ -19,7 +19,7 @@ afterEach(() => {
   container = null;
 });
 
-it.skip("Render with nothing in selection", () => {
+it("Render with nothing in selection", () => {
   act(() => {
     render(
       <Provider store={store}>

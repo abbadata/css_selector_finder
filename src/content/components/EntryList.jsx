@@ -89,13 +89,16 @@ const EntryList = ({ listState, onAddHandler, onDeleteHandler, enabled }) => {
       return (
         <div>
           <DeleteButton
+            className="delete-button"
             onClick={() => {
               deleteHandler(e);
             }}
           >
             X
           </DeleteButton>
-          <ListEntry>{e}</ListEntry>
+          <ListEntry className="list-entry" key={e}>
+            {e}
+          </ListEntry>
         </div>
       );
     });
@@ -114,6 +117,7 @@ const EntryList = ({ listState, onAddHandler, onDeleteHandler, enabled }) => {
     <ListMain>
       <TopDiv>
         <Value
+          className="add-field"
           enabled={enabled}
           type="text"
           value={addValue}
@@ -121,6 +125,7 @@ const EntryList = ({ listState, onAddHandler, onDeleteHandler, enabled }) => {
           onChange={(e) => setAddValue(e.target.value)}
         ></Value>
         <AddButton
+          className="add-button"
           enabled={enabled}
           onClick={() => {
             addHandler();
@@ -129,7 +134,9 @@ const EntryList = ({ listState, onAddHandler, onDeleteHandler, enabled }) => {
           Add Filter
         </AddButton>
       </TopDiv>
-      <ListDiv enabled={enabled}>{getListHtml()}</ListDiv>
+      <ListDiv className="listdiv" enabled={enabled}>
+        {getListHtml()}
+      </ListDiv>
     </ListMain>
   );
 };
