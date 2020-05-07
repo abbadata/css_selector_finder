@@ -158,7 +158,7 @@ const BottomPanel = () => {
           <Tab>HTML</Tab>
           <Tab>Test Selector</Tab>
           <Tab>Console</Tab>
-          <Tab>Info</Tab>
+          <Tab>Usage Info</Tab>
         </TabList>
         <TabPanel>
           <SubPanel>

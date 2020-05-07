@@ -420,6 +420,7 @@ export default function (state = initialState, action, finderState) {
         ...state,
         selectionState: {
           ...state.selectionState,
+          generatedSelector: "",
           selectorRoot: state.selectionState.generatedSelector,
           selectorRootElement: document.querySelector(
             state.selectionState.generatedSelector
