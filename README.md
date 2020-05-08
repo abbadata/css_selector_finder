@@ -18,7 +18,8 @@ Install the Chrome Extension.
 - Customize Selection Finding by enabling/disabling usage of IDs, class names, and/or
   tag names. Specific values of those fields can also be filtered out.
 - "Seed Min Length", "Optimized Min Length", and "Threshhold" are settings used by
-  https://github.com/antonmedv/finder . Please visit that project for details.
+  https://github.com/antonmedv/finder . Please visit that project for details. Current
+  values are set so that selector finding will be fairly quick, even on comlicated sites.
 - The root element used for selector finding can be modified to something other than
   the document body (:root). Click the "Use As Selector Root" button to make the
   currently selected element the "selector root". When the root element is changed,
@@ -45,8 +46,6 @@ Install the Chrome Extension.
 ### Testing
 
 - npm run test
-
-Uses (https://github.com/antonmedv/finder) .
 
 ## Credits
 

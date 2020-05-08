@@ -7,7 +7,6 @@ const Header = styled.div`
   width: 100%;
   background-color: lightgrey;
   color: black;
-  margin-top: 5px;
   font-weight: bold;
 `;
 

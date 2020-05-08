@@ -11,11 +11,12 @@ const Header = styled.div`
 `;
 const Entry = styled.div`
   color: blue;
-  border: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
   background: #fff;
-  box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  padding: 2px;
+  padding-top: 2px;
+  padding-bottom: 2px;
   text-align: left;
   width: 100%;
 `;
