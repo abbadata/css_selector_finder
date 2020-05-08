@@ -116,6 +116,13 @@ export default function (state = initialState, action, finderState) {
     case Actions.SET_MOUSEOVER_ELEMENT:
       {
         let element = action.payload.element;
+        if (state.selectionState.selectorRootElement) {
+          if (
+            !isDescendant(state.selectionState.selectorRootElement, element)
+          ) {
+            return state;
+          }
+        }
         if (element && element !== state.selectionState.lastMouseoverElement) {
           element.classList.add(Types.CLASS_MOUSEOVER_ELEMENT);
           return {
@@ -134,6 +141,13 @@ export default function (state = initialState, action, finderState) {
     case Actions.SET_MOUSEOUT_ELEMENT:
       {
         let element = action.payload.element;
+        if (state.selectionState.selectorRootElement) {
+          if (
+            !isDescendant(state.selectionState.selectorRootElement, element)
+          ) {
+            return state;
+          }
+        }
         if (element) {
           element.classList.remove(Types.CLASS_MOUSEOVER_ELEMENT);
           return {
@@ -153,6 +167,14 @@ export default function (state = initialState, action, finderState) {
       let rootElement = action.payload.rootElement;
 
       const element = state.selectionState.lastClickedElement;
+
+      if (state.selectionState.selectorRootElement) {
+        if (
+          !isDescendant(state.selectionState.selectorRootElement, newelement)
+        ) {
+          return state;
+        }
+      }
       // If user clicks on the last clicked element, just deselect it
       if (element == newelement) {
         unmarkSelectedElement(element);
