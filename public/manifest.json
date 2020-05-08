@@ -1,6 +1,6 @@
 {
-  "short_name": "CSS Selector Spy",
-  "name": "ABBAdata CSS Selector Spy",
+  "short_name": "CSS Selector Finder",
+  "name": "ABBAdata CSS Selector Finder",
   "version": "1.0",
   "permissions": ["activeTab", "webNavigation"],
   "manifest_version": 2,
