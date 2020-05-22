@@ -28,7 +28,8 @@ it("Render with nothing in selection", () => {
       container
     );
   });
-  expect(container.textContent).toMatch(/Please select an element/);
+  let selector = document.querySelector(".chooser-value");
+  expect(selector.innerHTML).toBe("");
 });
 
 it("Move side panel to left and back to right", () => {

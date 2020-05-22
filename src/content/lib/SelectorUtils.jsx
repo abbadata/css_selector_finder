@@ -4,10 +4,15 @@ import * as Types from "../Types";
 export const getSelector = (elem, options) => {
   let rootelem = document.body;
   if (options.root) {
-    rootelem = document.querySelector(options.root);
+    //rootelem = document.querySelector(options.root);
+    rootelem = options.root;
   }
   const selector = finder(elem, {
-    root: rootelem,
+    root: options.root ? options.root : document.body,
+    seedMinLength: options.seedMinLength,
+    optimizedMinLength: options.optimizedMinLength,
+    threshold: options.threshhold,
+    maxNumberOfTries: options.maxNumberOfTries,
     idName: (name) => {
       if (!options.isIdEnabled) {
         return false;
@@ -35,6 +40,24 @@ export const getSelector = (elem, options) => {
       } else {
         return options.tagFilter.every((nm) => {
           return nm !== name;
+        });
+      }
+    },
+    attr: (name, value) => {
+      if (!options.isAttributeEnabled) {
+        return false;
+      } else {
+        return options.attributeFilter.some((entry) => {
+          let m = entry.match(/"([^=]+)"\s=\s"(.*)"/s);
+          if (m) {
+            if (
+              m[1].toUpperCase() === name.toUpperCase() &&
+              (m[2] === "*" || m[2].toUpperCase() === value.toUpperCase())
+            ) {
+              return true;
+            }
+            return false;
+          }
         });
       }
     },

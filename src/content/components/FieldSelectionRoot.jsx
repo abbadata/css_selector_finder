@@ -2,13 +2,29 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import TextChooser from "./TextChooser";
+import * as Types from "../Types";
 
-const Header = styled.div`
+const RootHeader = styled.div`
   width: 100%;
   background-color: lightgrey;
   color: black;
   margin-top: 5px;
   font-weight: bold;
+`;
+
+const RootHeaderNonDefault = styled.div`
+  width: 100%;
+  color: black;
+  margin-top: 5px;
+  font-weight: bold;
+  background-color: rgb(139, 255, 168);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 15px,
+    rgba(255, 255, 255, 0.5) 15px,
+    rgba(255, 255, 255, 0.5) 30px
+  );
 `;
 
 const FieldSelectionRoot = () => {
@@ -23,6 +39,14 @@ const FieldSelectionRoot = () => {
   );
 
   const dispatch = useDispatch();
+
+  function getRootSelectorLabel() {
+    if (selectorRoot == Types.DEFAULT_SELECTOR_ROOT) {
+      return <RootHeader>Selector Root</RootHeader>;
+    } else {
+      return <RootHeaderNonDefault>Selector Root:</RootHeaderNonDefault>;
+    }
+  }
 
   function getSelectorRootHtml() {
     if (selectorRootEditMode) {
@@ -79,7 +103,7 @@ const FieldSelectionRoot = () => {
 
   return (
     <div>
-      <Header>Selector Root</Header>
+      {getRootSelectorLabel()}
       {getSelectorRootHtml()}
     </div>
   );

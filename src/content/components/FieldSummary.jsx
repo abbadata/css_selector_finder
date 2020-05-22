@@ -40,7 +40,7 @@ const FieldSummary = ({ selectedElements }) => {
         <PropertyText>Tag Type</PropertyText>
         <PropertyValue
           type="text"
-          value={selectedElements[0].elemtype}
+          value={selectedElements[0] ? selectedElements[0].elemtype : ""}
           readOnly
         ></PropertyValue>
       </Property>
@@ -48,7 +48,7 @@ const FieldSummary = ({ selectedElements }) => {
         <PropertyText>HTML value</PropertyText>
         <PropertyValue
           type="text"
-          value={selectedElements[0].html}
+          value={selectedElements[0] ? selectedElements[0].html : ""}
           readOnly
         ></PropertyValue>
       </Property>
@@ -56,7 +56,15 @@ const FieldSummary = ({ selectedElements }) => {
         <PropertyText>Text value</PropertyText>
         <PropertyValue
           type="text"
-          value={selectedElements[0].text}
+          value={selectedElements[0] ? selectedElements[0].text : ""}
+          readOnly
+        ></PropertyValue>
+      </Property>
+      <Property>
+        <PropertyText>HREF</PropertyText>
+        <PropertyValue
+          type="text"
+          value={selectedElements[0] ? selectedElements[0].href ?? "" : ""}
           readOnly
         ></PropertyValue>
       </Property>

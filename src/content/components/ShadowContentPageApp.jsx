@@ -3,6 +3,7 @@ import root from "react-shadow/styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import SidePanel from "./SidePanel";
 import BottomPanel from "./BottomPanel";
+import * as SelectionActions from "../actions/SelectionActions";
 
 window.savedClickHandler = null;
 window.savedMouseoverHandler = null;
@@ -222,11 +223,10 @@ const ShadowContentPageApp = () => {
 const ContentPageApp = () => {
   const finderSettings = useSelector((state) => state.finder.settings);
   const rootElement = useSelector(
-    (state) => state.selection.selectionState.selectorRoot
+    (state) => state.selection.selectionState.selectorRootElement
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch({ type: "SAVE_INITIAL_DOM_SETTINGS" });
     // Need to save the handlers so we can remove them later.
     window.savedMouseoverHandler = handleDocumentMouseover;
     document.documentElement.addEventListener(
@@ -282,7 +282,7 @@ const ContentPageApp = () => {
       !isDescendant(document.getElementById("content-page-app"), targetElement)
     ) {
       dispatch({
-        type: "SET_MOUSEOVER_ELEMENT",
+        type: SelectionActions.SET_MOUSEOVER_ELEMENT,
         payload: { element: targetElement },
       });
       e.preventDefault();
@@ -294,7 +294,7 @@ const ContentPageApp = () => {
       !isDescendant(document.getElementById("content-page-app"), targetElement)
     ) {
       dispatch({
-        type: "SET_MOUSEOUT_ELEMENT",
+        type: SelectionActions.SET_MOUSEOUT_ELEMENT,
         payload: { element: targetElement },
       });
       e.preventDefault();
@@ -307,7 +307,7 @@ const ContentPageApp = () => {
       !isDescendant(document.getElementById("content-page-app"), targetElement)
     ) {
       dispatch({
-        type: "ONLY_SELECT_SELECTED_ELEMENT",
+        type: SelectionActions.ONLY_SELECT_SELECTED_ELEMENT,
         payload: {
           element: targetElement,
           finderSettings: finderSettings,

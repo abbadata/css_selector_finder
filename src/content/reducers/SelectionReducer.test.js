@@ -24,9 +24,11 @@ const finderSettings = {
   isClassEnabled: true,
   isIdEnabled: true,
   isTagEnabled: true,
+  isAttributeEnabled: false,
   classFilter: [],
   idFilter: [],
   tagFilter: [],
+  attributeFilter: [],
   seedMinLength: 1,
   optimizedMinLength: 10,
   threshhold: 1000,
@@ -38,7 +40,21 @@ let spanWithNothing = null;
 let divUnderSpan = null;
 
 beforeEach(() => {
+  document.write(`
+  <div class='test-class'>
+    <p id='test-id'>
+      <span custom='customvalue'>
+        <div></div>
+      </span>
+    </p>
+  </div>
+  `);
   // setup a few DOM elements for basic selector finding tests
+  divWithClass = document.querySelector(".test-class");
+  pWithId = document.querySelector("#test-id");
+  spanWithNothing = document.querySelector("span");
+  divUnderSpan = document.querySelector("span > div");
+  /*
   divWithClass = document.createElement("div");
   divWithClass.className = "test-class";
   pWithId = document.createElement("p");
@@ -50,13 +66,17 @@ beforeEach(() => {
   divWithClass.appendChild(pWithId);
   pWithId.appendChild(spanWithNothing);
   spanWithNothing.appendChild(divUnderSpan);
+  */
 });
 
 afterEach(() => {
+  document.clear();
+  /*
   spanWithNothing.removeChild(divUnderSpan);
   pWithId.removeChild(spanWithNothing);
   divWithClass.removeChild(pWithId);
   document.body.removeChild(divWithClass);
+  */
 });
 
 describe("CSS Selector Selection reducer", () => {
@@ -92,26 +112,6 @@ describe("CSS Selector Selection reducer", () => {
     expect(nextState.selectionState.generatedSelector).toEqual("html");
     expect(nextState.selectedElements.length).toEqual(1);
     expect(nextState.selectedElements[0].element).toBe(testElement);
-  });
-
-  it("Test CHANGE_SELECTION_TO_PARENT", () => {
-    let nextState = SelectionReducer(
-      {
-        ...initialState,
-        selectionState: {
-          ...initialState.selectionState,
-          lastClickedElement: pWithId,
-        },
-      },
-      {
-        type: Actions.CHANGE_SELECTION_TO_PARENT,
-        payload: {
-          finderSettings: finderSettings,
-          rootElement: null,
-        },
-      }
-    );
-    expect(nextState.selectedElements[0].element).toBe(divWithClass);
   });
 
   it("Test CHANGE_SELECTOR_ROOT", () => {
@@ -165,7 +165,9 @@ describe("CSS Selector Selection reducer", () => {
         rootElement: null,
       },
     });
-    expect(nextState.selectionState.generatedSelector).toEqual("body > div");
+    expect(nextState.selectionState.generatedSelector).toEqual(
+      "div:nth-child(1)"
+    );
 
     nextState = SelectionReducer(initialState, {
       type: Actions.ONLY_SELECT_SELECTED_ELEMENT,
@@ -175,7 +177,9 @@ describe("CSS Selector Selection reducer", () => {
         rootElement: null,
       },
     });
-    expect(nextState.selectionState.generatedSelector).toEqual("body > div");
+    expect(nextState.selectionState.generatedSelector).toEqual(
+      "div:nth-child(1)"
+    );
   });
 
   it("Test selector generation by varying isIdEnabled/idFilter setting", () => {
@@ -197,7 +201,9 @@ describe("CSS Selector Selection reducer", () => {
         rootElement: null,
       },
     });
-    expect(nextState.selectionState.generatedSelector).toEqual("p");
+    expect(nextState.selectionState.generatedSelector).toEqual(
+      "p:nth-child(1)"
+    );
 
     nextState = SelectionReducer(initialState, {
       type: Actions.ONLY_SELECT_SELECTED_ELEMENT,
@@ -207,7 +213,9 @@ describe("CSS Selector Selection reducer", () => {
         rootElement: null,
       },
     });
-    expect(nextState.selectionState.generatedSelector).toEqual("p");
+    expect(nextState.selectionState.generatedSelector).toEqual(
+      "p:nth-child(1)"
+    );
   });
 
   it("Test selector generation by varying isTagEnabled/tagFilter setting", () => {
@@ -259,5 +267,105 @@ describe("CSS Selector Selection reducer", () => {
       },
     });
     expect(nextState.selectionState.generatedSelector).toEqual("#test-id > *");
+  });
+
+  it("Test selector generation by varying isAttributeEnabled/attributeFilter setting", () => {
+    let nextState = SelectionReducer(initialState, {
+      type: Actions.ONLY_SELECT_SELECTED_ELEMENT,
+      payload: {
+        element: spanWithNothing,
+        finderSettings: { ...finderSettings, isAttributeEnabled: true },
+        rootElement: null,
+      },
+    });
+    expect(nextState.selectionState.generatedSelector).toEqual("span");
+
+    nextState = SelectionReducer(initialState, {
+      type: Actions.ONLY_SELECT_SELECTED_ELEMENT,
+      payload: {
+        element: spanWithNothing,
+        finderSettings: {
+          ...finderSettings,
+          isAttributeEnabled: true,
+          attributeFilter: ['"custom" = "*"'],
+        },
+        rootElement: null,
+      },
+    });
+    expect(nextState.selectionState.generatedSelector).toEqual(
+      '[custom="customvalue"]'
+    );
+
+    nextState = SelectionReducer(initialState, {
+      type: Actions.ONLY_SELECT_SELECTED_ELEMENT,
+      payload: {
+        element: spanWithNothing,
+        finderSettings: {
+          ...finderSettings,
+          isAttributeEnabled: true,
+          attributeFilter: ['"custom" = "customvalue"'],
+        },
+        rootElement: null,
+      },
+    });
+    expect(nextState.selectionState.generatedSelector).toEqual(
+      '[custom="customvalue"]'
+    );
+
+    nextState = SelectionReducer(initialState, {
+      type: Actions.ONLY_SELECT_SELECTED_ELEMENT,
+      payload: {
+        element: spanWithNothing,
+        finderSettings: {
+          ...finderSettings,
+          isAttributeEnabled: true,
+          attributeFilter: ['"custom" = "randomrandom"'],
+        },
+        rootElement: null,
+      },
+    });
+    expect(nextState.selectionState.generatedSelector).toEqual("span");
+  });
+
+  it("Test selector generation after setting a selector root", () => {
+    let nextState = SelectionReducer(initialState, {
+      type: Actions.ONLY_SELECT_SELECTED_ELEMENT,
+      payload: {
+        element: divWithClass,
+        finderSettings: finderSettings,
+        rootElement: null,
+      },
+    });
+    expect(nextState.selectionState.generatedSelector).toEqual(".test-class");
+
+    nextState = SelectionReducer(initialState, {
+      type: Actions.ONLY_SELECT_SELECTED_ELEMENT,
+      payload: {
+        element: divWithClass,
+        finderSettings: {
+          ...finderSettings,
+          isClassEnabled: false,
+          isIdEnabled: false,
+        },
+        rootElement: null,
+      },
+    });
+    expect(nextState.selectionState.generatedSelector).toEqual(
+      "div:nth-child(1)"
+    );
+
+    nextState = SelectionReducer(initialState, {
+      type: Actions.ONLY_SELECT_SELECTED_ELEMENT,
+      payload: {
+        element: divWithClass,
+        finderSettings: {
+          ...finderSettings,
+          isClassEnabled: false,
+          isIdEnabled: false,
+        },
+        rootElement: divWithClass,
+      },
+    });
+    expect(nextState.selectionState.generatedSelector).toEqual("div");
   });
 });

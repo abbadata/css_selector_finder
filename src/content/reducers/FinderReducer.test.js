@@ -1,4 +1,5 @@
 import * as Actions from "../actions/FinderActions";
+import * as SelectionActions from "../actions/SelectionActions";
 import FinderReducer from "./FinderReducer";
 
 const initialState = {
@@ -6,12 +7,15 @@ const initialState = {
     isClassEnabled: true,
     isIdEnabled: true,
     isTagEnabled: true,
+    isAttributeEnabled: false,
     classFilter: [],
     idFilter: [],
     tagFilter: [],
+    attributeFilter: [],
     seedMinLength: 1,
-    optimizedMinLength: 10,
+    optimizedMinLength: 2,
     threshhold: 1000,
+    maxNumberOfTries: 10000,
   },
   errorMessage: "",
 };

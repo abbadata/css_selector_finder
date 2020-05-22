@@ -25,6 +25,7 @@ const generateElementEntry = (element, selectorRoot) => {
     elemtype: element.nodeName,
     text: element.innerText,
     html: element.outerHTML,
+    href: element.href,
   };
 };
 

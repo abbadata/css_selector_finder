@@ -91,15 +91,13 @@ function changeElementAndGenerateSelector(
   }
 
   markSelectedElement(newelement);
+  /*
   let { selectedElements, alreadyExists } = removeElement(
     element,
     state.selectedElements
   );
-  let newSE = addElement(
-    newelement,
-    selectedElements,
-    state.selectionState.selectorRoot
-  );
+  */
+  let newSE = addElement(newelement, [], state.selectionState.selectorRoot);
   return {
     ...state,
     selectionState: {
@@ -167,13 +165,17 @@ export default function (state = initialState, action, finderState) {
       let rootElement = action.payload.rootElement;
 
       const element = state.selectionState.lastClickedElement;
-
       if (state.selectionState.selectorRootElement) {
         if (
           !isDescendant(state.selectionState.selectorRootElement, newelement)
         ) {
           return state;
         }
+      }
+      // Explicitly remove mouseover indication if we're attempting to
+      // select the item
+      if (newelement) {
+        newelement.classList.remove(Types.CLASS_MOUSEOVER_ELEMENT);
       }
       // If user clicks on the last clicked element, just deselect it
       if (element == newelement) {
@@ -196,123 +198,6 @@ export default function (state = initialState, action, finderState) {
         );
       }
     }
-
-    case Actions.CHANGE_SELECTION_TO_PARENT:
-      {
-        let finderSettings = action.payload.finderSettings;
-        let rootElement = action.payload.rootElement;
-
-        if (state.selectionState.lastClickedElement) {
-          let element = state.selectionState.lastClickedElement;
-          let newelement = element.parentElement;
-          if (newelement) {
-            return changeElementAndGenerateSelector(
-              state,
-              element,
-              newelement,
-              finderSettings,
-              rootElement
-            );
-          } else {
-            return {
-              ...state,
-              selectionState: {
-                ...state.selectionState,
-                errorMessage: "Element has no parent",
-              },
-            };
-          }
-        }
-      }
-      return state;
-      break;
-    case Actions.CHANGE_SELECTION_TO_FIRST_CHILD:
-      {
-        let finderSettings = action.payload.finderSettings;
-        let rootElement = action.payload.rootElement;
-
-        if (state.selectionState.lastClickedElement) {
-          let element = state.selectionState.lastClickedElement;
-          let newelement = element.firstElementChild;
-          if (newelement) {
-            return changeElementAndGenerateSelector(
-              state,
-              element,
-              newelement,
-              finderSettings,
-              rootElement
-            );
-          } else {
-            return {
-              ...state,
-              selectionState: {
-                ...state.selectionState,
-                errorMessage: "Element has no child",
-              },
-            };
-          }
-        }
-      }
-      return state;
-      break;
-    case Actions.CHANGE_SELECTION_TO_NEXT_SIBLING:
-      {
-        let finderSettings = action.payload.finderSettings;
-        let rootElement = action.payload.rootElement;
-
-        if (state.selectionState.lastClickedElement) {
-          let element = state.selectionState.lastClickedElement;
-          let newelement = element.nextElementSibling;
-          if (newelement) {
-            return changeElementAndGenerateSelector(
-              state,
-              element,
-              newelement,
-              finderSettings,
-              rootElement
-            );
-          } else {
-            return {
-              ...state,
-              selectionState: {
-                ...state.selectionState,
-                errorMessage: "Element has no next sibling",
-              },
-            };
-          }
-        }
-      }
-      return state;
-      break;
-    case Actions.CHANGE_SELECTION_TO_PREV_SIBLING:
-      {
-        let finderSettings = action.payload.finderSettings;
-        let rootElement = action.payload.rootElement;
-
-        if (state.selectionState.lastClickedElement) {
-          let element = state.selectionState.lastClickedElement;
-          let newelement = element.previousElementSibling;
-          if (newelement) {
-            return changeElementAndGenerateSelector(
-              state,
-              element,
-              newelement,
-              finderSettings,
-              rootElement
-            );
-          } else {
-            return {
-              ...state,
-              selectionState: {
-                ...state.selectionState,
-                errorMessage: "Element has no previous sibling",
-              },
-            };
-          }
-        }
-      }
-      return state;
-      break;
     case Actions.CHANGE_SELECTOR_ROOT:
       return {
         ...state,

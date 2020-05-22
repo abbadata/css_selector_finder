@@ -5,12 +5,15 @@ const initialState = {
     isClassEnabled: true,
     isIdEnabled: true,
     isTagEnabled: true,
+    isAttributeEnabled: false,
     classFilter: [],
     idFilter: [],
     tagFilter: [],
+    attributeFilter: [],
     seedMinLength: 1,
-    optimizedMinLength: 10,
+    optimizedMinLength: 2,
     threshhold: 1000,
+    maxNumberOfTries: 10000,
   },
   errorMessage: "",
 };
@@ -41,6 +44,15 @@ export default function (state = initialState, action) {
         settings: {
           ...state.settings,
           isTagEnabled: action.payload.enabled,
+        },
+      };
+    }
+    case Actions.SET_FINDER_ATTRIBUTE_ENABLED: {
+      return {
+        ...state,
+        settings: {
+          ...state.settings,
+          isAttributeEnabled: action.payload.enabled,
         },
       };
     }
@@ -143,6 +155,45 @@ export default function (state = initialState, action) {
         },
       };
     }
+    case Actions.ADD_FINDER_ATTRIBUTE_FILTER: {
+      let name = action.payload.name.trim();
+      let value = action.payload.value.trim();
+      let expr =
+        value == ""
+          ? '"' + name + '" = "*"'
+          : '"' + name + '" = "' + value + '"';
+
+      if (
+        expr !== "" &&
+        state.settings.attributeFilter.every((entry) => {
+          return entry !== expr;
+        })
+      ) {
+        let filter = state.settings.attributeFilter.slice();
+        filter.push(expr);
+        return {
+          ...state,
+          settings: {
+            ...state.settings,
+            attributeFilter: filter,
+          },
+        };
+      } else {
+        return state;
+      }
+    }
+    case Actions.DELETE_FINDER_ATTRIBUTE_FILTER: {
+      let filter = state.settings.attributeFilter.filter((e) => {
+        return e !== action.payload.value;
+      });
+      return {
+        ...state,
+        settings: {
+          ...state.settings,
+          attributeFilter: filter,
+        },
+      };
+    }
     case Actions.SET_FINDER_SEED_MIN_LENGTH: {
       return {
         ...state,
@@ -167,6 +218,15 @@ export default function (state = initialState, action) {
         settings: {
           ...state.settings,
           threshhold: action.payload.value,
+        },
+      };
+    }
+    case Actions.SET_FINDER_MAX_NUMBER_OF_TRIES: {
+      return {
+        ...state,
+        settings: {
+          ...state.settings,
+          maxNumberOfTries: action.payload.value,
         },
       };
     }

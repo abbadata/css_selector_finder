@@ -56,30 +56,15 @@ const AbbaLogo = styled.div`
   border: 1px solid;
 `;
 
-const MoveRightArrow = styled.div`
+const MoveArrow = styled.div`
   position: absolute;
   top: 0;
   right: 0;
   background-size: 12px 12px;
   width: 12px;
   height: 12px;
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAB0SURBVChTY6A5YIbSuEAFEMsC8RUwDwiYoDQuwA7Ey4A4AMwDAkYo7QPExhAmCnCAYhDwBOIdMA0/gZgNwsQLrAg5CRl8BxEwGwKBWA/CRAEwJ4FcEA7EG4EYL6gH4t9AHAXmAQEhJ4FMzgRiUEjRBTAwAADoWQ1/0c/llAAAAABJRU5ErkJggg==)
-    top left no-repeat;
-  )margin: 0;
-  padding: 0;
-`;
-
-const MoveLeftArrow = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-size: 12px 12px;
-  width: 12px;
-  height: 12px;
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABxSURBVChTY6A7SAHiCggTO2CC0iAQBcTTgZgdzMMBGKG0PxCvBGKQ4gNQjA4uAfF6EMMSiL8B8X8C+CcQw53ECaUJApiTPIB4O4SJ00lngXgLhAkBAUAMsroezMMBmKE0CNwA4ltAzAPER0ACAwEYGAB01RhX98zElQAAAABJRU5ErkJggg==)
-    top left no-repeat;
-  )margin: 0;
-  padding: 0;
+  margin: 0;
+  padding: 2px;
 `;
 
 const CenteredDiv = styled.div`
@@ -142,17 +127,15 @@ const SidePanel = ({ handleExit }) => {
   function getMovePanel() {
     if (vertPanelPosition === Types.VERTPANEL_POS_RIGHT) {
       return (
-        <MoveLeftArrow
-          id="move-left-arrow"
-          onClick={moveToLeft}
-        ></MoveLeftArrow>
+        <MoveArrow id="move-left-arrow" onClick={moveToLeft}>
+          {"\u25C0 "}
+        </MoveArrow>
       );
     } else if (vertPanelPosition === Types.VERTPANEL_POS_LEFT) {
       return (
-        <MoveRightArrow
-          id="move-right-arrow"
-          onClick={moveToRight}
-        ></MoveRightArrow>
+        <MoveArrow id="move-right-arrow" onClick={moveToRight}>
+          {"\u25B6 "}
+        </MoveArrow>
       );
     }
   }
@@ -175,15 +158,17 @@ const SidePanel = ({ handleExit }) => {
     });
   }
   function getFieldOptionsHtml() {
-    if (selectedElements.length === 0) {
+    if (selectedElements.length === 3) {
       return <div>Please select an element.</div>;
-    } else if (selectedElements.length === 1) {
+    } else if (selectedElements.length <= 1) {
       return (
         <div>
           <FieldSelector></FieldSelector>
-          <FieldSummary selectedElements={selectedElements}></FieldSummary>
           <FieldSelectionRoot></FieldSelectionRoot>
-          <FieldSelectionPicker></FieldSelectionPicker>
+          <FieldSummary selectedElements={selectedElements}></FieldSummary>
+          <FieldSelectionPicker
+            selectedElements={selectedElements}
+          ></FieldSelectionPicker>
         </div>
       );
     } else {

@@ -29,29 +29,15 @@ const SubPanel = styled.div`
   font-size: 80%;
   width: 100%;
 `;
-const MoveUpArrow = styled.div`
+const MoveArrow = styled.div`
   position: absolute;
   top: 0;
   right: 0;
   background-size: 12px 12px;
   width: 12px;
   height: 12px;
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABpSURBVChTY8ABLKGYKOABxP+B+BsQ+4ME8IEAIAYphuEfQBwFxFhBJBAjK4bh30CcAsRgwAylQcAHiI9AmAwKUPoAEC8CYnYghslhgHoghpkOYqMAJihNNBgiGs4C8S8ovgQSoAAwMAAA1kEYSmyWoOIAAAAASUVORK5CYII=)
-    top left no-repeat;
-  )margin: 0;
-  padding: 0;
-`;
-const MoveDownArrow = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-size: 12px 12px;
-  width: 12px;
-  height: 12px;
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABtSURBVChTY6AGCATin1DsAxJABkxQGhnoATEbFBuDBJABNg14wSDUwAylQaACiJ2B2AGIFUACUABiWwLxETAPCaQA8W8g/o8FRwIxVhAFxD+AGFlxABDjBf5A/A2IQYo9QALEAJCbQRgNMDAAAD6SE5Kc8MyeAAAAAElFTkSuQmCC)
-    top left no-repeat;
-  )margin: 0;
-  padding: 0;
+  margin: 0;
+  padding: 2;
 `;
 
 const BottomPanel = () => {
@@ -69,13 +55,16 @@ const BottomPanel = () => {
 
   function getMovePanel() {
     if (horizPanelPosition === Types.HORIZPANEL_POS_BOTTOM) {
-      return <MoveUpArrow id="move-up-arrow" onClick={moveToTop}></MoveUpArrow>;
+      return (
+        <MoveArrow id="move-up-arrow" onClick={moveToTop}>
+          {"\u25B2 "}
+        </MoveArrow>
+      );
     } else if (horizPanelPosition === Types.HORIZPANEL_POS_TOP) {
       return (
-        <MoveDownArrow
-          id="move-down-arrow"
-          onClick={moveToBottom}
-        ></MoveDownArrow>
+        <MoveArrow id="move-down-arrow" onClick={moveToBottom}>
+          {"\u25BC "}
+        </MoveArrow>
       );
     }
   }
@@ -181,12 +170,16 @@ const BottomPanel = () => {
             <ul>
               <li>
                 Select an element on the page to generate the CSS selector for.
+                The CSS Selector will be found and will be displayed on the
+                right panel, as well as the "Custom Selectors" tab on the bottom
+                panel.
               </li>
               <li>
-                Customize the CSS selector generation in the "Custom Selectors"
-                tab. Specific names of classes, IDs, and/or tag names can be
-                filtered out. A root selector can be specified and selectors
-                will be generated relative to that root.
+                Generally, the default settings for finding CSS selectors should
+                be fine. However, settings can be customized on the "Custom
+                Selectors" tab. Specific names of classes, IDs, and/or tag names
+                can be filtered out. A root selector can be specified and
+                selectors will be generated relative to that root.
               </li>
               <li>
                 Use the "Test Selector" tab to manually enter a selector and see
@@ -195,8 +188,9 @@ const BottomPanel = () => {
                 the count will be accurate.
               </li>
               <li>
-                Use "Modify Selection" options on the right panel to change the
-                selected dom element to a parent/child/sibling.
+                Use "Modify Selection" area to change the selection to the
+                parent, child, or sibling elements of the currently selected
+                elements.
               </li>
               <li>
                 The side and bottom panels will cover content on the page. Use

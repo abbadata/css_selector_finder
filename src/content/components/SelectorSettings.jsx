@@ -4,7 +4,10 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import EntryList from "./EntryList";
+import AttributeFilter from "./AttributeFilter";
 import * as Types from "../Types";
+import * as SelectionActions from "../actions/SelectionActions";
+import * as FinderActions from "../actions/FinderActions";
 
 const InputLine = styled.div`
   display: flex;
@@ -55,6 +58,15 @@ const Value = styled.input`
   flex-grow: 1;
   width: 500px;
   background-color: #fff;
+  border-width: 2px;
+`;
+const SelectorValue = styled.input`
+  display: inline;
+  padding: 2px;
+  text-align: left;
+  flex-grow: 1;
+  width: 500px;
+  background-color: #eedd82;
   border-width: 2px;
 `;
 const DisabledValue = styled.input`
@@ -110,10 +122,26 @@ const GenButton = styled.a`
   }
 `;
 
+const SmallButton = styled.div`
+  display: inline;
+  color: white;
+  border: 1px solid #ccc;
+  background: #7892c2;
+  box-shadow: 0 0 5px -1px rgba(0, 0, 0, 0.2);
+  padding-left: 2px;
+  padding-right: 2px;
+  text-align: left;
+  flex-grow: 0;
+  cursor: pointer;
+`;
+
 const SelectorSettings = () => {
   const finderSettings = useSelector((state) => state.finder.settings);
   const selectorRoot = useSelector(
     (state) => state.selection.selectionState.selectorRoot
+  );
+  const selectorRootElement = useSelector(
+    (state) => state.selection.selectionState.selectorRootElement
   );
   const tempSelectorRoot = useSelector(
     (state) => state.selection.selectionState.tempSelectorRoot
@@ -132,9 +160,16 @@ const SelectorSettings = () => {
   const isTagEnabled = useSelector(
     (state) => state.finder.settings.isTagEnabled
   );
+  const isAttributeEnabled = useSelector(
+    (state) => state.finder.settings.isAttributeEnabled
+  );
+
   const idFilter = useSelector((state) => state.finder.settings.idFilter);
   const classFilter = useSelector((state) => state.finder.settings.classFilter);
   const tagFilter = useSelector((state) => state.finder.settings.tagFilter);
+  const attributeFilter = useSelector(
+    (state) => state.finder.settings.attributeFilter
+  );
   const seedMinLength = useSelector(
     (state) => state.finder.settings.seedMinLength
   );
@@ -142,7 +177,109 @@ const SelectorSettings = () => {
     (state) => state.finder.settings.optimizedMinLength
   );
   const threshhold = useSelector((state) => state.finder.settings.threshhold);
+  const maxNumberOfTries = useSelector(
+    (state) => state.finder.settings.maxNumberOfTries
+  );
   const dispatch = useDispatch();
+
+  function getIdFilterHtml() {
+    if (isIdEnabled) {
+      return (
+        <td>
+          <FilterDiv>ID:</FilterDiv>
+          <EntryList
+            listState={idFilter}
+            onDeleteHandler={(value) => {
+              dispatch({
+                type: FinderActions.DELETE_FINDER_ID_FILTER,
+                payload: { value },
+              });
+            }}
+            onAddHandler={(value) => {
+              dispatch({
+                type: FinderActions.ADD_FINDER_ID_FILTER,
+                payload: { value },
+              });
+            }}
+          ></EntryList>
+        </td>
+      );
+    }
+  }
+
+  function getClassFilterHtml() {
+    if (isClassEnabled) {
+      return (
+        <td>
+          <FilterDiv>Class:</FilterDiv>
+          <EntryList
+            listState={classFilter}
+            onDeleteHandler={(value) => {
+              dispatch({
+                type: FinderActions.DELETE_FINDER_CLASS_FILTER,
+                payload: { value },
+              });
+            }}
+            onAddHandler={(value) => {
+              dispatch({
+                type: FinderActions.ADD_FINDER_CLASS_FILTER,
+                payload: { value },
+              });
+            }}
+          ></EntryList>
+        </td>
+      );
+    }
+  }
+  function getTagFilterHtml() {
+    if (isTagEnabled) {
+      return (
+        <td>
+          <FilterDiv>Tag:</FilterDiv>
+          <EntryList
+            listState={tagFilter}
+            onDeleteHandler={(value) => {
+              dispatch({
+                type: FinderActions.DELETE_FINDER_TAG_FILTER,
+                payload: { value },
+              });
+            }}
+            onAddHandler={(value) => {
+              dispatch({
+                type: FinderActions.ADD_FINDER_TAG_FILTER,
+                payload: { value },
+              });
+            }}
+          ></EntryList>
+        </td>
+      );
+    }
+  }
+
+  function getAttributeFilterHtml() {
+    if (isAttributeEnabled) {
+      return (
+        <td>
+          <FilterDiv>Attribute:</FilterDiv>
+          <AttributeFilter
+            listState={attributeFilter}
+            onDeleteHandler={(value) => {
+              dispatch({
+                type: FinderActions.DELETE_FINDER_ATTRIBUTE_FILTER,
+                payload: { value },
+              });
+            }}
+            onAddHandler={(name, value) => {
+              dispatch({
+                type: FinderActions.ADD_FINDER_ATTRIBUTE_FILTER,
+                payload: { name, value },
+              });
+            }}
+          ></AttributeFilter>
+        </td>
+      );
+    }
+  }
 
   function getSelectorRootHtml() {
     if (selectorRootEditMode) {
@@ -153,7 +290,7 @@ const SelectorSettings = () => {
             value={tempSelectorRoot}
             onChange={(e) =>
               dispatch({
-                type: "CHANGE_SELECTOR_ROOT",
+                type: SelectionActions.CHANGE_SELECTOR_ROOT,
                 payload: { value: e.target.value },
               })
             }
@@ -162,14 +299,14 @@ const SelectorSettings = () => {
             type="button"
             value="Save"
             onClick={() => {
-              dispatch({ type: "SAVE_TEMP_SELECTOR_ROOT" });
+              dispatch({ type: SelectionActions.SAVE_TEMP_SELECTOR_ROOT });
             }}
           ></input>
           <input
             type="button"
             value="Cancel"
             onClick={() => {
-              dispatch({ type: "CANCEL_TEMP_SELECTOR_ROOT" });
+              dispatch({ type: SelectionActions.CANCEL_TEMP_SELECTOR_ROOT });
             }}
           ></input>
         </div>
@@ -187,14 +324,14 @@ const SelectorSettings = () => {
             type="button"
             value="Edit"
             onClick={() => {
-              dispatch({ type: "ENABLE_SELECTOR_ROOT_EDIT" });
+              dispatch({ type: SelectionActions.ENABLE_SELECTOR_ROOT_EDIT });
             }}
           ></input>
           <input
             type="button"
             value="Reset"
             onClick={() => {
-              dispatch({ type: "RESET_SELECTOR_ROOT" });
+              dispatch({ type: SelectionActions.RESET_SELECTOR_ROOT });
             }}
           ></input>
         </div>
@@ -219,10 +356,10 @@ const SelectorSettings = () => {
               <GenButton
                 onClick={() =>
                   dispatch({
-                    type: "GENERATE_SELECTOR",
+                    type: SelectionActions.GENERATE_SELECTOR,
                     payload: {
                       finderSettings: finderSettings,
-                      rootElement: selectorRoot,
+                      rootElement: selectorRootElement,
                     },
                   })
                 }
@@ -232,25 +369,27 @@ const SelectorSettings = () => {
             </td>
             <td>
               <InputLine>
-                <Label>Custom Selector:</Label>
-                <Value
+                <Label>Selector:</Label>
+                <SelectorValue
                   type="text"
                   value={generatedSelector}
                   size={150}
                   readOnly
-                ></Value>
+                ></SelectorValue>
                 <input
                   type="button"
                   value="Copy to Clipboard"
                   onClick={() => {
-                    dispatch({ type: "COPY_SELECTOR_TO_CLIPBOARD" });
+                    dispatch({
+                      type: SelectionActions.COPY_SELECTOR_TO_CLIPBOARD,
+                    });
                   }}
                 ></input>
                 <input
                   type="button"
                   value="Use As Selector Root"
                   onClick={() => {
-                    dispatch({ type: "USE_AS_SELECTOR_ROOT" });
+                    dispatch({ type: SelectionActions.USE_AS_SELECTOR_ROOT });
                   }}
                 ></input>
               </InputLine>
@@ -263,120 +402,57 @@ const SelectorSettings = () => {
         </tbody>
       </CustTable>
       <CustTable>
-        <thead>
-          <tr>
-            <td></td>
-            <td>
-              <Center>
-                Use IDs in Selectors:
-                <Checkbox
-                  checked={isIdEnabled}
-                  onChange={(e) =>
-                    dispatch({
-                      type: "SET_FINDER_ID_ENABLED",
-                      payload: { enabled: e.target.checked },
-                    })
-                  }
-                ></Checkbox>
-              </Center>
-            </td>
-            <td></td>
-            <td>
-              <Center>
-                Use Class in Selectors:
-                <Checkbox
-                  checked={isClassEnabled}
-                  onChange={(e) =>
-                    dispatch({
-                      type: "SET_FINDER_CLASS_ENABLED",
-                      payload: { enabled: e.target.checked },
-                    })
-                  }
-                ></Checkbox>
-              </Center>
-            </td>
-            <td></td>
-            <td>
-              <Center>
-                Use Tags in Selectors:
-                <Checkbox
-                  checked={isTagEnabled}
-                  onChange={(e) =>
-                    dispatch({
-                      type: "SET_FINDER_TAG_ENABLED",
-                      payload: { enabled: e.target.checked },
-                    })
-                  }
-                ></Checkbox>
-              </Center>
-            </td>
-          </tr>
-        </thead>
         <tbody>
           <tr>
             <td>
-              <FilterDiv>ID:</FilterDiv>
-            </td>
-            <td>
-              <EntryList
-                enabled={isIdEnabled}
-                listState={idFilter}
-                onDeleteHandler={(value) => {
+              Use IDs:
+              <Checkbox
+                checked={isIdEnabled}
+                onChange={(e) =>
                   dispatch({
-                    type: "DELETE_FINDER_ID_FILTER",
-                    payload: { value },
-                  });
-                }}
-                onAddHandler={(value) => {
+                    type: FinderActions.SET_FINDER_ID_ENABLED,
+                    payload: { enabled: e.target.checked },
+                  })
+                }
+              ></Checkbox>
+              <br></br>
+              Use Class Names:
+              <Checkbox
+                checked={isClassEnabled}
+                onChange={(e) =>
                   dispatch({
-                    type: "ADD_FINDER_ID_FILTER",
-                    payload: { value },
-                  });
-                }}
-              ></EntryList>
-            </td>
-            <td>
-              <FilterDiv>Class:</FilterDiv>
-            </td>
-            <td>
-              <EntryList
-                enabled={isClassEnabled}
-                listState={classFilter}
-                onDeleteHandler={(value) => {
+                    type: FinderActions.SET_FINDER_CLASS_ENABLED,
+                    payload: { enabled: e.target.checked },
+                  })
+                }
+              ></Checkbox>
+              <br></br>
+              Use Tags:
+              <Checkbox
+                checked={isTagEnabled}
+                onChange={(e) =>
                   dispatch({
-                    type: "DELETE_FINDER_CLASS_FILTER",
-                    payload: { value },
-                  });
-                }}
-                onAddHandler={(value) => {
+                    type: FinderActions.SET_FINDER_TAG_ENABLED,
+                    payload: { enabled: e.target.checked },
+                  })
+                }
+              ></Checkbox>
+              <br></br>
+              Use Custom Attribute:
+              <Checkbox
+                checked={isAttributeEnabled}
+                onChange={(e) =>
                   dispatch({
-                    type: "ADD_FINDER_CLASS_FILTER",
-                    payload: { value },
-                  });
-                }}
-              ></EntryList>
+                    type: FinderActions.SET_FINDER_ATTRIBUTE_ENABLED,
+                    payload: { enabled: e.target.checked },
+                  })
+                }
+              ></Checkbox>
             </td>
-            <td>
-              <FilterDiv>Tag:</FilterDiv>
-            </td>
-            <td>
-              <EntryList
-                enabled={isTagEnabled}
-                listState={tagFilter}
-                onDeleteHandler={(value) => {
-                  dispatch({
-                    type: "DELETE_FINDER_TAG_FILTER",
-                    payload: { value },
-                  });
-                }}
-                onAddHandler={(value) => {
-                  dispatch({
-                    type: "ADD_FINDER_TAG_FILTER",
-                    payload: { value },
-                  });
-                }}
-              ></EntryList>
-            </td>
+            {getIdFilterHtml()}
+            {getClassFilterHtml()}
+            {getTagFilterHtml()}
+            {getAttributeFilterHtml()}
             <td>
               <FilterDiv>
                 Seed Min Length:
@@ -386,7 +462,7 @@ const SelectorSettings = () => {
                   value={seedMinLength}
                   onChange={(e) =>
                     dispatch({
-                      type: "SET_FINDER_SEED_MIN_LENGTH",
+                      type: FinderActions.SET_FINDER_SEED_MIN_LENGTH,
                       payload: { value: e.target.value },
                     })
                   }
@@ -399,7 +475,7 @@ const SelectorSettings = () => {
                   value={optimizedMinLength}
                   onChange={(e) =>
                     dispatch({
-                      type: "SET_FINDER_OPTIMIZED_MIN_LENGTH",
+                      type: FinderActions.SET_FINDER_OPTIMIZED_MIN_LENGTH,
                       payload: { value: e.target.value },
                     })
                   }
@@ -412,7 +488,20 @@ const SelectorSettings = () => {
                   value={threshhold}
                   onChange={(e) =>
                     dispatch({
-                      type: "SET_FINDER_THRESHHOLD",
+                      type: FinderActions.SET_FINDER_THRESHHOLD,
+                      payload: { value: e.target.value },
+                    })
+                  }
+                ></input>
+                <br></br>
+                Max Number of Tries:
+                <input
+                  type="text"
+                  size={5}
+                  value={maxNumberOfTries}
+                  onChange={(e) =>
+                    dispatch({
+                      type: FinderActions.SET_FINDER_MAX_NUMBER_OF_TRIES,
                       payload: { value: e.target.value },
                     })
                   }

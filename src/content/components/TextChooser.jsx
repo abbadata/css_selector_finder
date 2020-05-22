@@ -23,7 +23,7 @@ const ChooserValue = styled.input`
   padding: 2px;
   text-align: left;
   flex-grow: 1;
-  background-color: #ddd;
+  background-color: #eedd82;
 `;
 
 const TextChooser = ({ text, value, selectfunc }) => {
@@ -38,7 +38,12 @@ const TextChooser = ({ text, value, selectfunc }) => {
   return (
     <Chooser>
       {getChooserTextHtml()}
-      <ChooserValue type="text" value={value} readOnly />
+      <ChooserValue
+        className="chooser-value"
+        type="text"
+        value={value}
+        readOnly
+      />
     </Chooser>
   );
 };

@@ -5,9 +5,7 @@ const ListMain = styled.div`
   padding: 0px;
 `;
 
-const TopDiv = styled.div`
-  display: flex;
-`;
+const TopDiv = styled.div``;
 
 const ListEntry = styled.div`
   display: inline;
@@ -20,7 +18,7 @@ const ListDiv = styled.div`
   overflow: auto;
   color: black;
   padding: 3px;
-  width: 150px;
+  width: 200px;
   height: 50px;
 `;
 
@@ -54,14 +52,13 @@ const Value = styled.input`
   padding-left: 2px;
   padding-right: 2px;
   text-align: left;
-  width: 7rem;
+  width: 4rem;
   background-color: #fff;
-  flex-grow: 1;
 `;
 
-const EntryList = ({ listState, onAddHandler, onDeleteHandler }) => {
+const AttributeFilter = ({ listState, onAddHandler, onDeleteHandler }) => {
+  const [addName, setAddName] = useState("");
   const [addValue, setAddValue] = useState("");
-  const inputElem = useRef(null);
 
   function getListHtml() {
     return listState.map((e, index) => {
@@ -84,7 +81,8 @@ const EntryList = ({ listState, onAddHandler, onDeleteHandler }) => {
   }
 
   function addHandler() {
-    onAddHandler(addValue);
+    onAddHandler(addName, addValue);
+    setAddName("");
     setAddValue("");
   }
 
@@ -95,11 +93,18 @@ const EntryList = ({ listState, onAddHandler, onDeleteHandler }) => {
   return (
     <ListMain>
       <TopDiv>
+        Name:
+        <Value
+          className="add-field"
+          type="text"
+          value={addName}
+          onChange={(e) => setAddName(e.target.value)}
+        ></Value>
+        =
         <Value
           className="add-field"
           type="text"
           value={addValue}
-          ref={inputElem}
           onChange={(e) => setAddValue(e.target.value)}
         ></Value>
         <AddButton
@@ -108,7 +113,7 @@ const EntryList = ({ listState, onAddHandler, onDeleteHandler }) => {
             addHandler();
           }}
         >
-          Add Filter
+          Add
         </AddButton>
       </TopDiv>
       <ListDiv className="listdiv">{getListHtml()}</ListDiv>
@@ -116,4 +121,4 @@ const EntryList = ({ listState, onAddHandler, onDeleteHandler }) => {
   );
 };
 
-export default EntryList;
+export default AttributeFilter;
