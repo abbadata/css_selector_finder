@@ -65,12 +65,8 @@ Install the Chrome Extension.
 
 I did not attempt to write a new selector finding library from scratch. There are some good
 ones out there. I chose to use Anton Medvedev's CSS Generator tool
-[GutHub](https://github.com/antonmedv/finder). It's quick and customizable. Much thanks for
+[GitHub](https://github.com/antonmedv/finder). It's quick and customizable. Much thanks for
 creating such a nice library!
-
-## License
-
-MIT
 
 ## Changelog
 
