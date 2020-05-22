@@ -158,6 +158,9 @@ export default function (state = initialState, action) {
     case Actions.ADD_FINDER_ATTRIBUTE_FILTER: {
       let name = action.payload.name.trim();
       let value = action.payload.value.trim();
+      if (name === "") {
+        return state;
+      }
       let expr =
         value == ""
           ? '"' + name + '" = "*"'
