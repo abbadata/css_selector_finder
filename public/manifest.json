@@ -1,8 +1,8 @@
 {
   "short_name": "CSS Selector Finder",
   "name": "ABBAdata CSS Selector Finder",
-  "version": "1.0",
-  "permissions": ["activeTab", "webNavigation"],
+  "version": "0.1",
+  "permissions": ["activeTab"],
   "manifest_version": 2,
   "background": {
     "scripts": ["/static/js/background/background.js"],
