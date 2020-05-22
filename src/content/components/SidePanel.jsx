@@ -65,6 +65,7 @@ const MoveArrow = styled.div`
   height: 12px;
   margin: 0;
   padding: 2px;
+  cursor: pointer;
 `;
 
 const CenteredDiv = styled.div`

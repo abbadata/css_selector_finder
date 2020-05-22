@@ -38,6 +38,7 @@ const MoveArrow = styled.div`
   height: 12px;
   margin: 0;
   padding: 2;
+  cursor: pointer;
 `;
 
 const BottomPanel = () => {
