@@ -9,17 +9,28 @@ import "./content.css";
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.message === "start_selector_finder") {
-    createSelectorFinderApp();
-  } else if (request.message === "end_selector_finder") {
-    createSelectorFinderApp();
+    createSelectorFinderApp(false);
+    sendResponse({ isActive: true });
+  } else if (request.message === "start_selector_finder_noeventhandlers") {
+    createSelectorFinderApp(true);
+    sendResponse({ isActive: true });
+  } else if (request.message === "check_selector_finder") {
+    if (document.getElementById("abba-content-page-app")) {
+      sendResponse({ isActive: true });
+    } else {
+      sendResponse({ isActive: false });
+    }
   }
 });
 
-function createSelectorFinderApp() {
-  if (!document.getElementById("content-page-app")) {
+function createSelectorFinderApp(noEventHandlers) {
+  if (noEventHandlers) {
+    document.documentElement.innerHTML = document.documentElement.innerHTML;
+  }
+  if (!document.getElementById("abba-content-page-app")) {
     let app = document.createElement("div");
-    app.id = "content-page-app";
-    app.className = "content-page-app";
+    app.id = "abba-content-page-app";
+    app.className = "abba-content-page-app";
     document.body.appendChild(app);
     ReactDOM.render(
       <Provider store={store}>
@@ -28,7 +39,7 @@ function createSelectorFinderApp() {
       app
     );
   } else {
-    let app = document.getElementById("content-page-app");
+    let app = document.getElementById("abba-content-page-app");
     ReactDOM.render(
       <Provider store={store}>
         <ShadowContentPageApp />

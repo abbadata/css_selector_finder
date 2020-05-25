@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,shrink-to-fit=no"
+    />
+    <meta name="theme-color" content="#000000" />
+    <title>ABBAdata CSS Selector Finder</title>
+    <link href="/static/js/popup.css" rel="stylesheet" />
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root">
+      <div class="header">
+        <img class="logo" src="/images/abba48.png" />
+        <div class="title">ABBAdata<br />CSS Selector Finder</div>
+      </div>
+      <div id="initial_state">
+        <input
+          id="normal_start"
+          class="start_button"
+          type="button"
+          value="Normal Start"
+        />
+        <div class="description">
+          Start normally. Preserves page behavior with some risk of conflicts
+          with CSS Finder.
+        </div>
+        <input
+          id="remove_handler_start"
+          class="start_button"
+          type="button"
+          value="Remove Event Handlers and Start"
+        />
+        <div class="description">
+          Removes all event listeners from page before starting. Use when page
+          functionality interferes with CSS Finder.
+        </div>
+      </div>
+      <div id="started_state">
+        <input id="exit_app" class="start_button" type="button" value="Exit" />
+      </div>
+    </div>
+    <script src="/static/js/popup.js"></script>
+  </body>
+</html>

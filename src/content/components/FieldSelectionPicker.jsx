@@ -94,7 +94,10 @@ const FieldSelectionPicker = ({ selectedElements }) => {
 
   function handleMouseover(e, targetElement) {
     if (
-      !isDescendant(document.getElementById("content-page-app"), targetElement)
+      !isDescendant(
+        document.getElementById("abba-content-page-app"),
+        targetElement
+      )
     ) {
       const navElement = e.target || e.srcElement;
       navElement.style.background = "yellow";
@@ -106,7 +109,10 @@ const FieldSelectionPicker = ({ selectedElements }) => {
   }
   function handleMouseout(e, targetElement) {
     if (
-      !isDescendant(document.getElementById("content-page-app"), targetElement)
+      !isDescendant(
+        document.getElementById("abba-content-page-app"),
+        targetElement
+      )
     ) {
       const navElement = e.target || e.srcElement;
       navElement.style.background = "#dddddd";
@@ -118,7 +124,10 @@ const FieldSelectionPicker = ({ selectedElements }) => {
   }
   function handleClick(e, targetElement) {
     if (
-      !isDescendant(document.getElementById("content-page-app"), targetElement)
+      !isDescendant(
+        document.getElementById("abba-content-page-app"),
+        targetElement
+      )
     ) {
       dispatch({
         type: "ONLY_SELECT_SELECTED_ELEMENT",

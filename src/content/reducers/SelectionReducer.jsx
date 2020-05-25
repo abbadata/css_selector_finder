@@ -10,6 +10,7 @@ import {
   markRootSelector,
   unmarkRootSelector,
   isDescendant,
+  removeAllEventListeners,
 } from "../lib/SelectorUtils";
 import * as Actions from "../actions/SelectionActions";
 import * as Types from "../Types";

@@ -1,0 +1,24 @@
+#root {
+  width: 250px;
+}
+
+.start_button {
+  width: 100%;
+  color: rgb(255, 255, 255);
+  background-color: rgb(120, 146, 194);
+}
+
+.header {
+  background-color: rgb(120, 146, 194);
+  background-image: linear-gradient(to right, rgb(221, 221, 221), white);
+}
+.logo {
+  vertical-align: middle;
+  border: 1px solid black;
+}
+.title {
+  display: inline-block;
+  font-size: 130%;
+  vertical-align: middle;
+  font-weight: bold;
+}

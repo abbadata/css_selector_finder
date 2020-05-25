@@ -8,7 +8,10 @@
     "scripts": ["/static/js/background/background.js"],
     "persistent": false
   },
-  "browser_action": {},
+  "browser_action": {
+    "default_title": "Startup Options",
+    "default_popup": "/popup.html"
+  },
   "icons": {
     "16": "/images/abba16.png",
     "48": "/images/abba48.png",

@@ -38,7 +38,7 @@
 .abba-mouseover-element {
   outline: 3px solid red !important;
 }
-#content-page-app * {
+#abba-content-page-app * {
   all: initial;
   font-family: "DDG_ProximaNova", "DDG_ProximaNova_UI_0", "DDG_ProximaNova_UI_1",
     "DDG_ProximaNova_UI_2", "DDG_ProximaNova_UI_3", "DDG_ProximaNova_UI_4",

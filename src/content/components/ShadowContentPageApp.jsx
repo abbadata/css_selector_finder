@@ -246,6 +246,17 @@ const ContentPageApp = () => {
       handleDocumentClick,
       false
     );
+
+    chrome.runtime.onMessage.addListener(function (
+      request,
+      sender,
+      sendResponse
+    ) {
+      if (request.message === "exit_selector_finder") {
+        handleExit();
+        sendResponse({ done: true });
+      }
+    });
   }, []);
   useEffect(() => {
     // Need to recreate onclick handler after state change, otherwise
@@ -279,7 +290,10 @@ const ContentPageApp = () => {
   function handleDocumentMouseover(e) {
     let targetElement = e.target || e.srcElement;
     if (
-      !isDescendant(document.getElementById("content-page-app"), targetElement)
+      !isDescendant(
+        document.getElementById("abba-content-page-app"),
+        targetElement
+      )
     ) {
       dispatch({
         type: SelectionActions.SET_MOUSEOVER_ELEMENT,
@@ -291,7 +305,10 @@ const ContentPageApp = () => {
   function handleDocumentMouseout(e) {
     let targetElement = e.target || e.srcElement;
     if (
-      !isDescendant(document.getElementById("content-page-app"), targetElement)
+      !isDescendant(
+        document.getElementById("abba-content-page-app"),
+        targetElement
+      )
     ) {
       dispatch({
         type: SelectionActions.SET_MOUSEOUT_ELEMENT,
@@ -304,7 +321,10 @@ const ContentPageApp = () => {
   function handleDocumentClick(e) {
     let targetElement = e.target || e.srcElement;
     if (
-      !isDescendant(document.getElementById("content-page-app"), targetElement)
+      !isDescendant(
+        document.getElementById("abba-content-page-app"),
+        targetElement
+      )
     ) {
       dispatch({
         type: SelectionActions.ONLY_SELECT_SELECTED_ELEMENT,
@@ -315,6 +335,7 @@ const ContentPageApp = () => {
         },
       });
       e.preventDefault();
+      e.stopImmediatePropagation();
     }
   }
 
@@ -332,6 +353,10 @@ const ContentPageApp = () => {
       window.savedClickHandler
     );
     dispatch({ type: "EXIT_APPLICATION" });
+    let contentElement = document.getElementById("abba-content-page-app");
+    if (contentElement) {
+      contentElement.parentNode.removeChild(contentElement);
+    }
   }
 
   return (
