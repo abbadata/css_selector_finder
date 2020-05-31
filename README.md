@@ -2,9 +2,16 @@
 
 Easily find unique CSS selectors using point/click interface on any web page element.
 
+[Project home page](https://abbadata.com/selector_finder.html)
+
 ## Installation
 
 Install the Chrome Extension.
+
+## Demo
+
+[Watch the video](https://www.youtube.com/watch?v=Qrc0OkOGV1I)
+
 
 ## Running
 
@@ -34,12 +41,16 @@ Install the Chrome Extension.
 - Use the "Test Selector" tab to test a user specified CSS selector. The matched
   elements will be highlighted, and the number of matching elements will be displayed.
 
+## Documentation
+
+[Project Link](https://abbadata.com/selector_finder.html)
+
 ## Limitations
 
 - Does not work with IFRAMEs. IFRAMEs will still be highlighted when mouse hovers over it,
   but it can not be clicked on.
-- May not work properly with some websites where event handing behavior may conflict with
-  the tool's behavior.
+- May not work properly with some websites where event handing behavior, or CSS settings may
+  conflict with the tool's behavior.
 
 ## Development
 
@@ -52,10 +63,9 @@ Install the Chrome Extension.
 
 ### Loading
 
-1. Enable developer extensions in chrome
-2. Navigate to chrome://extensions
-3. Click the "Developer mode" switch if not already enabled
-4. Click "Load unpacked". Select the <project>/dist directory as the extension directory.
+1. Navigate to chrome://extensions
+2. Click the "Developer mode" switch if not already enabled
+3. Click "Load unpacked". Select the <project>/dist directory as the extension directory.
 
 ### Testing
 
