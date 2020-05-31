@@ -41,10 +41,6 @@ Install the Chrome Extension.
 - Use the "Test Selector" tab to test a user specified CSS selector. The matched
   elements will be highlighted, and the number of matching elements will be displayed.
 
-## Documentation
-
-[Project Link](https://abbadata.com/selector_finder.html)
-
 ## Limitations
 
 - Does not work with IFRAMEs. IFRAMEs will still be highlighted when mouse hovers over it,
