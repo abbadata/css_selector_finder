@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { isDescendant } from "../lib/SelectorUtils";
+import * as SelectionActions from "../actions/SelectionActions";
 
 const Header = styled.div`
   width: 100%;
@@ -102,7 +103,7 @@ const FieldSelectionPicker = ({ selectedElements }) => {
       const navElement = e.target || e.srcElement;
       navElement.style.background = "yellow";
       dispatch({
-        type: "SET_MOUSEOVER_ELEMENT",
+        type: SelectionActions.SET_MOUSEOVER_ELEMENT,
         payload: { element: targetElement },
       });
     }
@@ -117,7 +118,7 @@ const FieldSelectionPicker = ({ selectedElements }) => {
       const navElement = e.target || e.srcElement;
       navElement.style.background = "#dddddd";
       dispatch({
-        type: "SET_MOUSEOUT_ELEMENT",
+        type: SelectionActions.SET_MOUSEOUT_ELEMENT,
         payload: { element: targetElement },
       });
     }
@@ -130,7 +131,7 @@ const FieldSelectionPicker = ({ selectedElements }) => {
       )
     ) {
       dispatch({
-        type: "ONLY_SELECT_SELECTED_ELEMENT",
+        type: SelectionActions.ONLY_SELECT_SELECTED_ELEMENT,
         payload: {
           element: targetElement,
           finderSettings: finderSettings,

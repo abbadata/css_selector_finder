@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import TextChooser from "./TextChooser";
+import * as SelectionActions from "../actions/SelectionActions";
 
 const Header = styled.div`
   width: 100%;
@@ -24,14 +25,14 @@ const FieldSelector = () => {
         type="button"
         value="Copy to Clipboard"
         onClick={() => {
-          dispatch({ type: "COPY_SELECTOR_TO_CLIPBOARD" });
+          dispatch({ type: SelectionActions.COPY_SELECTOR_TO_CLIPBOARD });
         }}
       ></input>
       <input
         type="button"
         value="Use as Selector Root"
         onClick={() => {
-          dispatch({ type: "USE_AS_SELECTOR_ROOT" });
+          dispatch({ type: SelectionActions.USE_AS_SELECTOR_ROOT });
         }}
       ></input>
     </div>

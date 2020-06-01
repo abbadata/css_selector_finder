@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+import * as Actions from "../actions/SelectionActions";
 
 const Tester = styled.div`
   display: flex;
@@ -66,7 +67,7 @@ const SelectorTester = () => {
           value={tempSelector}
           onChange={(e) =>
             dispatch({
-              type: "SET_TEMP_SELECTOR",
+              type: Actions.SET_TEMP_SELECTOR,
               payload: { value: e.target.value },
             })
           }
@@ -74,7 +75,7 @@ const SelectorTester = () => {
         <TestButton
           onClick={() =>
             dispatch({
-              type: "DO_TEST_SELECTOR_HIGHLIGHT",
+              type: Actions.DO_TEST_SELECTOR_HIGHLIGHT,
             })
           }
         >
@@ -83,7 +84,7 @@ const SelectorTester = () => {
         <TestButton
           onClick={() =>
             dispatch({
-              type: "STOP_TEST_SELECTOR_HIGHLIGHT",
+              type: Actions.STOP_TEST_SELECTOR_HIGHLIGHT,
             })
           }
         >

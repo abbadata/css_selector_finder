@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import TextChooser from "./TextChooser";
 import * as Types from "../Types";
+import * as SelectionActions from "../actions/SelectionActions";
 
 const RootHeader = styled.div`
   width: 100%;
@@ -57,7 +58,7 @@ const FieldSelectionRoot = () => {
             value={tempSelectorRoot}
             onChange={(e) =>
               dispatch({
-                type: "CHANGE_SELECTOR_ROOT",
+                type: SelectionActions.CHANGE_SELECTOR_ROOT,
                 payload: { value: e.target.value },
               })
             }
@@ -66,14 +67,14 @@ const FieldSelectionRoot = () => {
             type="button"
             value="Save"
             onClick={() => {
-              dispatch({ type: "SAVE_TEMP_SELECTOR_ROOT" });
+              dispatch({ type: SelectionActions.SAVE_TEMP_SELECTOR_ROOT });
             }}
           ></input>
           <input
             type="button"
             value="Cancel"
             onClick={() => {
-              dispatch({ type: "CANCEL_TEMP_SELECTOR_ROOT" });
+              dispatch({ type: SelectionActions.CANCEL_TEMP_SELECTOR_ROOT });
             }}
           ></input>
         </div>
@@ -86,14 +87,14 @@ const FieldSelectionRoot = () => {
             type="button"
             value="Edit"
             onClick={() => {
-              dispatch({ type: "ENABLE_SELECTOR_ROOT_EDIT" });
+              dispatch({ type: SelectionActions.ENABLE_SELECTOR_ROOT_EDIT });
             }}
           ></input>
           <input
             type="button"
             value="Reset"
             onClick={() => {
-              dispatch({ type: "RESET_SELECTOR_ROOT" });
+              dispatch({ type: SelectionActions.RESET_SELECTOR_ROOT });
             }}
           ></input>
         </div>

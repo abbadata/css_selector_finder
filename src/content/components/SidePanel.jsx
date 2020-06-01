@@ -6,6 +6,7 @@ import FieldSelectionPicker from "./FieldSelectionPicker";
 import FieldSelectionRoot from "./FieldSelectionRoot";
 import FieldSelector from "./FieldSelector";
 import * as Types from "../Types";
+import * as UiActions from "../actions/UiActions";
 
 const FieldOptions = styled.div`
   display: flex;
@@ -120,7 +121,7 @@ const SidePanel = ({ handleExit }) => {
 
   useEffect(() => {
     dispatch({
-      type: "SET_VERT_PANEL_DIV",
+      type: UiActions.SET_VERT_PANEL_DIV,
       payload: { element: panelRef.current },
     });
   }, [vertPanelDiv]);
@@ -142,7 +143,7 @@ const SidePanel = ({ handleExit }) => {
   }
   function moveToRight(e) {
     dispatch({
-      type: "SET_VERT_PANEL_POSITION",
+      type: UiActions.SET_VERT_PANEL_POSITION,
       payload: {
         element: panelRef.current,
         position: Types.VERTPANEL_POS_RIGHT,
@@ -151,7 +152,7 @@ const SidePanel = ({ handleExit }) => {
   }
   function moveToLeft(e) {
     dispatch({
-      type: "SET_VERT_PANEL_POSITION",
+      type: UiActions.SET_VERT_PANEL_POSITION,
       payload: {
         element: panelRef.current,
         position: Types.VERTPANEL_POS_LEFT,

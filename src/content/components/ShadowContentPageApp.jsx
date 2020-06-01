@@ -352,7 +352,7 @@ const ContentPageApp = () => {
       "click",
       window.savedClickHandler
     );
-    dispatch({ type: "EXIT_APPLICATION" });
+    dispatch({ type: SelectionActions.EXIT_APPLICATION });
     let contentElement = document.getElementById("abba-content-page-app");
     if (contentElement) {
       contentElement.parentNode.removeChild(contentElement);

@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled, { keyframes } from "styled-components";
+import * as GlobalActions from "../actions/GlobalActions";
 
 const MsgUl = styled.ul`
   padding-inline-start: 5px;
@@ -74,7 +75,7 @@ const Console = ({ consoleDivRef }) => {
         type="button"
         value="Clear Console"
         onClick={() => {
-          dispatch({ type: "CLEAR_CONSOLE" });
+          dispatch({ type: GlobalActions.CLEAR_CONSOLE });
         }}
       ></input>
     </div>

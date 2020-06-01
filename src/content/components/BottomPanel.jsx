@@ -8,6 +8,8 @@ import SelectorTester from "./SelectorTester";
 import SelectorSettings from "./SelectorSettings";
 import Console from "./Console";
 import * as Types from "../Types";
+import * as UiActions from "../actions/UiActions";
+import * as GlobalActions from "../actions/GlobalActions";
 
 const FieldInfo = styled.div`
   z-index: 2147483647;
@@ -71,7 +73,7 @@ const BottomPanel = () => {
   }
   function moveToTop(e) {
     dispatch({
-      type: "SET_HORIZ_PANEL_POSITION",
+      type: UiActions.SET_HORIZ_PANEL_POSITION,
       payload: {
         element: panelRef.current,
         position: Types.HORIZPANEL_POS_TOP,
@@ -80,7 +82,7 @@ const BottomPanel = () => {
   }
   function moveToBottom(e) {
     dispatch({
-      type: "SET_HORIZ_PANEL_POSITION",
+      type: UiActions.SET_HORIZ_PANEL_POSITION,
       payload: {
         element: panelRef.current,
         position: Types.HORIZPANEL_POS_BOTTOM,
@@ -140,7 +142,10 @@ const BottomPanel = () => {
       <Tabs
         selectedIndex={bottomTabIndex}
         onSelect={(tabIndex) =>
-          dispatch({ type: "SET_BOTTOM_TAB_INDEX", payload: { tabIndex } })
+          dispatch({
+            type: GlobalActions.SET_BOTTOM_TAB_INDEX,
+            payload: { tabIndex },
+          })
         }
       >
         <TabList>
