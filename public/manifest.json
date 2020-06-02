@@ -2,6 +2,8 @@
   "short_name": "CSS Selector Finder",
   "name": "ABBAdata CSS Selector Finder",
   "version": "0.1",
+  "default_locale": "en",
+  "description": "Easy, powerful, and interactive way to find unique CSS selectors for any DOM element.",
   "permissions": ["activeTab"],
   "manifest_version": 2,
   "background": {
