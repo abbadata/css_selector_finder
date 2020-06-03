@@ -7,6 +7,7 @@ Easily find unique CSS selectors using point/click interface on any web page ele
 ## Installation
 
 Install the Chrome Extension.
+[CSS Selector Finder in the Chrome Web Store](https://chrome.google.com/webstore/detail/abbadata-css-selector-fin/mjbofijjejpdldklldknobfegdjmmlbc)
 
 ## Demo
 
