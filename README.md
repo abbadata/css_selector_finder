@@ -39,6 +39,7 @@ should return the correct element for the subelement. This is useful for pages c
   but it can not be clicked on.
 - May not work properly with some websites where event handling/CSS
   styles conflict with the tool's behavior.
+- On complex sites, may appear to hang since optimization can take a long time. Set "Optimized Min Length" to a higher value (e.g. 10), to speed things up at the cost of less optimization being done.
 
 ## Development
 
