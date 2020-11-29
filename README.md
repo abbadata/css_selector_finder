@@ -11,7 +11,7 @@ Install the Chrome Extension.
 
 ## Demo
 
-[Watch the video](https://www.youtube.com/watch?v=Qrc0OkOGV1I)
+[Watch the video](https://www.youtube.com/watch?v=X8IZ_X23YLE)
 
 ## Running
 
